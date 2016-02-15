@@ -21,11 +21,11 @@ class ClassMetadata implements ClassMetadataInterface
     public function __construct(\ReflectionClass $class)
     {
         $this->reflectionClass = $class;
-        $this->attributesMetadata = array ();
+        $this->attributesMetadata = [];
     }
 
     /**
-     * @inheritDoc
+     * {@inheritdoc}
      */
     public function getReflectionClass()
     {
@@ -33,7 +33,7 @@ class ClassMetadata implements ClassMetadataInterface
     }
 
     /**
-     * @inheritDoc
+     * {@inheritdoc}
      */
     public function merge(MetadataInterface $metadata)
     {
@@ -66,7 +66,7 @@ class ClassMetadata implements ClassMetadataInterface
     }
 
     /**
-     * @inheritDoc
+     * {@inheritdoc}
      */
     public function getAttributeMetadata($name)
     {
@@ -78,7 +78,7 @@ class ClassMetadata implements ClassMetadataInterface
     }
 
     /**
-     * @inheritDoc
+     * {@inheritdoc}
      */
     public function getAttributesMetadata()
     {
@@ -86,7 +86,7 @@ class ClassMetadata implements ClassMetadataInterface
     }
 
     /**
-     * @inheritDoc
+     * {@inheritdoc}
      */
     public function addAttributeMetadata(MetadataInterface $metadata)
     {
@@ -94,7 +94,7 @@ class ClassMetadata implements ClassMetadataInterface
     }
 
     /**
-     * @inheritDoc
+     * {@inheritdoc}
      */
     public function getName()
     {
@@ -102,7 +102,7 @@ class ClassMetadata implements ClassMetadataInterface
     }
 
     /**
-     * @inheritDoc
+     * {@inheritdoc}
      */
     public function __sleep()
     {

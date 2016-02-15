@@ -22,11 +22,13 @@ class InvalidArgumentException extends \InvalidArgumentException
         switch ($reason) {
             case static::CLASS_DOES_NOT_EXIST: {
                 $message = sprintf('Class %s does not exist. Cannot retrieve its metadata', $arguments[1]);
+
                 return new static($message);
             }
 
             case static::VALUE_IS_NOT_AN_OBJECT: {
                 $message = sprintf('Cannot create metadata for non-objects. Got: "%s"', gettype($arguments[1]));
+
                 return new static($message);
             }
 
@@ -36,6 +38,7 @@ class InvalidArgumentException extends \InvalidArgumentException
                     is_object($arguments[2]) ? get_class($arguments[2]) : $arguments[2],
                     is_object($arguments[1]) ? get_class($arguments[1]) : $arguments[1]
                 );
+
                 return new static($message);
             }
         }

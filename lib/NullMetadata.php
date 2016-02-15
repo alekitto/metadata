@@ -10,7 +10,7 @@ final class NullMetadata implements MetadataInterface
     public $name;
 
     /**
-     * @inheritDoc
+     * {@inheritdoc}
      */
     public function __construct($name)
     {
@@ -18,14 +18,14 @@ final class NullMetadata implements MetadataInterface
     }
 
     /**
-     * @inheritDoc
+     * {@inheritdoc}
      */
     public function merge(MetadataInterface $metadata)
     {
     }
 
     /**
-     * @inheritDoc
+     * {@inheritdoc}
      */
     public function getName()
     {
@@ -33,10 +33,10 @@ final class NullMetadata implements MetadataInterface
     }
 
     /**
-     * @inheritDoc
+     * {@inheritdoc}
      */
     public function __sleep()
     {
-        return array ();
+        return [];
     }
 }

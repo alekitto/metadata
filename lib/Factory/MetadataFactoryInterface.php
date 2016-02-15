@@ -1,6 +1,7 @@
 <?php
 
 namespace Kcs\Metadata\Factory;
+
 use Kcs\Metadata\ClassMetadataInterface;
 use Kcs\Metadata\Exception\InvalidArgumentException;
 

@@ -54,7 +54,7 @@ class AbstractMetadataFactoryTest extends \PHPUnit_Framework_TestCase
     public function invalid_value_provider()
     {
         return array(
-            array([]),
+            array(array()),
             array('NonExistentClass')
         );
     }

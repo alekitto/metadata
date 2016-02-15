@@ -22,7 +22,7 @@ class PropertyMetadata implements MetadataInterface
     public $name;
 
     /**
-     * @inheritDoc
+     * {@inheritdoc}
      */
     public function __construct($class, $name)
     {
@@ -38,14 +38,14 @@ class PropertyMetadata implements MetadataInterface
     }
 
     /**
-     * @inheritDoc
+     * {@inheritdoc}
      */
     public function merge(MetadataInterface $metadata)
     {
     }
 
     /**
-     * @inheritDoc
+     * {@inheritdoc}
      */
     public function getName()
     {
@@ -53,7 +53,7 @@ class PropertyMetadata implements MetadataInterface
     }
 
     /**
-     * @inheritDoc
+     * {@inheritdoc}
      */
     public function __sleep()
     {
@@ -61,7 +61,7 @@ class PropertyMetadata implements MetadataInterface
     }
 
     /**
-     * @inheritDoc
+     * {@inheritdoc}
      */
     public function __wakeup()
     {

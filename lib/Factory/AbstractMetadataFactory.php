@@ -37,11 +37,11 @@ abstract class AbstractMetadataFactory implements MetadataFactoryInterface
         $this->eventDispatcher = $eventDispatcher;
         $this->cache = $cache;
 
-        $this->loadedClasses = array ();
+        $this->loadedClasses = [];
     }
 
     /**
-     * @inheritDoc
+     * {@inheritdoc}
      */
     public function getMetadataFor($value)
     {
@@ -83,11 +83,12 @@ abstract class AbstractMetadataFactory implements MetadataFactoryInterface
     }
 
     /**
-     * @inheritDoc
+     * {@inheritdoc}
      */
     public function hasMetadataFor($value)
     {
         $class = $this->getClass($value);
+
         return $class && (class_exists($class) || interface_exists($class));
     }
 
