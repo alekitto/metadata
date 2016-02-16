@@ -5,13 +5,14 @@
   "license": "MIT",
   "type": "library",
   "require": {
-    "php": ">= 5.4.0",
-    "doctrine/cache": "~1.4",
-    "doctrine/annotations": "~1.2",
-    "symfony/event-dispatcher": "~2.0|~3.0"
+    "php": ">= 5.4.0"
   },
   "require-dev": {
-    "phpunit/phpunit": "*"
+    "phpunit/phpunit": "*",
+    "doctrine/cache": "~1.4",
+    "doctrine/annotations": "~1.2",
+    "symfony/event-dispatcher": "~2.0|~3.0",
+    "symfony/finder": "~2.0|~3.0"
   },
   "autoload": {
     "psr-4": {
