@@ -6,6 +6,7 @@ use Doctrine\Common\Cache\Cache;
 use Kcs\Metadata\ClassMetadataInterface;
 use Kcs\Metadata\Event\ClassMetadataLoadedEvent;
 use Kcs\Metadata\Exception\InvalidArgumentException;
+use Kcs\Metadata\Exception\InvalidMetadataException;
 use Kcs\Metadata\Loader\LoaderInterface;
 use Symfony\Component\EventDispatcher\EventDispatcherInterface;
 
@@ -67,6 +68,7 @@ abstract class AbstractMetadataFactory implements MetadataFactoryInterface
         $this->loader->loadClassMetadata($classMetadata);
 
         $this->mergeSuperclasses($classMetadata);
+        $this->validate($classMetadata);
 
         if ($this->eventDispatcher) {
             $this->eventDispatcher->dispatch(
@@ -113,6 +115,18 @@ abstract class AbstractMetadataFactory implements MetadataFactoryInterface
      * @return ClassMetadataInterface
      */
     abstract protected function createMetadata(\ReflectionClass $class);
+
+    /**
+     * Validate loaded metadata
+     * MUST throw {@see InvalidMetadataException} if validation error occurs.
+     *
+     * @param ClassMetadataInterface $classMetadata
+     *
+     * @throws InvalidMetadataException
+     */
+    protected function validate(ClassMetadataInterface $classMetadata)
+    {
+    }
 
     /**
      * Get the class name from a string or an object
