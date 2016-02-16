@@ -20,7 +20,7 @@ class ChainLoader implements LoaderInterface
     {
         foreach ($loaders as $loader) {
             if (! $loader instanceof LoaderInterface) {
-                throw new \InvalidArgumentException(sprintf("Class %s is expected to implement LoaderInterface", get_class($loader)));
+                throw new \InvalidArgumentException(sprintf('Class %s is expected to implement LoaderInterface', get_class($loader)));
             }
         }
 
@@ -28,7 +28,7 @@ class ChainLoader implements LoaderInterface
     }
 
     /**
-     * @inheritDoc
+     * {@inheritdoc}
      */
     public function loadClassMetadata(ClassMetadataInterface $classMetadata)
     {
