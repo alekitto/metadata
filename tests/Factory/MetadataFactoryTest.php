@@ -6,26 +6,15 @@ use Doctrine\Common\Cache\Cache;
 use Kcs\Metadata\ClassMetadata;
 use Kcs\Metadata\ClassMetadataInterface;
 use Kcs\Metadata\Event\ClassMetadataLoadedEvent;
-use Kcs\Metadata\Factory\AbstractMetadataFactory;
+use Kcs\Metadata\Factory\MetadataFactory;
 use Kcs\Metadata\Loader\LoaderInterface;
 use Prophecy\Argument;
-
-class Factory extends AbstractMetadataFactory
-{
-    /**
-     * @inheritDoc
-     */
-    protected function createMetadata(\ReflectionClass $class)
-    {
-        return new ClassMetadata($class);
-    }
-}
 
 /**
  * @property LoaderInterface loader
  * @property Cache cache
  */
-class AbstractMetadataFactoryTest extends \PHPUnit_Framework_TestCase
+class MetadataFactoryTest extends \PHPUnit_Framework_TestCase
 {
     public function setUp()
     {
@@ -38,7 +27,7 @@ class AbstractMetadataFactoryTest extends \PHPUnit_Framework_TestCase
      */
     public function has_metadata_should_return_false_on_non_existent_classes()
     {
-        $factory = new Factory($this->loader->reveal());
+        $factory = new MetadataFactory($this->loader->reveal());
         $this->assertFalse($factory->hasMetadataFor('NonExistentClass'));
     }
 
@@ -47,7 +36,7 @@ class AbstractMetadataFactoryTest extends \PHPUnit_Framework_TestCase
      */
     public function has_metadata_should_return_false_on_invalid_value()
     {
-        $factory = new Factory($this->loader->reveal());
+        $factory = new MetadataFactory($this->loader->reveal());
         $this->assertFalse($factory->hasMetadataFor(array()));
     }
 
@@ -66,7 +55,7 @@ class AbstractMetadataFactoryTest extends \PHPUnit_Framework_TestCase
      */
     public function get_metadata_should_throw_if_invalid_value_has_passed($value)
     {
-        $factory = new Factory($this->loader->reveal());
+        $factory = new MetadataFactory($this->loader->reveal());
         $factory->getMetadataFor($value);
     }
 
@@ -78,7 +67,7 @@ class AbstractMetadataFactoryTest extends \PHPUnit_Framework_TestCase
         $this->loader->loadClassMetadata(Argument::type('Kcs\Metadata\ClassMetadataInterface'))
             ->shouldBeCalled();
 
-        $factory = new Factory($this->loader->reveal());
+        $factory = new MetadataFactory($this->loader->reveal());
         $factory->getMetadataFor($this);
     }
 
@@ -96,7 +85,7 @@ class AbstractMetadataFactoryTest extends \PHPUnit_Framework_TestCase
             $this->loader->loadClassMetadata(Argument::type('Kcs\Metadata\ClassMetadataInterface'))
         );
 
-        $factory = new Factory($this->loader->reveal());
+        $factory = new MetadataFactory($this->loader->reveal());
         $factory->getMetadataFor($this);
         $factory->getMetadataFor($this);
     }
@@ -112,7 +101,7 @@ class AbstractMetadataFactoryTest extends \PHPUnit_Framework_TestCase
         $this->cache->fetch($className)->willReturn($metadata);
         $this->loader->loadClassMetadata(Argument::type('Kcs\Metadata\ClassMetadataInterface'))->shouldNotBeCalled();
 
-        $factory = new Factory($this->loader->reveal(), null, $this->cache->reveal());
+        $factory = new MetadataFactory($this->loader->reveal(), null, $this->cache->reveal());
         $factory->getMetadataFor($this);
     }
 
@@ -133,7 +122,7 @@ class AbstractMetadataFactoryTest extends \PHPUnit_Framework_TestCase
             $this->loader->loadClassMetadata(Argument::type('Kcs\Metadata\ClassMetadataInterface'))
         );
 
-        $factory = new Factory($this->loader->reveal(), null, $this->cache->reveal());
+        $factory = new MetadataFactory($this->loader->reveal(), null, $this->cache->reveal());
         $factory->getMetadataFor($this);
     }
 
@@ -157,7 +146,7 @@ class AbstractMetadataFactoryTest extends \PHPUnit_Framework_TestCase
             ->shouldBeCalled();
         $eventDispatcher->addMethodProphecy($eventDispatcher->dispatch(Argument::cetera()));
 
-        $factory = new Factory($this->loader->reveal(), $eventDispatcher->reveal());
+        $factory = new MetadataFactory($this->loader->reveal(), $eventDispatcher->reveal());
         $factory->getMetadataFor($this);
     }
 }
