@@ -8,7 +8,7 @@ use Symfony\Component\Finder\SplFileInfo;
 class FinderFileLocator implements FileLocatorInterface
 {
     /**
-     * @inheritDoc
+     * {@inheritdoc}
      */
     public function locate($basePath, $pattern)
     {
