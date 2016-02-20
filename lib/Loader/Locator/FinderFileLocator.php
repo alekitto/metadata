@@ -10,12 +10,16 @@ class FinderFileLocator implements FileLocatorInterface
     /**
      * {@inheritdoc}
      */
-    public function locate($basePath, $pattern)
+    public function locate($basePath, $extension)
     {
+        if ($extension[0] !== '.') {
+            throw new \InvalidArgumentException('Extension argument must start with a dot');
+        }
+
         $finder = Finder::create()
             ->files()
             ->in($basePath)
-            ->name($pattern);
+            ->name('*'.$extension);
 
         return array_map(function (SplFileInfo $info) {
             return $info->getPathname();

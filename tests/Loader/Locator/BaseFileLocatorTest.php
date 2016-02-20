@@ -31,13 +31,22 @@ abstract class BaseFileLocatorTest extends \PHPUnit_Framework_TestCase
             ]
         ]);
 
-        $result = $this->getLocator()->locate($root->url(), '*.yml');
+        $result = $this->getLocator()->locate($root->url(), '.yml');
         sort($result);
 
         $this->assertEquals([
             $root->url() . '/config/config_file.yml',
             $root->url() . '/src/AppBundle/config/configuration.yml'
         ], $result);
+    }
+
+    /**
+     * @test
+     * @expectedException \InvalidArgumentException
+     */
+    public function locate_must_throw_if_extension_parameter_is_invalid()
+    {
+        $this->getLocator()->locate(__DIR__, 'base.yml');
     }
 
     /**
