@@ -13,15 +13,24 @@ class IteratorFileLocator implements FileLocatorInterface
             throw new \InvalidArgumentException('Extension argument must start with a dot');
         }
 
-        $flags = \RecursiveDirectoryIterator::SKIP_DOTS | \RecursiveDirectoryIterator::CURRENT_AS_PATHNAME;
-        $iterator = new \RegexIterator(
+        // Cannot use RecursiveDirectoryIterator::CURRENT_AS_PATHNAME because of this:
+        // https://bugs.php.net/bug.php?id=66405
+
+        $regex = '/'.preg_quote($extension, '/').'$/';
+        $iterator = new \CallbackFilterIterator(
             new \RecursiveIteratorIterator(
-                new \RecursiveDirectoryIterator($basePath, $flags),
+                new \RecursiveDirectoryIterator($basePath, \RecursiveDirectoryIterator::SKIP_DOTS),
                 \RecursiveIteratorIterator::LEAVES_ONLY
             ),
-            '/'.preg_quote($extension, '/').'$/'
+            function (\SplFileInfo $fileInfo) use ($regex) {
+                return preg_match($regex, $fileInfo->getPathname());
+            }
         );
 
-        return iterator_to_array($iterator);
+
+        return array_map(function (\SplFileInfo $fileInfo) {
+                return $fileInfo->getPathname();
+            }, iterator_to_array($iterator)
+        );
     }
 }
