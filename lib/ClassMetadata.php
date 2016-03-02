@@ -14,6 +14,11 @@ class ClassMetadata implements ClassMetadataInterface
     private $reflectionClass;
 
     /**
+     * @var string
+     */
+    public $name;
+
+    /**
      * @var MetadataInterface[]
      */
     public $attributesMetadata;
@@ -21,6 +26,7 @@ class ClassMetadata implements ClassMetadataInterface
     public function __construct(\ReflectionClass $class)
     {
         $this->reflectionClass = $class;
+        $this->name = $class->name;
         $this->attributesMetadata = [];
     }
 
@@ -107,5 +113,13 @@ class ClassMetadata implements ClassMetadataInterface
     public function __sleep()
     {
         return $this->getPublicPropertiesName();
+    }
+
+    /**
+     * @inheritDoc
+     */
+    public function __wakeup()
+    {
+        $this->reflectionClass = new \ReflectionClass($this->name);
     }
 }

@@ -103,4 +103,18 @@ class ClassMetadataTest extends \PHPUnit_Framework_TestCase
 
         $this->assertEquals(get_class($class_), $metadata->getName());
     }
+
+    /**
+     * @test
+     */
+    public function get_name_should_reinit_reflection_upon_unserialization()
+    {
+        $class_ = new ClassForMetadata();
+        $metadata = new ClassMetadata(new \ReflectionClass($class_));
+
+        $serialized = serialize($metadata);
+        $metadata_unser = unserialize($serialized);
+
+        $this->assertNotNull($metadata_unser->getReflectionClass());
+    }
 }
