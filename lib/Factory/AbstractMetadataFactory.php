@@ -47,7 +47,7 @@ abstract class AbstractMetadataFactory implements MetadataFactoryInterface
     public function getMetadataFor($value)
     {
         $class = $this->getClass($value);
-        if (! $class) {
+        if (empty($class)) {
             throw InvalidArgumentException::create(InvalidArgumentException::VALUE_IS_NOT_AN_OBJECT, $value);
         }
 
@@ -55,7 +55,7 @@ abstract class AbstractMetadataFactory implements MetadataFactoryInterface
             return $this->loadedClasses[$class];
         }
 
-        if ($this->cache && ($this->loadedClasses[$class] = $this->cache->fetch($class))) {
+        if (null !== $this->cache && ($this->loadedClasses[$class] = $this->cache->fetch($class))) {
             return $this->loadedClasses[$class];
         }
 
@@ -77,7 +77,7 @@ abstract class AbstractMetadataFactory implements MetadataFactoryInterface
             );
         }
 
-        if ($this->cache) {
+        if (null !== $this->cache) {
             $this->cache->save($class, $classMetadata);
         }
 
@@ -91,7 +91,17 @@ abstract class AbstractMetadataFactory implements MetadataFactoryInterface
     {
         $class = $this->getClass($value);
 
-        return $class && (class_exists($class) || interface_exists($class));
+        return ! empty($class) && (class_exists($class) || interface_exists($class));
+    }
+
+    public function setCache(Cache $cache = null)
+    {
+        $this->cache = $cache;
+    }
+
+    public function setEventDispatcher(EventDispatcherInterface $eventDispatcher = null)
+    {
+        $this->eventDispatcher = $eventDispatcher;
     }
 
     protected function mergeSuperclasses(ClassMetadataInterface $classMetadata)
