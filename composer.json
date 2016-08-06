@@ -8,7 +8,7 @@
     "php": ">= 5.4.0"
   },
   "require-dev": {
-    "phpunit/phpunit": "*",
+    "phpunit/phpunit": "^4.8|^5.0",
     "doctrine/cache": "~1.4",
     "doctrine/annotations": "~1.2",
     "symfony/event-dispatcher": "~2.0|~3.0",
@@ -16,9 +16,9 @@
     "symfony/finder": "~2.0|~3.0"
   },
   "suggest": {
-    "symfony/event-dispatcher": "~2.0|~3.0",
-    "doctrine/cache": "~1.4",
-    "symfony/finder": "~2.0|~3.0"
+    "symfony/event-dispatcher": "dispatch metadata load event",
+    "doctrine/cache": "cache metadata",
+    "symfony/finder": "support for metadata file locators"
   },
   "autoload": {
     "psr-4": {

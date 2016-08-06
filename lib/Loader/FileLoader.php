@@ -7,6 +7,8 @@ use Kcs\Metadata\Exception\IOException;
 
 abstract class FileLoader implements LoaderInterface
 {
+    use FileLoaderTrait;
+
     /**
      * @var string
      */
@@ -27,16 +29,7 @@ abstract class FileLoader implements LoaderInterface
      */
     public function loadClassMetadata(ClassMetadataInterface $classMetadata)
     {
-        $file_content = @file_get_contents($this->filePath);
-        if (false === $file_content) {
-            $error = error_get_last();
-
-            throw new IOException(sprintf(
-                "Cannot load file '%s': %s",
-                $this->filePath,
-                isset($error['message']) ? $error['message'] : 'Unknown error'
-            ));
-        }
+        $file_content = $this->loadFile($this->filePath);
 
         return $this->loadClassMetadataFromFile($file_content, $classMetadata);
     }
