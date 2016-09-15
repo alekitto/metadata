@@ -85,3 +85,12 @@ to build your metadata informations.
 By default all the public properties are serialized in cache (if cache is
 present). You can customize this behaviour by exteding the `__sleep` method
 of the metadata classes, returning an array of serialized properties.
+
+## License
+
+This library is released under the MIT license
+
+## Contributions
+
+Contributions are always welcome.
+Feel free to open an issue or submit a PR to improve this library.
