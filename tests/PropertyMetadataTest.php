@@ -17,7 +17,7 @@ class PropertyMetadataTest extends \PHPUnit_Framework_TestCase
 {
     public function testShouldUnserializeVirtualProperties()
     {
-        $property = new VirtualPropertyMetadata(ClassForMetadata::class, 'nonExistentAttribute');
+        $property = new VirtualPropertyMetadata('Kcs\Metadata\Tests\Fixtures\ClassForMetadata', 'nonExistentAttribute');
 
         $unserialized = unserialize(serialize($property));
         $this->assertEquals('FOO_BAR', $unserialized->getValue());
