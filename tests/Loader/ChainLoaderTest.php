@@ -4,7 +4,6 @@ namespace Kcs\Metadata\Tests\Loader;
 
 use Kcs\Metadata\ClassMetadata;
 use Kcs\Metadata\Loader\ChainLoader;
-use Prophecy\Argument;
 
 class ChainLoaderTest extends \PHPUnit_Framework_TestCase
 {
@@ -15,7 +14,7 @@ class ChainLoaderTest extends \PHPUnit_Framework_TestCase
     public function constructor_should_throw_on_non_loader_instance()
     {
         $loaders = [
-            new \stdClass()
+            new \stdClass(),
         ];
 
         new ChainLoader($loaders);
@@ -39,7 +38,7 @@ class ChainLoaderTest extends \PHPUnit_Framework_TestCase
         $loader = new ChainLoader([
             $loader1->reveal(),
             $loader2->reveal(),
-            $loader3->reveal()
+            $loader3->reveal(),
         ]);
         $loader->loadClassMetadata($metadata);
     }

@@ -3,7 +3,6 @@
 namespace Kcs\Metadata\Loader;
 
 use Kcs\Metadata\ClassMetadataInterface;
-use Kcs\Metadata\Exception\IOException;
 
 abstract class FileLoader implements LoaderInterface
 {

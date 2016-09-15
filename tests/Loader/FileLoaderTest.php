@@ -24,7 +24,7 @@ class FileLoaderTest extends \PHPUnit_Framework_TestCase
     public function load_class_metadata_should_throw_if_file_cannot_be_read()
     {
         $root = vfsStream::setup();
-        $loader = new TestLoader($root->url() . '/does_not_exists.yml');
+        $loader = new TestLoader($root->url().'/does_not_exists.yml');
         $loader->loadClassMetadata($this->prophesize('Kcs\Metadata\ClassMetadata')->reveal());
     }
 

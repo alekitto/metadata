@@ -25,6 +25,7 @@ class PropertyMetadataTest extends \PHPUnit_Framework_TestCase
         try {
             $unserialized->getReflection();
             $this->fail();
-        } catch (\ReflectionException $e) { }
+        } catch (\ReflectionException $e) {
+        }
     }
 }

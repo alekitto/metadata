@@ -17,26 +17,26 @@ abstract class BaseFileLocatorTest extends \PHPUnit_Framework_TestCase
             'config' => [
                 'config_file.yml' => 'CONTENT',
                 'config_file.php' => 'CONTENT',
-                'foo.txt' => 'CONTENT'
+                'foo.txt' => 'CONTENT',
             ],
             'src' => [
                 'AppBundle' => [
                     'config' => [
-                        'configuration.yml' => 'CONTENT'
-                    ]
-                ]
+                        'configuration.yml' => 'CONTENT',
+                    ],
+                ],
             ],
             'web' => [
-                'app.php' => 'CONTENT'
-            ]
+                'app.php' => 'CONTENT',
+            ],
         ]);
 
         $result = $this->getLocator()->locate($root->url(), '.yml');
         sort($result);
 
         $this->assertEquals([
-            $root->url() . '/config/config_file.yml',
-            $root->url() . '/src/AppBundle/config/configuration.yml'
+            $root->url().'/config/config_file.yml',
+            $root->url().'/src/AppBundle/config/configuration.yml',
         ], $result);
     }
 

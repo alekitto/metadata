@@ -8,5 +8,7 @@ class ClassForMetadata
 
     public $attributeSecond;
 
-    protected function methodOne() {}
+    protected function methodOne()
+    {
+    }
 }

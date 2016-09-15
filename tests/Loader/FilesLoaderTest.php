@@ -34,7 +34,7 @@ class FilesLoaderTest extends \PHPUnit_Framework_TestCase
         $loader = new FilesLoaderTestLoader([
             'test1.yml',
             'test2.yml',
-            'test3.yml'
+            'test3.yml',
         ], $fileLoader->reveal());
 
         $loader->loadClassMetadata($this->prophesize('Kcs\Metadata\ClassMetadata')->reveal());

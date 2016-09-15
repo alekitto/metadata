@@ -27,7 +27,6 @@ class IteratorFileLocator implements FileLocatorInterface
             }
         );
 
-
         return array_map(function (\SplFileInfo $fileInfo) {
                 return $fileInfo->getPathname();
             }, iterator_to_array($iterator)

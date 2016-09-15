@@ -7,7 +7,7 @@ use Kcs\Metadata\Loader\Locator\IteratorFileLocator;
 class IteratorFileLocatorTest extends BaseFileLocatorTest
 {
     /**
-     * @inheritDoc
+     * {@inheritdoc}
      */
     protected function getLocator()
     {

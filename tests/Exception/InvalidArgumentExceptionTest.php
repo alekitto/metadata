@@ -8,12 +8,12 @@ class InvalidArgumentExceptionTest extends \PHPUnit_Framework_TestCase
 {
     public function messages_data_provider()
     {
-        return array(
-            array('Class NonExistentTestClass does not exist. Cannot retrieve its metadata', InvalidArgumentException::CLASS_DOES_NOT_EXIST, 'NonExistentTestClass'),
-            array('Unknown reason', 'Unknown reason'),
-            array('Printed string', 'Printed %s', 'string'),
-            array('Cannot create metadata for non-objects. Got: "integer"', InvalidArgumentException::VALUE_IS_NOT_AN_OBJECT, 2)
-        );
+        return [
+            ['Class NonExistentTestClass does not exist. Cannot retrieve its metadata', InvalidArgumentException::CLASS_DOES_NOT_EXIST, 'NonExistentTestClass'],
+            ['Unknown reason', 'Unknown reason'],
+            ['Printed string', 'Printed %s', 'string'],
+            ['Cannot create metadata for non-objects. Got: "integer"', InvalidArgumentException::VALUE_IS_NOT_AN_OBJECT, 2],
+        ];
     }
 
     /**

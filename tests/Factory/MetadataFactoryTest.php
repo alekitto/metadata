@@ -37,15 +37,15 @@ class MetadataFactoryTest extends \PHPUnit_Framework_TestCase
     public function has_metadata_should_return_false_on_invalid_value()
     {
         $factory = new MetadataFactory($this->loader->reveal());
-        $this->assertFalse($factory->hasMetadataFor(array()));
+        $this->assertFalse($factory->hasMetadataFor([]));
     }
 
     public function invalid_value_provider()
     {
-        return array(
-            array(array()),
-            array('NonExistentClass')
-        );
+        return [
+            [[]],
+            ['NonExistentClass'],
+        ];
     }
 
     /**
@@ -139,7 +139,7 @@ class MetadataFactoryTest extends \PHPUnit_Framework_TestCase
         $eventDispatcher = $this->prophesize('Symfony\Component\EventDispatcher\EventDispatcherInterface');
         $eventDispatcher->dispatch(
             'kcs_metadata.metadata_loaded',
-            Argument::that(function($arg) use ($that) {
+            Argument::that(function ($arg) use ($that) {
                 return $arg instanceof ClassMetadataLoadedEvent && $arg->getMetadata()->getName() === get_class($that);
             })
         )
