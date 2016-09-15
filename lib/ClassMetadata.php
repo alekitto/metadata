@@ -35,6 +35,10 @@ class ClassMetadata implements ClassMetadataInterface
      */
     public function getReflectionClass()
     {
+        if (null === $this->reflectionClass) {
+            $this->reflectionClass = new \ReflectionClass($this->name);
+        }
+
         return $this->reflectionClass;
     }
 
@@ -113,13 +117,5 @@ class ClassMetadata implements ClassMetadataInterface
     public function __sleep()
     {
         return $this->getPublicPropertiesName();
-    }
-
-    /**
-     * @inheritDoc
-     */
-    public function __wakeup()
-    {
-        $this->reflectionClass = new \ReflectionClass($this->name);
     }
 }

@@ -28,12 +28,14 @@ class PropertyMetadata implements MetadataInterface
     {
         $this->class = $class;
         $this->name = $name;
-
-        $this->init();
     }
 
     public function getReflection()
     {
+        if (null === $this->reflectionProperty) {
+            $this->reflectionProperty = new \ReflectionProperty($this->class, $this->name);
+        }
+
         return $this->reflectionProperty;
     }
 
@@ -58,18 +60,5 @@ class PropertyMetadata implements MetadataInterface
     public function __sleep()
     {
         return $this->getPublicPropertiesName();
-    }
-
-    /**
-     * {@inheritdoc}
-     */
-    public function __wakeup()
-    {
-        $this->init();
-    }
-
-    private function init()
-    {
-        $this->reflectionProperty = new \ReflectionProperty($this->class, $this->name);
     }
 }
