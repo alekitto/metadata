@@ -3,7 +3,6 @@
 namespace Kcs\Metadata\Tests;
 
 use Kcs\Metadata\PropertyMetadata;
-use Kcs\Metadata\Tests\Fixtures\ClassForMetadata;
 
 class VirtualPropertyMetadata extends PropertyMetadata
 {
