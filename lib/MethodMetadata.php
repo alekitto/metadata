@@ -28,12 +28,14 @@ class MethodMetadata implements MetadataInterface
     {
         $this->class = $class;
         $this->name = $name;
-
-        $this->init();
     }
 
     public function getReflection()
     {
+        if (null === $this->reflectionMethod) {
+            $this->reflectionMethod = new \ReflectionMethod($this->class, $this->name);
+        }
+
         return $this->reflectionMethod;
     }
 
@@ -65,11 +67,5 @@ class MethodMetadata implements MetadataInterface
      */
     public function __wakeup()
     {
-        $this->init();
-    }
-
-    private function init()
-    {
-        $this->reflectionMethod = new \ReflectionMethod($this->class, $this->name);
     }
 }

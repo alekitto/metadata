@@ -61,4 +61,11 @@ class PropertyMetadata implements MetadataInterface
     {
         return $this->getPublicPropertiesName();
     }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function __wakeup()
+    {
+    }
 }

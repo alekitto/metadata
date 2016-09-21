@@ -39,4 +39,11 @@ final class NullMetadata implements MetadataInterface
     {
         return [];
     }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function __wakeup()
+    {
+    }
 }

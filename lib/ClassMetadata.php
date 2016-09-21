@@ -118,4 +118,11 @@ class ClassMetadata implements ClassMetadataInterface
     {
         return $this->getPublicPropertiesName();
     }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function __wakeup()
+    {
+    }
 }
