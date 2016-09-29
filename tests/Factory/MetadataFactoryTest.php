@@ -9,13 +9,20 @@ use Kcs\Metadata\Event\ClassMetadataLoadedEvent;
 use Kcs\Metadata\Factory\MetadataFactory;
 use Kcs\Metadata\Loader\LoaderInterface;
 use Prophecy\Argument;
+use Prophecy\Prophecy\ObjectProphecy;
 
-/**
- * @property LoaderInterface loader
- * @property Cache cache
- */
 class MetadataFactoryTest extends \PHPUnit_Framework_TestCase
 {
+    /**
+     * @var ObjectProphecy|LoaderInterface
+     */
+    private $loader;
+
+    /**
+     * @var ObjectProphecy|Cache
+     */
+    private $cache;
+
     public function setUp()
     {
         $this->loader = $this->prophesize('Kcs\Metadata\Loader\LoaderInterface');
@@ -79,11 +86,11 @@ class MetadataFactoryTest extends \PHPUnit_Framework_TestCase
         $className = get_class($this);
         $this->loader->loadClassMetadata(Argument::that(function (ClassMetadataInterface $metadata) use ($className) {
             return $metadata->getReflectionClass()->name === $className;
-        }))->shouldBeCalledTimes(1);
+        }))
+            ->willReturn(true)
+            ->shouldBeCalledTimes(1);
 
-        $this->loader->addMethodProphecy(
-            $this->loader->loadClassMetadata(Argument::type('Kcs\Metadata\ClassMetadataInterface'))
-        );
+        $this->loader->loadClassMetadata(Argument::type('Kcs\Metadata\ClassMetadataInterface'))->willReturn(true);
 
         $factory = new MetadataFactory($this->loader->reveal());
         $factory->getMetadataFor($this);
@@ -118,9 +125,7 @@ class MetadataFactoryTest extends \PHPUnit_Framework_TestCase
             ->willReturn(true);
         $this->cache->save(Argument::type('string'), Argument::type('Kcs\Metadata\MetadataInterface'))->willReturn(true);
 
-        $this->loader->addMethodProphecy(
-            $this->loader->loadClassMetadata(Argument::type('Kcs\Metadata\ClassMetadataInterface'))
-        );
+        $this->loader->loadClassMetadata(Argument::type('Kcs\Metadata\ClassMetadataInterface'))->willReturn(true);
 
         $factory = new MetadataFactory($this->loader->reveal(), null, $this->cache->reveal());
         $factory->getMetadataFor($this);
@@ -131,9 +136,7 @@ class MetadataFactoryTest extends \PHPUnit_Framework_TestCase
      */
     public function get_metadata_for_should_dispatch_loaded_event()
     {
-        $this->loader->addMethodProphecy(
-            $this->loader->loadClassMetadata(Argument::type('Kcs\Metadata\ClassMetadataInterface'))
-        );
+        $this->loader->loadClassMetadata(Argument::type('Kcs\Metadata\ClassMetadataInterface'))->willReturn(true);
 
         $that = $this;
         $eventDispatcher = $this->prophesize('Symfony\Component\EventDispatcher\EventDispatcherInterface');
@@ -148,5 +151,45 @@ class MetadataFactoryTest extends \PHPUnit_Framework_TestCase
 
         $factory = new MetadataFactory($this->loader->reveal(), $eventDispatcher->reveal());
         $factory->getMetadataFor($this);
+    }
+
+    /**
+     * @test
+     */
+    public function get_metadata_for_should_not_merge_with_superclasses_if_fails()
+    {
+        $this->loader->loadClassMetadata(Argument::type('Kcs\Metadata\ClassMetadataInterface'))->willReturn(false);
+
+        $metadata = $this->prophesize('Kcs\Metadata\ClassMetadataInterface');
+
+        $metadata->merge(Argument::cetera())->shouldNotBeCalled();
+        $metadata->getReflectionClass()->willReturn(new \ReflectionClass($this));
+
+        $factory = new MockedClassMetadataFactory($this->loader->reveal());
+        $factory->mock = $metadata->reveal();
+        $factory->getMetadataFor($this);
+    }
+}
+
+class MockedClassMetadataFactory extends MetadataFactory
+{
+    /**
+     * @var ObjectProphecy|ClassMetadata
+     */
+    public $mock;
+
+    /**
+     * {@inheritdoc}
+     */
+    protected function createMetadata(\ReflectionClass $class)
+    {
+        if (null !== $this->mock) {
+            $mock = $this->mock;
+            $this->mock = null;
+
+            return $mock;
+        }
+
+        return parent::createMetadata($class);
     }
 }

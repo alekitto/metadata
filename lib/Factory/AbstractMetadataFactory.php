@@ -65,7 +65,9 @@ abstract class AbstractMetadataFactory implements MetadataFactoryInterface
 
         $reflectionClass = new \ReflectionClass($class);
         $classMetadata = $this->createMetadata($reflectionClass);
-        $this->loader->loadClassMetadata($classMetadata);
+        if (! $this->loader->loadClassMetadata($classMetadata)) {
+            return $classMetadata;
+        }
 
         $this->mergeSuperclasses($classMetadata);
         $this->validate($classMetadata);
