@@ -2,13 +2,22 @@
 
 namespace Kcs\Metadata\Loader;
 
-abstract class FilesLoader extends ChainLoader
+use Kcs\Metadata\Exception\RuntimeException;
+
+class FilesLoader extends ChainLoader
 {
+    /**
+     * @var string
+     */
+    private $loaderClass;
+
     /**
      * {@inheritdoc}
      */
-    public function __construct(array $paths)
+    public function __construct(array $paths, $loaderClass = null)
     {
+        $this->loaderClass = $loaderClass;
+
         $loaders = [];
         foreach ($paths as $path) {
             $loaders[] = $this->getLoader($path);
@@ -23,5 +32,12 @@ abstract class FilesLoader extends ChainLoader
      * @param $path
      * @return LoaderInterface
      */
-    abstract protected function getLoader($path);
+    protected function getLoader($path)
+    {
+        if (null === $this->loaderClass) {
+            throw new RuntimeException('You must implement '.__METHOD__.' or pass the loader class to the constructor');
+        }
+
+        return new $this->loaderClass($path);
+    }
 }
