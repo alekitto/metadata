@@ -2,7 +2,6 @@
 
 namespace Kcs\Metadata\Factory;
 
-use Kcs\Metadata\ClassMetadata;
 use Kcs\Metadata\Exception\InvalidArgumentException;
 
 class MetadataFactory extends AbstractMetadataFactory
@@ -12,7 +11,7 @@ class MetadataFactory extends AbstractMetadataFactory
      *
      * @var string
      */
-    private $metadataClass = ClassMetadata::class;
+    private $metadataClass = 'Kcs\Metadata\ClassMetadata';
 
     /**
      * Set the metadata class to be created by this factory
