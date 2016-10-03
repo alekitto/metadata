@@ -3,7 +3,6 @@
 namespace Kcs\Metadata\Factory;
 
 use Kcs\Metadata\ClassMetadata;
-use Kcs\Metadata\ClassMetadataInterface;
 use Kcs\Metadata\Exception\InvalidArgumentException;
 
 class MetadataFactory extends AbstractMetadataFactory
@@ -22,7 +21,7 @@ class MetadataFactory extends AbstractMetadataFactory
      */
     public function setMetadataClass($metadataClass)
     {
-        if (! class_exists($metadataClass) || ! is_subclass_of($metadataClass, ClassMetadataInterface::class, true)) {
+        if (! class_exists($metadataClass) || ! is_subclass_of($metadataClass, 'Kcs\Metadata\ClassMetadataInterface', true)) {
             throw InvalidArgumentException::create(InvalidArgumentException::INVALID_METADATA_CLASS, $metadataClass);
         }
 
