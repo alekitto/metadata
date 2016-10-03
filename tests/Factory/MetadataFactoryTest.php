@@ -11,6 +11,37 @@ use Kcs\Metadata\Loader\LoaderInterface;
 use Prophecy\Argument;
 use Prophecy\Prophecy\ObjectProphecy;
 
+class MockedClassMetadataFactory extends MetadataFactory
+{
+    /**
+     * @var ObjectProphecy|ClassMetadata
+     */
+    public $mock;
+
+    /**
+     * {@inheritdoc}
+     */
+    protected function createMetadata(\ReflectionClass $class)
+    {
+        if (null !== $this->mock) {
+            $mock = $this->mock;
+            $this->mock = null;
+
+            return $mock;
+        }
+
+        return parent::createMetadata($class);
+    }
+}
+
+class FakeClassMetadata extends ClassMetadata
+{
+}
+
+class FakeClassNoMetadata
+{
+}
+
 class MetadataFactoryTest extends \PHPUnit_Framework_TestCase
 {
     /**
@@ -155,6 +186,39 @@ class MetadataFactoryTest extends \PHPUnit_Framework_TestCase
 
     /**
      * @test
+     * @expectedException \Kcs\Metadata\Exception\InvalidArgumentException
+     */
+    public function set_metadata_class_should_check_class_existence()
+    {
+        $factory = new MetadataFactory($this->loader->reveal());
+        $factory->setMetadataClass('NonExistentClass');
+    }
+
+    /**
+     * @test
+     * @expectedException \Kcs\Metadata\Exception\InvalidArgumentException
+     */
+    public function set_metadata_class_should_check_class_implements_class_metadata_interface()
+    {
+        $factory = new MetadataFactory($this->loader->reveal());
+        $factory->setMetadataClass('Kcs\Metadata\Tests\Factory\FakeClassNoMetadata');
+    }
+
+    /**
+     * @test
+     */
+    public function set_metadata_class_should_create_specified_object()
+    {
+        $this->loader->loadClassMetadata(Argument::type('Kcs\Metadata\ClassMetadataInterface'))->willReturn(false);
+
+        $factory = new MetadataFactory($this->loader->reveal());
+        $factory->setMetadataClass('Kcs\Metadata\Tests\Factory\FakeClassMetadata');
+
+        $this->assertInstanceOf('Kcs\Metadata\Tests\Factory\FakeClassMetadata', $factory->getMetadataFor($this));
+    }
+
+    /**
+     * @test
      */
     public function get_metadata_for_should_not_merge_with_superclasses_if_fails()
     {
@@ -168,28 +232,5 @@ class MetadataFactoryTest extends \PHPUnit_Framework_TestCase
         $factory = new MockedClassMetadataFactory($this->loader->reveal());
         $factory->mock = $metadata->reveal();
         $factory->getMetadataFor($this);
-    }
-}
-
-class MockedClassMetadataFactory extends MetadataFactory
-{
-    /**
-     * @var ObjectProphecy|ClassMetadata
-     */
-    public $mock;
-
-    /**
-     * {@inheritdoc}
-     */
-    protected function createMetadata(\ReflectionClass $class)
-    {
-        if (null !== $this->mock) {
-            $mock = $this->mock;
-            $this->mock = null;
-
-            return $mock;
-        }
-
-        return parent::createMetadata($class);
     }
 }
