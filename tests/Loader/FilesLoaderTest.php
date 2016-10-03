@@ -25,14 +25,16 @@ class FilesLoaderTestLoader extends FilesLoader
 
 class FileLoaderTestFileLoader extends FileLoader
 {
-    static public $called = false;
+    public static $called = false;
 
     public function loadClassMetadata(ClassMetadataInterface $classMetadata)
     {
         self::$called = true;
     }
 
-    protected function loadClassMetadataFromFile($file_content, ClassMetadataInterface $classMetadata) { }
+    protected function loadClassMetadataFromFile($file_content, ClassMetadataInterface $classMetadata)
+    {
+    }
 }
 
 class FilesLoaderTest extends \PHPUnit_Framework_TestCase
