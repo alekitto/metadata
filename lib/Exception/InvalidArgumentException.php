@@ -8,6 +8,7 @@ class InvalidArgumentException extends \InvalidArgumentException
     const VALUE_IS_NOT_AN_OBJECT = 2;
     const NOT_MERGEABLE_METADATA = 3;
     const INVALID_METADATA_CLASS = 4;
+    const INVALID_PROCESSOR_INTERFACE_CLASS = 5;
 
     /**
      * Create a new instance of InvalidArgumentException with meaningful message
@@ -44,6 +45,14 @@ class InvalidArgumentException extends \InvalidArgumentException
                 $message = sprintf(
                     '"%s" is not a valid metadata object class',
                     is_object($arguments[1]) ? get_class($arguments[1]) : $arguments[1]
+                );
+
+                return new static($message);
+
+            case static::INVALID_PROCESSOR_INTERFACE_CLASS:
+                $message = sprintf(
+                    '"%s" is not a valid ProcessorInterface class',
+                    $arguments[1]
                 );
 
                 return new static($message);
