@@ -31,12 +31,18 @@ abstract class AbstractProcessorLoader implements LoaderInterface
         foreach ($reflectionClass->getMethods() as $reflectionMethod) {
             $attributeMetadata = $this->createMethodMetadata($reflectionMethod);
             $this->processMethodDescriptors($attributeMetadata, $this->getMethodDescriptors($reflectionMethod));
+
+            $classMetadata->addAttributeMetadata($attributeMetadata);
         }
 
         foreach ($reflectionClass->getProperties() as $reflectionProperty) {
             $attributeMetadata = $this->createPropertyMetadata($reflectionProperty);
             $this->processPropertyDescriptors($attributeMetadata, $this->getPropertyDescriptors($reflectionProperty));
+
+            $classMetadata->addAttributeMetadata($attributeMetadata);
         }
+
+        return true;
     }
 
     /**
