@@ -5,6 +5,8 @@ namespace Kcs\Metadata\Loader;
 use Kcs\Metadata\ClassMetadataInterface;
 use Kcs\Metadata\Loader\Processor\ProcessorFactoryInterface;
 use Kcs\Metadata\MetadataInterface;
+use Kcs\Metadata\MethodMetadata;
+use Kcs\Metadata\PropertyMetadata;
 
 abstract class AbstractProcessorLoader implements LoaderInterface
 {
@@ -71,7 +73,10 @@ abstract class AbstractProcessorLoader implements LoaderInterface
      *
      * @return MetadataInterface
      */
-    abstract protected function createMethodMetadata(\ReflectionMethod $reflectionMethod);
+    protected function createMethodMetadata(\ReflectionMethod $reflectionMethod)
+    {
+        return new MethodMetadata($reflectionMethod->class, $reflectionMethod->name);
+    }
 
     /**
      * Create property metadata object
@@ -80,7 +85,10 @@ abstract class AbstractProcessorLoader implements LoaderInterface
      *
      * @return MetadataInterface
      */
-    abstract protected function createPropertyMetadata(\ReflectionProperty $reflectionProperty);
+    protected function createPropertyMetadata(\ReflectionProperty $reflectionProperty)
+    {
+        return new PropertyMetadata($reflectionProperty->class, $reflectionProperty->name);
+    }
 
     /**
      * Process class descriptors
