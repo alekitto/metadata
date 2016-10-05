@@ -11,7 +11,7 @@ abstract class AbstractProcessorLoader implements LoaderInterface
     /**
      * @var ProcessorFactoryInterface
      */
-    private $processorFactory;
+    protected $processorFactory;
 
     public function __construct(ProcessorFactoryInterface $processorFactory)
     {
@@ -24,16 +24,16 @@ abstract class AbstractProcessorLoader implements LoaderInterface
     public function loadClassMetadata(ClassMetadataInterface $classMetadata)
     {
         $reflectionClass = $classMetadata->getReflectionClass();
-        $this->doLoadFromDescriptors($classMetadata, $this->getClassDescriptors($reflectionClass));
+        $this->processClassDescriptors($classMetadata, $this->getClassDescriptors($reflectionClass));
 
         foreach ($reflectionClass->getMethods() as $reflectionMethod) {
             $attributeMetadata = $this->createMethodMetadata($reflectionMethod);
-            $this->doLoadFromDescriptors($attributeMetadata, $this->getMethodDescriptors($reflectionMethod));
+            $this->processMethodDescriptors($attributeMetadata, $this->getMethodDescriptors($reflectionMethod));
         }
 
         foreach ($reflectionClass->getProperties() as $reflectionProperty) {
             $attributeMetadata = $this->createPropertyMetadata($reflectionProperty);
-            $this->doLoadFromDescriptors($attributeMetadata, $this->getPropertyDescriptors($reflectionProperty));
+            $this->processPropertyDescriptors($attributeMetadata, $this->getPropertyDescriptors($reflectionProperty));
         }
     }
 
@@ -81,6 +81,39 @@ abstract class AbstractProcessorLoader implements LoaderInterface
      * @return MetadataInterface
      */
     abstract protected function createPropertyMetadata(\ReflectionProperty $reflectionProperty);
+
+    /**
+     * Process class descriptors
+     *
+     * @param ClassMetadataInterface $classMetadata
+     * @param array $descriptors
+     */
+    protected function processClassDescriptors(ClassMetadataInterface $classMetadata, array $descriptors)
+    {
+        $this->doLoadFromDescriptors($classMetadata, $descriptors);
+    }
+
+    /**
+     * Process method descriptors
+     *
+     * @param MetadataInterface $metadata
+     * @param array $descriptors
+     */
+    protected function processMethodDescriptors(MetadataInterface $metadata, array $descriptors)
+    {
+        $this->doLoadFromDescriptors($metadata, $descriptors);
+    }
+
+    /**
+     * Process property descriptors
+     *
+     * @param MetadataInterface $metadata
+     * @param array $descriptors
+     */
+    protected function processPropertyDescriptors(MetadataInterface $metadata, array $descriptors)
+    {
+        $this->doLoadFromDescriptors($metadata, $descriptors);
+    }
 
     /**
      * Call processors
