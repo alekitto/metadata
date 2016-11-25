@@ -233,4 +233,18 @@ class MetadataFactoryTest extends \PHPUnit_Framework_TestCase
         $factory->mock = $metadata->reveal();
         $factory->getMetadataFor($this);
     }
+
+    /**
+     * @test
+     */
+    public function get_metadata_for_should_not_cache_bool_value_from_cache()
+    {
+        $this->cache->fetch(__CLASS__)->willReturn(false);
+        $this->loader->loadClassMetadata(Argument::type('Kcs\Metadata\ClassMetadataInterface'))->willReturn(false);
+
+        $factory = new MetadataFactory($this->loader->reveal(), null, $this->cache->reveal());
+        $factory->getMetadataFor(__CLASS__);
+
+        $this->assertNotSame(false, $factory->getMetadataFor(__CLASS__));
+    }
 }

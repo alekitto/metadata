@@ -55,7 +55,7 @@ abstract class AbstractMetadataFactory implements MetadataFactoryInterface
             return $this->loadedClasses[$class];
         }
 
-        if (null !== $this->cache && ($this->loadedClasses[$class] = $this->cache->fetch($class))) {
+        if (null !== $this->cache && ($this->loadedClasses[$class] = $this->cache->fetch($class) ?: null)) {
             return $this->loadedClasses[$class];
         }
 
