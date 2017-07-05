@@ -4,7 +4,7 @@ namespace Kcs\Metadata\Loader;
 
 use Doctrine\Common\Annotations\Reader;
 
-abstract class AnnotationProcessorLoader extends AbstractProcessorLoader
+class AnnotationProcessorLoader extends AbstractProcessorLoader
 {
     /**
      * @var Reader
