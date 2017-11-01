@@ -11,7 +11,7 @@ use PHPUnit\Framework\TestCase;
 
 class TestLoader extends FileLoader
 {
-    protected function loadClassMetadataFromFile($file_content, ClassMetadataInterface $classMetadata): bool
+    protected function loadClassMetadataFromFile(string $file_content, ClassMetadataInterface $classMetadata): bool
     {
         return true;
     }

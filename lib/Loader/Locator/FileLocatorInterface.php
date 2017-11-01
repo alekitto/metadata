@@ -13,5 +13,5 @@ interface FileLocatorInterface
      *
      * @return string[]
      */
-    public function locate($basePath, $extension): array;
+    public function locate(string $basePath, string $extension): array;
 }

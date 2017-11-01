@@ -20,9 +20,9 @@ class MetadataFactory extends AbstractMetadataFactory
      *
      * @param string $metadataClass
      */
-    public function setMetadataClass($metadataClass): void
+    public function setMetadataClass(string $metadataClass): void
     {
-        if (! class_exists($metadataClass) || ! is_subclass_of($metadataClass, ClassMetadataInterface::class, true)) {
+        if (! class_exists($metadataClass) || ! (new \ReflectionClass($metadataClass))->implementsInterface(ClassMetadataInterface::class)) {
             throw InvalidArgumentException::create(InvalidArgumentException::INVALID_METADATA_CLASS, $metadataClass);
         }
 

@@ -7,7 +7,7 @@ class IteratorFileLocator implements FileLocatorInterface
     /**
      * {@inheritdoc}
      */
-    public function locate($basePath, $extension): array
+    public function locate(string $basePath, string $extension): array
     {
         if ('.' !== $extension[0]) {
             throw new \InvalidArgumentException('Extension argument must start with a dot');

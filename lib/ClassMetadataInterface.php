@@ -16,7 +16,7 @@ interface ClassMetadataInterface extends MetadataInterface
      *
      * @return MetadataInterface
      */
-    public function getAttributeMetadata($name): MetadataInterface;
+    public function getAttributeMetadata(string $name): MetadataInterface;
 
     /**
      * Returns all attributes' metadata.

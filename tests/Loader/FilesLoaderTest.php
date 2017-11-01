@@ -20,7 +20,7 @@ class FilesLoaderTestLoader extends FilesLoader
         parent::__construct($paths);
     }
 
-    protected function getLoader($path): LoaderInterface
+    protected function getLoader(string $path): LoaderInterface
     {
         return $this->loader;
     }
@@ -37,7 +37,7 @@ class FileLoaderTestFileLoader extends FileLoader
         return true;
     }
 
-    protected function loadClassMetadataFromFile($file_content, ClassMetadataInterface $classMetadata): bool
+    protected function loadClassMetadataFromFile(string $file_content, ClassMetadataInterface $classMetadata): bool
     {
         return true;
     }

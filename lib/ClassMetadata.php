@@ -78,7 +78,7 @@ class ClassMetadata implements ClassMetadataInterface
     /**
      * {@inheritdoc}
      */
-    public function getAttributeMetadata($name): MetadataInterface
+    public function getAttributeMetadata(string $name): MetadataInterface
     {
         if (! isset($this->attributesMetadata[$name])) {
             return new NullMetadata($name);

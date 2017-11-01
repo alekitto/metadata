@@ -14,7 +14,7 @@ class FilesLoader extends ChainLoader
     /**
      * {@inheritdoc}
      */
-    public function __construct(array $paths, $loaderClass = null)
+    public function __construct(array $paths, string $loaderClass = null)
     {
         $this->loaderClass = $loaderClass;
 
@@ -29,11 +29,11 @@ class FilesLoader extends ChainLoader
     /**
      * Create an instance of LoaderInterface for the path.
      *
-     * @param $path
+     * @param string $path
      *
      * @return LoaderInterface
      */
-    protected function getLoader($path): LoaderInterface
+    protected function getLoader(string $path): LoaderInterface
     {
         if (null === $this->loaderClass) {
             throw new RuntimeException('You must implement '.__METHOD__.' or pass the loader class to the constructor');

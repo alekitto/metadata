@@ -18,7 +18,7 @@ abstract class FileLoader implements LoaderInterface
      *
      * @param string $filePath
      */
-    public function __construct($filePath)
+    public function __construct(string $filePath)
     {
         $this->filePath = $filePath;
     }
@@ -41,5 +41,5 @@ abstract class FileLoader implements LoaderInterface
      *
      * @return bool
      */
-    abstract protected function loadClassMetadataFromFile($file_content, ClassMetadataInterface $classMetadata): bool;
+    abstract protected function loadClassMetadataFromFile(string $file_content, ClassMetadataInterface $classMetadata): bool;
 }

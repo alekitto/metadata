@@ -22,9 +22,9 @@ class ProcessorFactory implements ProcessorFactoryInterface
      * @param string $class
      * @param string $processorClass
      */
-    public function registerProcessor($class, $processorClass): void
+    public function registerProcessor(string $class, string $processorClass): void
     {
-        if (! is_subclass_of($processorClass, ProcessorInterface::class, true)) {
+        if (! (new \ReflectionClass($processorClass))->implementsInterface(ProcessorInterface::class)) {
             throw InvalidArgumentException::create(InvalidArgumentException::INVALID_PROCESSOR_INTERFACE_CLASS, $processorClass);
         }
 

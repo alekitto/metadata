@@ -6,7 +6,7 @@ use Kcs\Metadata\Exception\IOException;
 
 trait FileLoaderTrait
 {
-    private function loadFile($filePath): string
+    private function loadFile(string $filePath): string
     {
         $file_content = @file_get_contents($filePath);
         if (false === $file_content) {
