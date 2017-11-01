@@ -1,4 +1,4 @@
-<?php
+<?php declare(strict_types=1);
 
 namespace Kcs\Metadata\Loader\Processor;
 
@@ -17,14 +17,14 @@ class ProcessorFactory implements ProcessorFactoryInterface
     private $instances = [];
 
     /**
-     * Register a processor class for $class
+     * Register a processor class for $class.
      *
      * @param string $class
      * @param string $processorClass
      */
-    public function registerProcessor($class, $processorClass)
+    public function registerProcessor($class, $processorClass): void
     {
-        if (! is_subclass_of($processorClass, 'Kcs\Metadata\Loader\Processor\ProcessorInterface', true)) {
+        if (! is_subclass_of($processorClass, ProcessorInterface::class, true)) {
             throw InvalidArgumentException::create(InvalidArgumentException::INVALID_PROCESSOR_INTERFACE_CLASS, $processorClass);
         }
 
@@ -40,7 +40,7 @@ class ProcessorFactory implements ProcessorFactoryInterface
     /**
      * {@inheritdoc}
      */
-    public function getProcessor($class)
+    public function getProcessor($class): ?ProcessorInterface
     {
         if (is_object($class)) {
             $class = get_class($class);
@@ -63,12 +63,13 @@ class ProcessorFactory implements ProcessorFactoryInterface
     }
 
     /**
-     * Create a CompositeProcessor instance
+     * Create a CompositeProcessor instance.
      *
      * @param ProcessorInterface[] $processors
+     *
      * @return CompositeProcessor
      */
-    private function createComposite(array $processors)
+    private function createComposite(array $processors): CompositeProcessor
     {
         return new CompositeProcessor(array_map(function ($class) {
             return new $class();

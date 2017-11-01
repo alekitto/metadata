@@ -1,4 +1,4 @@
-<?php
+<?php declare(strict_types=1);
 
 namespace Kcs\Metadata\Loader;
 
@@ -14,7 +14,7 @@ abstract class FileLoader implements LoaderInterface
     private $filePath;
 
     /**
-     * FileLoader constructor
+     * FileLoader constructor.
      *
      * @param string $filePath
      */
@@ -26,7 +26,7 @@ abstract class FileLoader implements LoaderInterface
     /**
      * {@inheritdoc}
      */
-    public function loadClassMetadata(ClassMetadataInterface $classMetadata)
+    public function loadClassMetadata(ClassMetadataInterface $classMetadata): bool
     {
         $file_content = $this->loadFile($this->filePath);
 
@@ -34,12 +34,12 @@ abstract class FileLoader implements LoaderInterface
     }
 
     /**
-     * Load class metadata from file content
+     * Load class metadata from file content.
      *
-     * @param string $file_content
+     * @param string                 $file_content
      * @param ClassMetadataInterface $classMetadata
      *
      * @return bool
      */
-    abstract protected function loadClassMetadataFromFile($file_content, ClassMetadataInterface $classMetadata);
+    abstract protected function loadClassMetadataFromFile($file_content, ClassMetadataInterface $classMetadata): bool;
 }

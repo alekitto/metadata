@@ -1,11 +1,11 @@
-<?php
+<?php declare(strict_types=1);
 
 namespace Kcs\Metadata\Loader\Processor;
 
 use Kcs\Metadata\MetadataInterface;
 
 /**
- * Combine processors
+ * Combine processors.
  *
  * @internal
  */
@@ -17,7 +17,7 @@ class CompositeProcessor implements ProcessorInterface
     private $processors;
 
     /**
-     * Create a new instance containing specified processors
+     * Create a new instance containing specified processors.
      *
      * @param ProcessorInterface[] $processors
      */
@@ -29,7 +29,7 @@ class CompositeProcessor implements ProcessorInterface
     /**
      * {@inheritdoc}
      */
-    public function process(MetadataInterface $metadata, $subject)
+    public function process(MetadataInterface $metadata, $subject): void
     {
         foreach ($this->processors as $processor) {
             $processor->process($metadata, $subject);

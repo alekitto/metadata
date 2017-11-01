@@ -1,4 +1,4 @@
-<?php
+<?php declare(strict_types=1);
 
 namespace Kcs\Metadata\Factory;
 
@@ -44,7 +44,7 @@ abstract class AbstractMetadataFactory implements MetadataFactoryInterface
     /**
      * {@inheritdoc}
      */
-    public function getMetadataFor($value)
+    public function getMetadataFor($value): ClassMetadataInterface
     {
         $class = $this->getClass($value);
         if (empty($class)) {
@@ -89,24 +89,24 @@ abstract class AbstractMetadataFactory implements MetadataFactoryInterface
     /**
      * {@inheritdoc}
      */
-    public function hasMetadataFor($value)
+    public function hasMetadataFor($value): bool
     {
         $class = $this->getClass($value);
 
         return ! empty($class) && (class_exists($class) || interface_exists($class));
     }
 
-    public function setCache(Cache $cache = null)
+    public function setCache(?Cache $cache): void
     {
         $this->cache = $cache;
     }
 
-    public function setEventDispatcher(EventDispatcherInterface $eventDispatcher = null)
+    public function setEventDispatcher(?EventDispatcherInterface $eventDispatcher): void
     {
         $this->eventDispatcher = $eventDispatcher;
     }
 
-    protected function mergeSuperclasses(ClassMetadataInterface $classMetadata)
+    protected function mergeSuperclasses(ClassMetadataInterface $classMetadata): void
     {
         $reflectionClass = $classMetadata->getReflectionClass();
 
@@ -120,13 +120,13 @@ abstract class AbstractMetadataFactory implements MetadataFactoryInterface
     }
 
     /**
-     * Create a new instance of metadata object for this factory
+     * Create a new instance of metadata object for this factory.
      *
      * @param \ReflectionClass $class
      *
      * @return ClassMetadataInterface
      */
-    abstract protected function createMetadata(\ReflectionClass $class);
+    abstract protected function createMetadata(\ReflectionClass $class): ClassMetadataInterface;
 
     /**
      * Validate loaded metadata
@@ -136,12 +136,12 @@ abstract class AbstractMetadataFactory implements MetadataFactoryInterface
      *
      * @throws InvalidMetadataException
      */
-    protected function validate(ClassMetadataInterface $classMetadata)
+    protected function validate(ClassMetadataInterface $classMetadata): void
     {
     }
 
     /**
-     * Get the class name from a string or an object
+     * Get the class name from a string or an object.
      *
      * @param string|object $value
      *

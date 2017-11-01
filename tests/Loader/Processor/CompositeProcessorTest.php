@@ -1,23 +1,26 @@
-<?php
+<?php declare(strict_types=1);
 
 namespace Kcs\Metadata\Tests\Loader\Processor;
 
 use Kcs\Metadata\Loader\Processor\CompositeProcessor;
+use Kcs\Metadata\Loader\Processor\ProcessorInterface;
+use Kcs\Metadata\MetadataInterface;
+use PHPUnit\Framework\TestCase;
 
-class CompositeProcessorTest extends \PHPUnit_Framework_TestCase
+class CompositeProcessorTest extends TestCase
 {
     /**
      * @test
      */
     public function process_should_call_all_inner_processors()
     {
-        $metadata = $this->prophesize('Kcs\Metadata\MetadataInterface')->reveal();
+        $metadata = $this->prophesize(MetadataInterface::class)->reveal();
         $subject = new \stdClass();
 
-        $processor1 = $this->prophesize('Kcs\Metadata\Loader\Processor\ProcessorInterface');
+        $processor1 = $this->prophesize(ProcessorInterface::class);
         $processor1->process($metadata, $subject)->shouldBeCalledTimes(1);
 
-        $processor2 = $this->prophesize('Kcs\Metadata\Loader\Processor\ProcessorInterface');
+        $processor2 = $this->prophesize(ProcessorInterface::class);
         $processor2->process($metadata, $subject)->shouldBeCalledTimes(1);
 
         $processor = new CompositeProcessor([

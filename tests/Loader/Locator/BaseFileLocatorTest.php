@@ -1,11 +1,12 @@
-<?php
+<?php declare(strict_types=1);
 
 namespace Kcs\Metadata\Tests\Loader\Locator;
 
 use Kcs\Metadata\Loader\Locator\FileLocatorInterface;
 use org\bovigo\vfs\vfsStream;
+use PHPUnit\Framework\TestCase;
 
-abstract class BaseFileLocatorTest extends \PHPUnit_Framework_TestCase
+abstract class BaseFileLocatorTest extends TestCase
 {
     /**
      * @test
@@ -52,5 +53,5 @@ abstract class BaseFileLocatorTest extends \PHPUnit_Framework_TestCase
     /**
      * @return FileLocatorInterface
      */
-    abstract protected function getLocator();
+    abstract protected function getLocator(): FileLocatorInterface;
 }

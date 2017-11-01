@@ -1,4 +1,4 @@
-<?php
+<?php declare(strict_types=1);
 
 namespace Kcs\Metadata\Tests;
 
@@ -9,11 +9,13 @@ use Kcs\Metadata\PropertyMetadata;
 use Kcs\Metadata\Tests\Fixtures\ClassForMetadata;
 use Kcs\Metadata\Tests\Fixtures\MetadataClassWithAttributes;
 use Kcs\Metadata\Tests\Fixtures\SubClassForMetadata;
+use PHPUnit\Framework\TestCase;
 
-class ClassMetadataTest extends \PHPUnit_Framework_TestCase
+class ClassMetadataTest extends TestCase
 {
     /**
-     * Needed for tests
+     * Needed for tests.
+     *
      * @var null
      */
     private $attr;
@@ -36,7 +38,7 @@ class ClassMetadataTest extends \PHPUnit_Framework_TestCase
     public function merge_with_metadata_of_wrong_clas_should_throw()
     {
         $metadata = new ClassMetadata(new \ReflectionClass($this));
-        $metadata->merge(new PropertyMetadata($this, 'attr'));
+        $metadata->merge(new PropertyMetadata(get_class($this), 'attr'));
     }
 
     /**
@@ -86,11 +88,11 @@ class ClassMetadataTest extends \PHPUnit_Framework_TestCase
 
         $des = unserialize(serialize($metadata));
 
-        $this->assertInstanceOf('Kcs\Metadata\Tests\Fixtures\MetadataClassWithAttributes', $des);
+        $this->assertInstanceOf(MetadataClassWithAttributes::class, $des);
         $this->assertEquals('ONE', $des->attributeOne);
         $this->assertEquals('TEST', $des->attributeTwo);
         $this->assertCount(1, $des->getAttributesMetadata());
-        $this->assertInstanceOf('Kcs\Metadata\PropertyMetadata', $des->getAttributeMetadata('attributeFirst'));
+        $this->assertInstanceOf(PropertyMetadata::class, $des->getAttributeMetadata('attributeFirst'));
     }
 
     /**

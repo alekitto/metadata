@@ -1,4 +1,4 @@
-<?php
+<?php declare(strict_types=1);
 
 namespace Kcs\Metadata\Loader;
 
@@ -12,11 +12,11 @@ class AnnotationProcessorLoader extends AbstractProcessorLoader
     private $reader;
 
     /**
-     * Set annotation reader
+     * Set annotation reader.
      *
      * @param Reader $reader
      */
-    public function setReader(Reader $reader)
+    public function setReader(Reader $reader): void
     {
         $this->reader = $reader;
     }
@@ -24,7 +24,7 @@ class AnnotationProcessorLoader extends AbstractProcessorLoader
     /**
      * {@inheritdoc}
      */
-    protected function getClassDescriptors(\ReflectionClass $reflectionClass)
+    protected function getClassDescriptors(\ReflectionClass $reflectionClass): array
     {
         return $this->reader->getClassAnnotations($reflectionClass);
     }
@@ -32,7 +32,7 @@ class AnnotationProcessorLoader extends AbstractProcessorLoader
     /**
      * {@inheritdoc}
      */
-    protected function getMethodDescriptors(\ReflectionMethod $reflectionMethod)
+    protected function getMethodDescriptors(\ReflectionMethod $reflectionMethod): array
     {
         return $this->reader->getMethodAnnotations($reflectionMethod);
     }
@@ -40,7 +40,7 @@ class AnnotationProcessorLoader extends AbstractProcessorLoader
     /**
      * {@inheritdoc}
      */
-    protected function getPropertyDescriptors(\ReflectionProperty $reflectionProperty)
+    protected function getPropertyDescriptors(\ReflectionProperty $reflectionProperty): array
     {
         return $this->reader->getPropertyAnnotations($reflectionProperty);
     }

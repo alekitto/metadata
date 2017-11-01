@@ -1,8 +1,10 @@
-<?php
+<?php declare(strict_types=1);
 
 namespace Kcs\Metadata\Tests;
 
 use Kcs\Metadata\PropertyMetadata;
+use Kcs\Metadata\Tests\Fixtures\ClassForMetadata;
+use PHPUnit\Framework\TestCase;
 
 class VirtualPropertyMetadata extends PropertyMetadata
 {
@@ -12,11 +14,11 @@ class VirtualPropertyMetadata extends PropertyMetadata
     }
 }
 
-class PropertyMetadataTest extends \PHPUnit_Framework_TestCase
+class PropertyMetadataTest extends TestCase
 {
     public function testShouldUnserializeVirtualProperties()
     {
-        $property = new VirtualPropertyMetadata('Kcs\Metadata\Tests\Fixtures\ClassForMetadata', 'nonExistentAttribute');
+        $property = new VirtualPropertyMetadata(ClassForMetadata::class, 'nonExistentAttribute');
 
         $unserialized = unserialize(serialize($property));
         $this->assertEquals('FOO_BAR', $unserialized->getValue());

@@ -1,4 +1,4 @@
-<?php
+<?php declare(strict_types=1);
 
 namespace Kcs\Metadata;
 
@@ -7,28 +7,28 @@ interface ClassMetadataInterface extends MetadataInterface
     /**
      * @return \ReflectionClass
      */
-    public function getReflectionClass();
+    public function getReflectionClass(): \ReflectionClass;
 
     /**
-     * Returns a metadata instance for a given attribute
+     * Returns a metadata instance for a given attribute.
      *
      * @param $name
      *
      * @return MetadataInterface
      */
-    public function getAttributeMetadata($name);
+    public function getAttributeMetadata($name): MetadataInterface;
 
     /**
-     * Returns all attributes' metadata
+     * Returns all attributes' metadata.
      *
      * @return MetadataInterface[]
      */
-    public function getAttributesMetadata();
+    public function getAttributesMetadata(): array;
 
     /**
-     * Adds an attribute metadata
+     * Adds an attribute metadata.
      *
      * @param MetadataInterface $metadata
      */
-    public function addAttributeMetadata(MetadataInterface $metadata);
+    public function addAttributeMetadata(MetadataInterface $metadata): void;
 }

@@ -1,4 +1,4 @@
-<?php
+<?php declare(strict_types=1);
 
 namespace Kcs\Metadata\Factory;
 
@@ -6,7 +6,7 @@ use Kcs\Metadata\ClassMetadataInterface;
 use Kcs\Metadata\Exception\InvalidArgumentException;
 
 /**
- * Returns a {@see ClassMetadataInterface}
+ * Returns a {@see ClassMetadataInterface}.
  *
  * @author Alessandro Chitolina <alekitto@gmail.com>
  */
@@ -23,14 +23,14 @@ interface MetadataFactoryInterface
      *
      * @throws InvalidArgumentException
      */
-    public function getMetadataFor($value);
+    public function getMetadataFor($value): ClassMetadataInterface;
 
     /**
-     * Checks if class has metadata
+     * Checks if class has metadata.
      *
      * @param object|string $value
      *
      * @return bool
      */
-    public function hasMetadataFor($value);
+    public function hasMetadataFor($value): bool;
 }

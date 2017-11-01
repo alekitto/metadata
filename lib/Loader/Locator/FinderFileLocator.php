@@ -1,4 +1,4 @@
-<?php
+<?php declare(strict_types=1);
 
 namespace Kcs\Metadata\Loader\Locator;
 
@@ -10,9 +10,9 @@ class FinderFileLocator implements FileLocatorInterface
     /**
      * {@inheritdoc}
      */
-    public function locate($basePath, $extension)
+    public function locate($basePath, $extension): array
     {
-        if ($extension[0] !== '.') {
+        if ('.' !== $extension[0]) {
             throw new \InvalidArgumentException('Extension argument must start with a dot');
         }
 

@@ -1,4 +1,4 @@
-<?php
+<?php declare(strict_types=1);
 
 namespace Kcs\Metadata;
 
@@ -13,17 +13,17 @@ interface MetadataInterface
      *
      * @throws Exception\InvalidArgumentException
      */
-    public function merge(MetadataInterface $metadata);
+    public function merge(MetadataInterface $metadata): void;
 
     /**
-     * Get the name of the target class or attribute
+     * Get the name of the target class or attribute.
      *
      * @return string
      */
-    public function getName();
+    public function getName(): string;
 
     /**
-     * Returns a list of properties to be serialized
+     * Returns a list of properties to be serialized.
      *
      * @return string[]
      */

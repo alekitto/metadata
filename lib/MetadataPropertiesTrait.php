@@ -1,15 +1,15 @@
-<?php
+<?php declare(strict_types=1);
 
 namespace Kcs\Metadata;
 
 trait MetadataPropertiesTrait
 {
     /**
-     * Get all the public properties' name
+     * Get all the public properties' name.
      *
      * @return array
      */
-    protected function getPublicPropertiesName()
+    protected function getPublicPropertiesName(): array
     {
         $reflectionClass = new \ReflectionClass($this);
         $publicProperties = $reflectionClass->getProperties(\ReflectionProperty::IS_PUBLIC);

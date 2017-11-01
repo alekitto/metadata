@@ -1,22 +1,22 @@
-<?php
+<?php declare(strict_types=1);
 
 namespace Kcs\Metadata\Loader;
 
 use Kcs\Metadata\ClassMetadataInterface;
 
 /**
- * Loads a {@see ClassMetadataInterface}
+ * Loads a {@see ClassMetadataInterface}.
  *
  * @author Alessandro Chitolina <alekitto@gmail.com>
  */
 interface LoaderInterface
 {
     /**
-     * Populate class metadata
+     * Populate class metadata.
      *
      * @param ClassMetadataInterface $classMetadata
      *
      * @return bool
      */
-    public function loadClassMetadata(ClassMetadataInterface $classMetadata);
+    public function loadClassMetadata(ClassMetadataInterface $classMetadata): bool;
 }

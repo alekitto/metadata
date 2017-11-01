@@ -1,4 +1,4 @@
-<?php
+<?php declare(strict_types=1);
 
 namespace Kcs\Metadata\Loader;
 
@@ -23,7 +23,7 @@ abstract class AbstractProcessorLoader implements LoaderInterface
     /**
      * {@inheritdoc}
      */
-    public function loadClassMetadata(ClassMetadataInterface $classMetadata)
+    public function loadClassMetadata(ClassMetadataInterface $classMetadata): bool
     {
         $reflectionClass = $classMetadata->getReflectionClass();
         $this->processClassDescriptors($classMetadata, $this->getClassDescriptors($reflectionClass));
@@ -46,96 +46,96 @@ abstract class AbstractProcessorLoader implements LoaderInterface
     }
 
     /**
-     * Get class metadata descriptors (ex: annotation objects)
+     * Get class metadata descriptors (ex: annotation objects).
      *
      * @param \ReflectionClass $reflectionClass
      *
      * @return array
      */
-    abstract protected function getClassDescriptors(\ReflectionClass $reflectionClass);
+    abstract protected function getClassDescriptors(\ReflectionClass $reflectionClass): array;
 
     /**
-     * Get method metadata descriptors (ex: annotation objects)
+     * Get method metadata descriptors (ex: annotation objects).
      *
      * @param \ReflectionMethod $reflectionMethod
      *
      * @return array
      */
-    abstract protected function getMethodDescriptors(\ReflectionMethod $reflectionMethod);
+    abstract protected function getMethodDescriptors(\ReflectionMethod $reflectionMethod): array;
 
     /**
-     * Get property metadata descriptors (ex: annotation objects)
+     * Get property metadata descriptors (ex: annotation objects).
      *
      * @param \ReflectionProperty $reflectionProperty
      *
      * @return array
      */
-    abstract protected function getPropertyDescriptors(\ReflectionProperty $reflectionProperty);
+    abstract protected function getPropertyDescriptors(\ReflectionProperty $reflectionProperty): array;
 
     /**
-     * Create method metadata object
+     * Create method metadata object.
      *
      * @param \ReflectionMethod $reflectionMethod
      *
      * @return MetadataInterface
      */
-    protected function createMethodMetadata(\ReflectionMethod $reflectionMethod)
+    protected function createMethodMetadata(\ReflectionMethod $reflectionMethod): MetadataInterface
     {
         return new MethodMetadata($reflectionMethod->class, $reflectionMethod->name);
     }
 
     /**
-     * Create property metadata object
+     * Create property metadata object.
      *
      * @param \ReflectionProperty $reflectionProperty
      *
      * @return MetadataInterface
      */
-    protected function createPropertyMetadata(\ReflectionProperty $reflectionProperty)
+    protected function createPropertyMetadata(\ReflectionProperty $reflectionProperty): MetadataInterface
     {
         return new PropertyMetadata($reflectionProperty->class, $reflectionProperty->name);
     }
 
     /**
-     * Process class descriptors
+     * Process class descriptors.
      *
      * @param ClassMetadataInterface $classMetadata
-     * @param array $descriptors
+     * @param array                  $descriptors
      */
-    protected function processClassDescriptors(ClassMetadataInterface $classMetadata, array $descriptors)
+    protected function processClassDescriptors(ClassMetadataInterface $classMetadata, array $descriptors): void
     {
         $this->doLoadFromDescriptors($classMetadata, $descriptors);
     }
 
     /**
-     * Process method descriptors
+     * Process method descriptors.
      *
      * @param MetadataInterface $metadata
-     * @param array $descriptors
+     * @param array             $descriptors
      */
-    protected function processMethodDescriptors(MetadataInterface $metadata, array $descriptors)
+    protected function processMethodDescriptors(MetadataInterface $metadata, array $descriptors): void
     {
         $this->doLoadFromDescriptors($metadata, $descriptors);
     }
 
     /**
-     * Process property descriptors
+     * Process property descriptors.
      *
      * @param MetadataInterface $metadata
-     * @param array $descriptors
+     * @param array             $descriptors
      */
-    protected function processPropertyDescriptors(MetadataInterface $metadata, array $descriptors)
+    protected function processPropertyDescriptors(MetadataInterface $metadata, array $descriptors): void
     {
         $this->doLoadFromDescriptors($metadata, $descriptors);
     }
 
     /**
-     * Call processors
+     * Call processors.
      *
      * @param MetadataInterface $metadata
-     * @param array $descriptors
+     * @param array             $descriptors
      */
-    private function doLoadFromDescriptors(MetadataInterface $metadata, array $descriptors)
+    private function doLoadFromDescriptors(MetadataInterface $metadata, array $descriptors): void
     {
         foreach ($descriptors as $descriptor) {
             $processor = $this->processorFactory->getProcessor($descriptor);

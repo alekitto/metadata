@@ -1,4 +1,4 @@
-<?php
+<?php declare(strict_types=1);
 
 namespace Kcs\Metadata\Loader;
 
@@ -12,7 +12,7 @@ class ChainLoader implements LoaderInterface
     private $loaders;
 
     /**
-     * ChainLoader constructor
+     * ChainLoader constructor.
      *
      * @param LoaderInterface[] $loaders
      */
@@ -30,7 +30,7 @@ class ChainLoader implements LoaderInterface
     /**
      * {@inheritdoc}
      */
-    public function loadClassMetadata(ClassMetadataInterface $classMetadata)
+    public function loadClassMetadata(ClassMetadataInterface $classMetadata): bool
     {
         $success = false;
 

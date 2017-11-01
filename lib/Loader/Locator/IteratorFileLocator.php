@@ -1,4 +1,4 @@
-<?php
+<?php declare(strict_types=1);
 
 namespace Kcs\Metadata\Loader\Locator;
 
@@ -7,9 +7,9 @@ class IteratorFileLocator implements FileLocatorInterface
     /**
      * {@inheritdoc}
      */
-    public function locate($basePath, $extension)
+    public function locate($basePath, $extension): array
     {
-        if ($extension[0] !== '.') {
+        if ('.' !== $extension[0]) {
             throw new \InvalidArgumentException('Extension argument must start with a dot');
         }
 
@@ -28,8 +28,7 @@ class IteratorFileLocator implements FileLocatorInterface
         );
 
         return array_map(function (\SplFileInfo $fileInfo) {
-                return $fileInfo->getPathname();
-            }, iterator_to_array($iterator)
-        );
+            return $fileInfo->getPathname();
+        }, iterator_to_array($iterator));
     }
 }

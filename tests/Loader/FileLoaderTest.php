@@ -1,21 +1,23 @@
-<?php
+<?php declare(strict_types=1);
 
 namespace Kcs\Metadata\Tests\Loader;
 
+use Kcs\Metadata\ClassMetadata;
 use Kcs\Metadata\ClassMetadataInterface;
 use Kcs\Metadata\Loader\FileLoader;
 use org\bovigo\vfs\vfsStream;
 use org\bovigo\vfs\vfsStreamFile;
+use PHPUnit\Framework\TestCase;
 
 class TestLoader extends FileLoader
 {
-    protected function loadClassMetadataFromFile($file_content, ClassMetadataInterface $classMetadata)
+    protected function loadClassMetadataFromFile($file_content, ClassMetadataInterface $classMetadata): bool
     {
         return true;
     }
 }
 
-class FileLoaderTest extends \PHPUnit_Framework_TestCase
+class FileLoaderTest extends TestCase
 {
     /**
      * @test
@@ -25,7 +27,7 @@ class FileLoaderTest extends \PHPUnit_Framework_TestCase
     {
         $root = vfsStream::setup();
         $loader = new TestLoader($root->url().'/does_not_exists.yml');
-        $loader->loadClassMetadata($this->prophesize('Kcs\Metadata\ClassMetadata')->reveal());
+        $loader->loadClassMetadata($this->prophesize(ClassMetadata::class)->reveal());
     }
 
     /**
@@ -38,7 +40,7 @@ class FileLoaderTest extends \PHPUnit_Framework_TestCase
 
         $loader = new TestLoader($file->url());
         $this->assertTrue(
-            $loader->loadClassMetadata($this->prophesize('Kcs\Metadata\ClassMetadata')->reveal())
+            $loader->loadClassMetadata($this->prophesize(ClassMetadata::class)->reveal())
         );
     }
 }

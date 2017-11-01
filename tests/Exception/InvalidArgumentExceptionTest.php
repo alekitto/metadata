@@ -1,10 +1,11 @@
-<?php
+<?php declare(strict_types=1);
 
 namespace Kcs\Metadata\Tests\Exception;
 
 use Kcs\Metadata\Exception\InvalidArgumentException;
+use PHPUnit\Framework\TestCase;
 
-class InvalidArgumentExceptionTest extends \PHPUnit_Framework_TestCase
+class InvalidArgumentExceptionTest extends TestCase
 {
     public function messages_data_provider()
     {
@@ -26,9 +27,9 @@ class InvalidArgumentExceptionTest extends \PHPUnit_Framework_TestCase
         $expected = array_shift($arguments);
 
         /** @var InvalidArgumentException $ex */
-        $ex = call_user_func_array('Kcs\Metadata\Exception\InvalidArgumentException::create', $arguments);
+        $ex = call_user_func_array(InvalidArgumentException::class.'::create', $arguments);
 
-        $this->assertInstanceOf('Kcs\Metadata\Exception\InvalidArgumentException', $ex);
+        $this->assertInstanceOf(InvalidArgumentException::class, $ex);
         $this->assertEquals($expected, $ex->getMessage());
     }
 }

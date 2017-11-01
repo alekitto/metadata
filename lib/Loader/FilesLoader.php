@@ -1,4 +1,4 @@
-<?php
+<?php declare(strict_types=1);
 
 namespace Kcs\Metadata\Loader;
 
@@ -27,12 +27,13 @@ class FilesLoader extends ChainLoader
     }
 
     /**
-     * Create an instance of LoaderInterface for the path
+     * Create an instance of LoaderInterface for the path.
      *
      * @param $path
+     *
      * @return LoaderInterface
      */
-    protected function getLoader($path)
+    protected function getLoader($path): LoaderInterface
     {
         if (null === $this->loaderClass) {
             throw new RuntimeException('You must implement '.__METHOD__.' or pass the loader class to the constructor');

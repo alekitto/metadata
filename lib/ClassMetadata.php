@@ -1,4 +1,4 @@
-<?php
+<?php declare(strict_types=1);
 
 namespace Kcs\Metadata;
 
@@ -33,7 +33,7 @@ class ClassMetadata implements ClassMetadataInterface
     /**
      * {@inheritdoc}
      */
-    public function getReflectionClass()
+    public function getReflectionClass(): \ReflectionClass
     {
         if (null === $this->reflectionClass) {
             $this->reflectionClass = new \ReflectionClass($this->name);
@@ -45,7 +45,7 @@ class ClassMetadata implements ClassMetadataInterface
     /**
      * {@inheritdoc}
      */
-    public function merge(MetadataInterface $metadata)
+    public function merge(MetadataInterface $metadata): void
     {
         if ($metadata instanceof NullMetadata) {
             return;
@@ -78,7 +78,7 @@ class ClassMetadata implements ClassMetadataInterface
     /**
      * {@inheritdoc}
      */
-    public function getAttributeMetadata($name)
+    public function getAttributeMetadata($name): MetadataInterface
     {
         if (! isset($this->attributesMetadata[$name])) {
             return new NullMetadata($name);
@@ -90,7 +90,7 @@ class ClassMetadata implements ClassMetadataInterface
     /**
      * {@inheritdoc}
      */
-    public function getAttributesMetadata()
+    public function getAttributesMetadata(): array
     {
         return $this->attributesMetadata;
     }
@@ -98,15 +98,15 @@ class ClassMetadata implements ClassMetadataInterface
     /**
      * {@inheritdoc}
      */
-    public function addAttributeMetadata(MetadataInterface $metadata)
+    public function addAttributeMetadata(MetadataInterface $metadata): void
     {
-        $this->attributesMetadata[ $metadata->getName() ] = $metadata;
+        $this->attributesMetadata[$metadata->getName()] = $metadata;
     }
 
     /**
      * {@inheritdoc}
      */
-    public function getName()
+    public function getName(): string
     {
         return $this->getReflectionClass()->name;
     }

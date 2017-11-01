@@ -1,4 +1,4 @@
-<?php
+<?php declare(strict_types=1);
 
 namespace Kcs\Metadata\Exception;
 
@@ -11,13 +11,13 @@ class InvalidArgumentException extends \InvalidArgumentException
     const INVALID_PROCESSOR_INTERFACE_CLASS = 5;
 
     /**
-     * Create a new instance of InvalidArgumentException with meaningful message
+     * Create a new instance of InvalidArgumentException with meaningful message.
      *
      * @param $reason
      *
-     * @return static
+     * @return self
      */
-    public static function create($reason)
+    public static function create($reason): self
     {
         $arguments = func_get_args();
 

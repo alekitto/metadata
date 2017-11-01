@@ -1,26 +1,28 @@
-<?php
+<?php declare(strict_types=1);
 
 namespace Kcs\Metadata\Factory;
 
+use Kcs\Metadata\ClassMetadata;
+use Kcs\Metadata\ClassMetadataInterface;
 use Kcs\Metadata\Exception\InvalidArgumentException;
 
 class MetadataFactory extends AbstractMetadataFactory
 {
     /**
-     * Metadata object to be created
+     * Metadata object to be created.
      *
      * @var string
      */
-    private $metadataClass = 'Kcs\Metadata\ClassMetadata';
+    private $metadataClass = ClassMetadata::class;
 
     /**
-     * Set the metadata class to be created by this factory
+     * Set the metadata class to be created by this factory.
      *
      * @param string $metadataClass
      */
-    public function setMetadataClass($metadataClass)
+    public function setMetadataClass($metadataClass): void
     {
-        if (! class_exists($metadataClass) || ! is_subclass_of($metadataClass, 'Kcs\Metadata\ClassMetadataInterface', true)) {
+        if (! class_exists($metadataClass) || ! is_subclass_of($metadataClass, ClassMetadataInterface::class, true)) {
             throw InvalidArgumentException::create(InvalidArgumentException::INVALID_METADATA_CLASS, $metadataClass);
         }
 
@@ -30,7 +32,7 @@ class MetadataFactory extends AbstractMetadataFactory
     /**
      * {@inheritdoc}
      */
-    protected function createMetadata(\ReflectionClass $class)
+    protected function createMetadata(\ReflectionClass $class): ClassMetadataInterface
     {
         return new $this->metadataClass($class);
     }

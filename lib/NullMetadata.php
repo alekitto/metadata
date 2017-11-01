@@ -1,9 +1,9 @@
-<?php
+<?php declare(strict_types=1);
 
 namespace Kcs\Metadata;
 
 /**
- * Represents undefined or empty metadata class
+ * Represents undefined or empty metadata class.
  */
 final class NullMetadata implements MetadataInterface
 {
@@ -12,7 +12,7 @@ final class NullMetadata implements MetadataInterface
     /**
      * {@inheritdoc}
      */
-    public function __construct($name)
+    public function __construct(string $name)
     {
         $this->name = $name;
     }
@@ -20,14 +20,14 @@ final class NullMetadata implements MetadataInterface
     /**
      * {@inheritdoc}
      */
-    public function merge(MetadataInterface $metadata)
+    public function merge(MetadataInterface $metadata): void
     {
     }
 
     /**
      * {@inheritdoc}
      */
-    public function getName()
+    public function getName(): string
     {
         return $this->name;
     }
