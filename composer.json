@@ -2,22 +2,29 @@
   "name": "kcs/metadata",
   "description": "Class/Attribute metadata management component",
   "keywords": ["metadata", "annotations", "xml", "yaml"],
+  "authors": [
+    {
+      "name": "Alessandro Chitolina",
+      "email": "alekitto@gmail.com"
+    }
+  ],
   "license": "MIT",
   "type": "library",
   "require": {
-    "php": ">=7.1"
+    "php": "^7.1"
   },
   "require-dev": {
-    "phpunit/phpunit": "^6.0",
-    "doctrine/cache": "~1.4",
     "doctrine/annotations": "~1.2",
-    "symfony/event-dispatcher": "~2.0|~3.0",
+    "doctrine/cache": "^1.4",
     "mikey179/vfsStream": "^1.6",
-    "symfony/finder": "~2.0|~3.0"
+    "phpunit/phpunit": "^6.0",
+    "symfony/cache": "^2.0|^3.0|^4.0",
+    "symfony/event-dispatcher": "^2.0|^3.0|^4.0",
+    "symfony/finder": "^2.0|^3.0|^4.0"
   },
   "suggest": {
+    "symfony/cache": "cache metadata",
     "symfony/event-dispatcher": "dispatch metadata load event",
-    "doctrine/cache": "cache metadata",
     "symfony/finder": "support for metadata file locators"
   },
   "autoload": {
@@ -31,17 +38,11 @@
     }
   },
   "config": {
-    "bin-dir": "bin"
+    "sort-packages": true
   },
   "extra": {
     "branch-alias": {
       "dev-master": "2.x-dev"
     }
-  },
-  "authors": [
-    {
-      "name": "Alessandro Chitolina",
-      "email": "alekitto@gmail.com"
-    }
-  ]
+  }
 }

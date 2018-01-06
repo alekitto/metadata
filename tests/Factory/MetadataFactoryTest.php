@@ -12,6 +12,7 @@ use Kcs\Metadata\MetadataInterface;
 use PHPUnit\Framework\TestCase;
 use Prophecy\Argument;
 use Prophecy\Prophecy\ObjectProphecy;
+use Symfony\Component\Cache\Adapter\ArrayAdapter;
 use Symfony\Component\EventDispatcher\EventDispatcherInterface;
 
 class MockedClassMetadataFactory extends MetadataFactory
@@ -143,6 +144,25 @@ class MetadataFactoryTest extends TestCase
         $this->loader->loadClassMetadata(Argument::type(ClassMetadataInterface::class))->shouldNotBeCalled();
 
         $factory = new MetadataFactory($this->loader->reveal(), null, $this->cache->reveal());
+        $factory->getMetadataFor($this);
+    }
+
+    /**
+     * @test
+     */
+    public function get_metadata_for_should_load_data_from_cache_pool()
+    {
+        $className = str_replace(['_', '\\'], ['__', '_'], get_class($this));
+        $metadata = new ClassMetadata(new \ReflectionClass($this));
+
+        $this->cache = new ArrayAdapter();
+        $item = $this->cache->getItem($className);
+        $item->set($metadata);
+        $this->cache->save($item);
+
+        $this->loader->loadClassMetadata(Argument::type(ClassMetadataInterface::class))->shouldNotBeCalled();
+
+        $factory = new MetadataFactory($this->loader->reveal(), null, $this->cache);
         $factory->getMetadataFor($this);
     }
 

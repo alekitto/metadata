@@ -8,6 +8,7 @@ use Kcs\Metadata\Event\ClassMetadataLoadedEvent;
 use Kcs\Metadata\Exception\InvalidArgumentException;
 use Kcs\Metadata\Exception\InvalidMetadataException;
 use Kcs\Metadata\Loader\LoaderInterface;
+use Psr\Cache\CacheItemPoolInterface;
 use Symfony\Component\EventDispatcher\EventDispatcherInterface;
 
 abstract class AbstractMetadataFactory implements MetadataFactoryInterface
@@ -23,7 +24,7 @@ abstract class AbstractMetadataFactory implements MetadataFactoryInterface
     private $eventDispatcher;
 
     /**
-     * @var Cache
+     * @var Cache|CacheItemPoolInterface
      */
     private $cache;
 
@@ -32,11 +33,17 @@ abstract class AbstractMetadataFactory implements MetadataFactoryInterface
      */
     private $loadedClasses;
 
-    public function __construct(LoaderInterface $loader, EventDispatcherInterface $eventDispatcher = null, Cache $cache = null)
+    public function __construct(LoaderInterface $loader, EventDispatcherInterface $eventDispatcher = null, $cache = null)
     {
         $this->loader = $loader;
         $this->eventDispatcher = $eventDispatcher;
         $this->cache = $cache;
+
+        if (null !== $cache && ! ($cache instanceof Cache || $cache instanceof CacheItemPoolInterface)) {
+            throw new \TypeError(
+                'Argument 3 passed to '.get_class($this).' must be '.Cache::class.
+                ' or a '.CacheItemPoolInterface::class.'. '.(is_object($cache) ? get_class($cache) : gettype($cache)).' passed.');
+        }
 
         $this->loadedClasses = [];
     }
@@ -55,7 +62,7 @@ abstract class AbstractMetadataFactory implements MetadataFactoryInterface
             return $this->loadedClasses[$class];
         }
 
-        if (null !== $this->cache && ($this->loadedClasses[$class] = $this->cache->fetch($class) ?: null)) {
+        if (null !== $this->loadedClasses[$class] = $this->getFromCache($class)) {
             return $this->loadedClasses[$class];
         }
 
@@ -72,16 +79,8 @@ abstract class AbstractMetadataFactory implements MetadataFactoryInterface
         $this->mergeSuperclasses($classMetadata);
         $this->validate($classMetadata);
 
-        if ($this->eventDispatcher) {
-            $this->eventDispatcher->dispatch(
-                ClassMetadataLoadedEvent::LOADED_EVENT,
-                new ClassMetadataLoadedEvent($classMetadata)
-            );
-        }
-
-        if (null !== $this->cache) {
-            $this->cache->save($class, $classMetadata);
-        }
+        $this->dispatchClassMetadataLoadedEvent($classMetadata);
+        $this->saveInCache($class, $classMetadata);
 
         return $this->loadedClasses[$class] = $classMetadata;
     }
@@ -94,16 +93,6 @@ abstract class AbstractMetadataFactory implements MetadataFactoryInterface
         $class = $this->getClass($value);
 
         return ! empty($class) && (class_exists($class) || interface_exists($class));
-    }
-
-    public function setCache(?Cache $cache): void
-    {
-        $this->cache = $cache;
-    }
-
-    public function setEventDispatcher(?EventDispatcherInterface $eventDispatcher): void
-    {
-        $this->eventDispatcher = $eventDispatcher;
     }
 
     protected function mergeSuperclasses(ClassMetadataInterface $classMetadata): void
@@ -138,6 +127,70 @@ abstract class AbstractMetadataFactory implements MetadataFactoryInterface
      */
     protected function validate(ClassMetadataInterface $classMetadata): void
     {
+    }
+
+    /**
+     * Dispatches a class metadata loaded event for the given class.
+     *
+     * @param ClassMetadataInterface $classMetadata
+     */
+    protected function dispatchClassMetadataLoadedEvent(ClassMetadataInterface $classMetadata): void
+    {
+        if (null === $this->eventDispatcher) {
+            return;
+        }
+
+        $this->eventDispatcher->dispatch(
+            ClassMetadataLoadedEvent::LOADED_EVENT,
+            new ClassMetadataLoadedEvent($classMetadata)
+        );
+    }
+
+    /**
+     * Check a cache pool for cached metadata.
+     *
+     * @param string $class
+     *
+     * @return null|ClassMetadataInterface
+     */
+    private function getFromCache(string $class): ?ClassMetadataInterface
+    {
+        if (null === $this->cache) {
+            return null;
+        }
+
+        if ($this->cache instanceof Cache) {
+            $cached = $this->cache->fetch($class) ?: null;
+        } else {
+            $class = str_replace(['_', '\\'], ['__', '_'], $class);
+            $item = $this->cache->getItem($class);
+            $cached = $item->isHit() ? $item->get() : null;
+        }
+
+        return $cached;
+    }
+
+    /**
+     * Saves a metadata into a cache pool.
+     *
+     * @param string                 $class
+     * @param ClassMetadataInterface $classMetadata
+     */
+    private function saveInCache(string $class, ClassMetadataInterface $classMetadata): void
+    {
+        if (null === $this->cache) {
+            return;
+        }
+
+        if ($this->cache instanceof Cache) {
+            $this->cache->save($class, $classMetadata);
+        } else {
+            $class = str_replace(['_', '\\'], ['__', '_'], $class);
+            $item = $this->cache->getItem($class);
+            $item->set($classMetadata);
+
+            $this->cache->save($class);
+        }
     }
 
     /**

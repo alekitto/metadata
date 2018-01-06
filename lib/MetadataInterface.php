@@ -13,7 +13,7 @@ interface MetadataInterface
      *
      * @throws Exception\InvalidArgumentException
      */
-    public function merge(MetadataInterface $metadata): void;
+    public function merge(self $metadata): void;
 
     /**
      * Get the name of the target class or attribute.
