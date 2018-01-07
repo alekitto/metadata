@@ -110,19 +110,4 @@ class ClassMetadata implements ClassMetadataInterface
     {
         return $this->getReflectionClass()->name;
     }
-
-    /**
-     * {@inheritdoc}
-     */
-    public function __sleep()
-    {
-        return $this->getPublicPropertiesName();
-    }
-
-    /**
-     * {@inheritdoc}
-     */
-    public function __wakeup()
-    {
-    }
 }

@@ -5,6 +5,21 @@ namespace Kcs\Metadata;
 trait MetadataPropertiesTrait
 {
     /**
+     * {@inheritdoc}
+     */
+    public function __sleep()
+    {
+        return $this->getPublicPropertiesName();
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function __wakeup()
+    {
+    }
+
+    /**
      * Get all the public properties' name.
      *
      * @return array

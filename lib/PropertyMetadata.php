@@ -4,22 +4,13 @@ namespace Kcs\Metadata;
 
 class PropertyMetadata implements MetadataInterface
 {
+    use AttributeMetadataTrait;
     use MetadataPropertiesTrait;
 
     /**
      * @var \ReflectionProperty
      */
     private $reflectionProperty;
-
-    /**
-     * @var string
-     */
-    public $class;
-
-    /**
-     * @var string
-     */
-    public $name;
 
     /**
      * {@inheritdoc}
@@ -43,29 +34,6 @@ class PropertyMetadata implements MetadataInterface
      * {@inheritdoc}
      */
     public function merge(MetadataInterface $metadata): void
-    {
-    }
-
-    /**
-     * {@inheritdoc}
-     */
-    public function getName(): string
-    {
-        return $this->name;
-    }
-
-    /**
-     * {@inheritdoc}
-     */
-    public function __sleep()
-    {
-        return $this->getPublicPropertiesName();
-    }
-
-    /**
-     * {@inheritdoc}
-     */
-    public function __wakeup()
     {
     }
 }
