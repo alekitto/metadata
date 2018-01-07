@@ -9,7 +9,7 @@ interface MetadataInterface
      * An {@see Exception\InvalidArgumentException} MUST be thrown if the
      * $metadata parameter is not mergeable.
      *
-     * @param MetadataInterface $metadata
+     * @param self $metadata
      *
      * @throws Exception\InvalidArgumentException
      */

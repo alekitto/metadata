@@ -189,7 +189,7 @@ abstract class AbstractMetadataFactory implements MetadataFactoryInterface
             $item = $this->cache->getItem($class);
             $item->set($classMetadata);
 
-            $this->cache->save($class);
+            $this->cache->save($item);
         }
     }
 
