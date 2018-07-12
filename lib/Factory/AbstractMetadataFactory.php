@@ -162,7 +162,7 @@ abstract class AbstractMetadataFactory implements MetadataFactoryInterface
         if ($this->cache instanceof Cache) {
             $cached = $this->cache->fetch($class) ?: null;
         } else {
-            $class = str_replace(['_', '\\'], ['__', '_'], $class);
+            $class = preg_replace('#[\{\}\(\)/\\\\@:]#', '_', str_replace('_', '__', $class));
             $item = $this->cache->getItem($class);
             $cached = $item->isHit() ? $item->get() : null;
         }
@@ -185,7 +185,7 @@ abstract class AbstractMetadataFactory implements MetadataFactoryInterface
         if ($this->cache instanceof Cache) {
             $this->cache->save($class, $classMetadata);
         } else {
-            $class = str_replace(['_', '\\'], ['__', '_'], $class);
+            $class = preg_replace('#[\{\}\(\)/\\\\@:]#', '_', str_replace('_', '__', $class));
             $item = $this->cache->getItem($class);
             $item->set($classMetadata);
 
