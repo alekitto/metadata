@@ -6,7 +6,9 @@ use Kcs\Metadata\Exception\InvalidArgumentException;
 
 class ClassMetadata implements ClassMetadataInterface
 {
-    use MetadataPropertiesTrait;
+    use MetadataPropertiesTrait {
+        __wakeup as public traitWakeup;
+    }
 
     /**
      * @var \ReflectionClass
@@ -23,11 +25,26 @@ class ClassMetadata implements ClassMetadataInterface
      */
     public $attributesMetadata;
 
+    /**
+     * @var string[]
+     */
+    private $attributesNames;
+
     public function __construct(\ReflectionClass $class)
     {
         $this->reflectionClass = $class;
         $this->name = $class->name;
         $this->attributesMetadata = [];
+        $this->attributesNames = [];
+    }
+
+    public function __wakeup()
+    {
+        $this->traitWakeup();
+
+        foreach ($this->attributesMetadata as $key => $metadata) {
+            $this->attributesNames[\strtolower($key)] = $key;
+        }
     }
 
     /**
@@ -80,9 +97,12 @@ class ClassMetadata implements ClassMetadataInterface
      */
     public function getAttributeMetadata(string $name): MetadataInterface
     {
-        if (! isset($this->attributesMetadata[$name])) {
+        $name = \strtolower($name);
+        if (! isset($this->attributesNames[$name])) {
             return new NullMetadata($name);
         }
+
+        $name = $this->attributesNames[$name];
 
         return $this->attributesMetadata[$name];
     }
@@ -100,7 +120,9 @@ class ClassMetadata implements ClassMetadataInterface
      */
     public function addAttributeMetadata(MetadataInterface $metadata): void
     {
-        $this->attributesMetadata[$metadata->getName()] = $metadata;
+        $name = $metadata->getName();
+        $this->attributesMetadata[$name] = $metadata;
+        $this->attributesNames[\strtolower($name)] = $name;
     }
 
     /**

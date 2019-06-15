@@ -120,4 +120,22 @@ class ClassMetadataTest extends TestCase
 
         self::assertNotNull($metadata_unser->getReflectionClass());
     }
+
+    /**
+     * @test
+     */
+    public function class_metadata_should_ignore_case()
+    {
+        $class_ = new ClassForMetadata();
+
+        $metadata = new ClassMetadata(new \ReflectionClass($class_));
+
+        $metadata->addAttributeMetadata(new PropertyMetadata(\get_class($class_), 'attributeFirst'));
+        $metadata->addAttributeMetadata(new PropertyMetadata(\get_class($class_), 'attributeSecond'));
+        $metadata->addAttributeMetadata(new MethodMetadata(\get_class($class_), 'methodOne'));
+
+        self::assertInstanceOf(PropertyMetadata::class, $metadata->getAttributeMetadata('attributefirst'));
+        self::assertInstanceOf(PropertyMetadata::class, $metadata->getAttributeMetadata('ATTRIBUTESECOND'));
+        self::assertInstanceOf(MethodMetadata::class, $metadata->getAttributeMetadata('MethodOne'));
+    }
 }
