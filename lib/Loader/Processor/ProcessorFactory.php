@@ -30,7 +30,7 @@ class ProcessorFactory implements ProcessorFactoryInterface
 
         if (! isset($this->processors[$class])) {
             $this->processors[$class] = $processorClass;
-        } elseif (! is_array($this->processors[$class])) {
+        } elseif (! \is_array($this->processors[$class])) {
             $this->processors[$class] = [$this->processors[$class], $processorClass];
         } else {
             $this->processors[$class][] = $processorClass;
@@ -42,8 +42,8 @@ class ProcessorFactory implements ProcessorFactoryInterface
      */
     public function getProcessor($class): ?ProcessorInterface
     {
-        if (is_object($class)) {
-            $class = get_class($class);
+        if (\is_object($class)) {
+            $class = \get_class($class);
         }
 
         if (! isset($this->processors[$class])) {
@@ -55,7 +55,7 @@ class ProcessorFactory implements ProcessorFactoryInterface
         }
 
         $processor = $this->processors[$class];
-        if (is_array($processor)) {
+        if (\is_array($processor)) {
             return $this->instances[$class] = $this->createComposite($processor);
         }
 
@@ -71,7 +71,7 @@ class ProcessorFactory implements ProcessorFactoryInterface
      */
     private function createComposite(array $processors): CompositeProcessor
     {
-        return new CompositeProcessor(array_map(function ($class) {
+        return new CompositeProcessor(\array_map(static function ($class) {
             return new $class();
         }, $processors));
     }

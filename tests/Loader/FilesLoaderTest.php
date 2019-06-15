@@ -4,6 +4,7 @@ namespace Kcs\Metadata\Tests\Loader;
 
 use Kcs\Metadata\ClassMetadata;
 use Kcs\Metadata\ClassMetadataInterface;
+use Kcs\Metadata\Exception\RuntimeException;
 use Kcs\Metadata\Loader\FileLoader;
 use Kcs\Metadata\Loader\FilesLoader;
 use Kcs\Metadata\Loader\LoaderInterface;
@@ -64,10 +65,10 @@ class FilesLoaderTest extends TestCase
 
     /**
      * @test
-     * @expectedException \Kcs\Metadata\Exception\RuntimeException
      */
     public function loader_should_throw_if_no_loader_class_has_passed()
     {
+        $this->expectException(RuntimeException::class);
         $loader = new FilesLoader([
             'test1.yml',
             'test2.yml',
@@ -86,6 +87,6 @@ class FilesLoaderTest extends TestCase
         $loader = new FilesLoader(['test1.yml'], FileLoaderTestFileLoader::class);
         $loader->loadClassMetadata($this->prophesize(ClassMetadata::class)->reveal());
 
-        $this->assertTrue(FileLoaderTestFileLoader::$called);
+        self::assertTrue(FileLoaderTestFileLoader::$called);
     }
 }

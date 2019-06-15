@@ -33,9 +33,9 @@ abstract class BaseFileLocatorTest extends TestCase
         ]);
 
         $result = $this->getLocator()->locate($root->url(), '.yml');
-        sort($result);
+        \sort($result);
 
-        $this->assertEquals([
+        self::assertEquals([
             $root->url().'/config/config_file.yml',
             $root->url().'/src/AppBundle/config/configuration.yml',
         ], $result);
@@ -43,10 +43,10 @@ abstract class BaseFileLocatorTest extends TestCase
 
     /**
      * @test
-     * @expectedException \InvalidArgumentException
      */
     public function locate_must_throw_if_extension_parameter_is_invalid()
     {
+        $this->expectException(\InvalidArgumentException::class);
         $this->getLocator()->locate(__DIR__, 'base.yml');
     }
 

@@ -49,7 +49,7 @@ class AnnotationProcessorLoaderTest extends TestCase
      */
     private $loader;
 
-    protected function setUp()
+    protected function setUp(): void
     {
         $this->reader = $this->prophesize(Reader::class);
         $this->processorFactory = $this->prophesize(ProcessorFactoryInterface::class);

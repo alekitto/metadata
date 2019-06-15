@@ -23,13 +23,13 @@ class InvalidArgumentExceptionTest extends TestCase
      */
     public function create_should_return_exception_with_valid_message()
     {
-        $arguments = func_get_args();
-        $expected = array_shift($arguments);
+        $arguments = \func_get_args();
+        $expected = \array_shift($arguments);
 
         /** @var InvalidArgumentException $ex */
-        $ex = call_user_func_array(InvalidArgumentException::class.'::create', $arguments);
+        $ex = \call_user_func_array(InvalidArgumentException::class.'::create', $arguments);
 
-        $this->assertInstanceOf(InvalidArgumentException::class, $ex);
-        $this->assertEquals($expected, $ex->getMessage());
+        self::assertInstanceOf(InvalidArgumentException::class, $ex);
+        self::assertEquals($expected, $ex->getMessage());
     }
 }

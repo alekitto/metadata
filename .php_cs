@@ -1,8 +1,11 @@
 <?php
 
 $finder = PhpCsFixer\Finder::create()
-    ->in([__DIR__.'/lib', __DIR__.'/tests'])
-    ->exclude(['bin'])
+    ->in([__DIR__])
+    ->notName('template.parser.php')
+    ->notPath('/tests\/Fixtures\/.*\/cache/')
+    ->notPath('vendor')
+    ->notPath('var')
 ;
 
 return PhpCsFixer\Config::create()
@@ -12,6 +15,7 @@ return PhpCsFixer\Config::create()
         '@Symfony' => true,
         'psr0' => false,
         'array_syntax' => ['syntax' => 'short'],
+        'list_syntax' => ['syntax' => 'short'],
         'concat_space' => ['spacing' => 'none'],
         'blank_line_after_opening_tag' => false,
         'lowercase_cast' => true,
@@ -21,5 +25,8 @@ return PhpCsFixer\Config::create()
         'no_unused_imports' => true,
         'not_operator_with_successor_space' => true,
         'ordered_imports' => true,
+        'declare_strict_types' => true,
+        'native_function_invocation' => true,
+        'php_unit_test_case_static_method_calls' => ['call_type' => 'self'],
     ])
 ;

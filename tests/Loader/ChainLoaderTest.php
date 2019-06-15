@@ -11,10 +11,10 @@ class ChainLoaderTest extends TestCase
 {
     /**
      * @test
-     * @expectedException \InvalidArgumentException
      */
     public function constructor_should_throw_on_non_loader_instance()
     {
+        $this->expectException(\InvalidArgumentException::class);
         $loaders = [
             new \stdClass(),
         ];

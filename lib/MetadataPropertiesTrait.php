@@ -29,7 +29,7 @@ trait MetadataPropertiesTrait
         $reflectionClass = new \ReflectionClass($this);
         $publicProperties = $reflectionClass->getProperties(\ReflectionProperty::IS_PUBLIC);
 
-        return array_map(function (\ReflectionProperty $property) {
+        return \array_map(static function (\ReflectionProperty $property) {
             return $property->name;
         }, $publicProperties);
     }

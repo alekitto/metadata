@@ -12,7 +12,7 @@ interface ProcessorFactoryInterface
      *
      * @param mixed $subject
      *
-     * @return null|ProcessorInterface
+     * @return ProcessorInterface|null
      */
     public function getProcessor($subject): ?ProcessorInterface;
 }

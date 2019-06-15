@@ -2,6 +2,7 @@
 
 namespace Kcs\Metadata\Tests\Loader\Processor;
 
+use Kcs\Metadata\Exception\InvalidArgumentException;
 use Kcs\Metadata\Loader\Processor\CompositeProcessor;
 use Kcs\Metadata\Loader\Processor\ProcessorFactory;
 use Kcs\Metadata\Loader\Processor\ProcessorInterface;
@@ -34,10 +35,10 @@ class ProcessorFactoryTest extends TestCase
 {
     /**
      * @test
-     * @expectedException \Kcs\Metadata\Exception\InvalidArgumentException
      */
     public function register_processor_should_throw_if_invalid_class_is_passed()
     {
+        $this->expectException(InvalidArgumentException::class);
         $factory = new ProcessorFactory();
         $factory->registerProcessor('stdClass', 'stdClass');
     }
@@ -51,8 +52,8 @@ class ProcessorFactoryTest extends TestCase
         $factory->registerProcessor(Annotation::class, FakeProcessor::class);
 
         $processor = $factory->getProcessor(Annotation::class);
-        $this->assertSame($processor, $factory->getProcessor(Annotation::class));
-        $this->assertEquals(spl_object_hash($processor), spl_object_hash($factory->getProcessor(Annotation::class)));
+        self::assertSame($processor, $factory->getProcessor(Annotation::class));
+        self::assertEquals(\spl_object_hash($processor), \spl_object_hash($factory->getProcessor(Annotation::class)));
     }
 
     /**
@@ -64,7 +65,7 @@ class ProcessorFactoryTest extends TestCase
         $factory->registerProcessor(Annotation::class, FakeProcessor::class);
 
         $processor = $factory->getProcessor(new Annotation());
-        $this->assertInstanceOf(FakeProcessor::class, $processor);
+        self::assertInstanceOf(FakeProcessor::class, $processor);
     }
 
     /**
@@ -75,7 +76,7 @@ class ProcessorFactoryTest extends TestCase
         $factory = new ProcessorFactory();
         $factory->registerProcessor('stdClass', FakeProcessor::class);
 
-        $this->assertNull($factory->getProcessor(new Annotation()));
+        self::assertNull($factory->getProcessor(new Annotation()));
     }
 
     /**
@@ -88,6 +89,6 @@ class ProcessorFactoryTest extends TestCase
         $factory->registerProcessor(Annotation::class, FakeProcessor2::class);
         $factory->registerProcessor(Annotation::class, FakeProcessor3::class);
 
-        $this->assertInstanceOf(CompositeProcessor::class, $factory->getProcessor(Annotation::class));
+        self::assertInstanceOf(CompositeProcessor::class, $factory->getProcessor(Annotation::class));
     }
 }

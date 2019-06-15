@@ -20,12 +20,12 @@ class PropertyMetadataTest extends TestCase
     {
         $property = new VirtualPropertyMetadata(ClassForMetadata::class, 'nonExistentAttribute');
 
-        $unserialized = unserialize(serialize($property));
-        $this->assertEquals('FOO_BAR', $unserialized->getValue());
+        $unserialized = \unserialize(\serialize($property));
+        self::assertEquals('FOO_BAR', $unserialized->getValue());
 
         try {
             $unserialized->getReflection();
-            $this->fail();
+            self::fail();
         } catch (\ReflectionException $e) {
         }
     }

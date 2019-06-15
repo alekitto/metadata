@@ -4,6 +4,7 @@ namespace Kcs\Metadata\Tests\Loader;
 
 use Kcs\Metadata\ClassMetadata;
 use Kcs\Metadata\ClassMetadataInterface;
+use Kcs\Metadata\Exception\IOException;
 use Kcs\Metadata\Loader\FileLoader;
 use org\bovigo\vfs\vfsStream;
 use org\bovigo\vfs\vfsStreamFile;
@@ -21,10 +22,10 @@ class FileLoaderTest extends TestCase
 {
     /**
      * @test
-     * @expectedException \Kcs\Metadata\Exception\IOException
      */
     public function load_class_metadata_should_throw_if_file_cannot_be_read()
     {
+        $this->expectException(IOException::class);
         $root = vfsStream::setup();
         $loader = new TestLoader($root->url().'/does_not_exists.yml');
         $loader->loadClassMetadata($this->prophesize(ClassMetadata::class)->reveal());
@@ -39,7 +40,7 @@ class FileLoaderTest extends TestCase
         $root->addChild($file = new vfsStreamFile('mapping.xml'));
 
         $loader = new TestLoader($file->url());
-        $this->assertTrue(
+        self::assertTrue(
             $loader->loadClassMetadata($this->prophesize(ClassMetadata::class)->reveal())
         );
     }

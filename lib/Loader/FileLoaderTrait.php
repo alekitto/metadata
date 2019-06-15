@@ -8,14 +8,14 @@ trait FileLoaderTrait
 {
     private function loadFile(string $filePath): string
     {
-        $file_content = @file_get_contents($filePath);
+        $file_content = @\file_get_contents($filePath);
         if (false === $file_content) {
-            $error = error_get_last();
+            $error = \error_get_last();
 
-            throw new IOException(sprintf(
+            throw new IOException(\sprintf(
                 "Cannot load file '%s': %s",
                 $filePath,
-                isset($error['message']) ? $error['message'] : 'Unknown error'
+                $error[ 'message' ] ?? 'Unknown error'
             ));
         }
 

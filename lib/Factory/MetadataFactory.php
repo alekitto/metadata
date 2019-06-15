@@ -22,7 +22,7 @@ class MetadataFactory extends AbstractMetadataFactory
      */
     public function setMetadataClass(string $metadataClass): void
     {
-        if (! class_exists($metadataClass) || ! (new \ReflectionClass($metadataClass))->implementsInterface(ClassMetadataInterface::class)) {
+        if (! \class_exists($metadataClass) || ! (new \ReflectionClass($metadataClass))->implementsInterface(ClassMetadataInterface::class)) {
             throw InvalidArgumentException::create(InvalidArgumentException::INVALID_METADATA_CLASS, $metadataClass);
         }
 

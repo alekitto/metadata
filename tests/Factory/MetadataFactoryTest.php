@@ -2,18 +2,19 @@
 
 namespace Kcs\Metadata\Tests\Factory;
 
-use Doctrine\Common\Cache\Cache;
 use Kcs\Metadata\ClassMetadata;
 use Kcs\Metadata\ClassMetadataInterface;
 use Kcs\Metadata\Event\ClassMetadataLoadedEvent;
+use Kcs\Metadata\Exception\InvalidArgumentException;
 use Kcs\Metadata\Factory\MetadataFactory;
 use Kcs\Metadata\Loader\LoaderInterface;
-use Kcs\Metadata\MetadataInterface;
 use PHPUnit\Framework\TestCase;
 use Prophecy\Argument;
 use Prophecy\Prophecy\ObjectProphecy;
+use Psr\Cache\CacheItemPoolInterface;
 use Symfony\Component\Cache\Adapter\ArrayAdapter;
 use Symfony\Component\EventDispatcher\EventDispatcherInterface;
+use Symfony\Contracts\Cache\ItemInterface;
 
 class MockedClassMetadataFactory extends MetadataFactory
 {
@@ -54,14 +55,14 @@ class MetadataFactoryTest extends TestCase
     private $loader;
 
     /**
-     * @var ObjectProphecy|Cache
+     * @var ObjectProphecy|CacheItemPoolInterface
      */
     private $cache;
 
-    public function setUp()
+    protected function setUp(): void
     {
         $this->loader = $this->prophesize(LoaderInterface::class);
-        $this->cache = $this->prophesize(Cache::class);
+        $this->cache = $this->prophesize(CacheItemPoolInterface::class);
     }
 
     /**
@@ -70,7 +71,7 @@ class MetadataFactoryTest extends TestCase
     public function has_metadata_should_return_false_on_non_existent_classes()
     {
         $factory = new MetadataFactory($this->loader->reveal());
-        $this->assertFalse($factory->hasMetadataFor('NonExistentClass'));
+        self::assertFalse($factory->hasMetadataFor('NonExistentClass'));
     }
 
     /**
@@ -79,7 +80,7 @@ class MetadataFactoryTest extends TestCase
     public function has_metadata_should_return_false_on_invalid_value()
     {
         $factory = new MetadataFactory($this->loader->reveal());
-        $this->assertFalse($factory->hasMetadataFor([]));
+        self::assertFalse($factory->hasMetadataFor([]));
     }
 
     public function invalid_value_provider()
@@ -92,11 +93,11 @@ class MetadataFactoryTest extends TestCase
 
     /**
      * @test
-     * @expectedException \Kcs\Metadata\Exception\InvalidArgumentException
      * @dataProvider invalid_value_provider
      */
     public function get_metadata_should_throw_if_invalid_value_has_passed($value)
     {
+        $this->expectException(InvalidArgumentException::class);
         $factory = new MetadataFactory($this->loader->reveal());
         $factory->getMetadataFor($value);
     }
@@ -118,7 +119,7 @@ class MetadataFactoryTest extends TestCase
      */
     public function get_metadata_for_should_not_call_the_metadata_loader_twice()
     {
-        $className = get_class($this);
+        $className = \get_class($this);
         $this->loader->loadClassMetadata(Argument::that(function (ClassMetadataInterface $metadata) use ($className) {
             return $metadata->getReflectionClass()->name === $className;
         }))
@@ -137,10 +138,14 @@ class MetadataFactoryTest extends TestCase
      */
     public function get_metadata_for_should_load_data_from_cache()
     {
-        $className = get_class($this);
+        $className = \get_class($this);
         $metadata = new ClassMetadata(new \ReflectionClass($this));
 
-        $this->cache->fetch($className)->willReturn($metadata);
+        $this->cache->getItem(\str_replace('\\', '_', $className))
+            ->willReturn($item = $this->prophesize(ItemInterface::class));
+        $item->isHit()->willReturn(true);
+        $item->get()->willReturn($metadata);
+
         $this->loader->loadClassMetadata(Argument::type(ClassMetadataInterface::class))->shouldNotBeCalled();
 
         $factory = new MetadataFactory($this->loader->reveal(), null, $this->cache->reveal());
@@ -152,7 +157,7 @@ class MetadataFactoryTest extends TestCase
      */
     public function get_metadata_for_should_load_data_from_cache_pool()
     {
-        $className = str_replace(['_', '\\'], ['__', '_'], get_class($this));
+        $className = \str_replace(['_', '\\'], ['__', '_'], \get_class($this));
         $metadata = new ClassMetadata(new \ReflectionClass($this));
 
         $this->cache = new ArrayAdapter();
@@ -171,13 +176,11 @@ class MetadataFactoryTest extends TestCase
      */
     public function get_metadata_for_should_store_data_into_cache()
     {
-        $className = get_class($this);
-
-        $this->cache->fetch(Argument::type('string'))->willReturn(null);
-        $this->cache->save($className, Argument::type(ClassMetadataInterface::class))
-            ->shouldBeCalled()
-            ->willReturn(true);
-        $this->cache->save(Argument::type('string'), Argument::type(MetadataInterface::class))->willReturn(true);
+        $this->cache->getItem(Argument::type('string'))
+            ->willReturn($item = $this->prophesize(ItemInterface::class));
+        $item->isHit()->willReturn(false);
+        $item->set(Argument::type(ClassMetadataInterface::class))->shouldBeCalled();
+        $this->cache->save($item)->shouldBeCalled();
 
         $this->loader->loadClassMetadata(Argument::type(ClassMetadataInterface::class))->willReturn(true);
 
@@ -195,10 +198,10 @@ class MetadataFactoryTest extends TestCase
         $that = $this;
         $eventDispatcher = $this->prophesize(EventDispatcherInterface::class);
         $eventDispatcher->dispatch(
-            'kcs_metadata.metadata_loaded',
-            Argument::that(function ($arg) use ($that) {
-                return $arg instanceof ClassMetadataLoadedEvent && $arg->getMetadata()->getName() === get_class($that);
-            })
+            Argument::that(static function ($arg) use ($that) {
+                return $arg instanceof ClassMetadataLoadedEvent && $arg->getMetadata()->getName() === \get_class($that);
+            }),
+            'kcs_metadata.metadata_loaded'
         )
             ->shouldBeCalled();
         $eventDispatcher->addMethodProphecy($eventDispatcher->dispatch(Argument::cetera()));
@@ -209,20 +212,20 @@ class MetadataFactoryTest extends TestCase
 
     /**
      * @test
-     * @expectedException \Kcs\Metadata\Exception\InvalidArgumentException
      */
     public function set_metadata_class_should_check_class_existence()
     {
+        $this->expectException(InvalidArgumentException::class);
         $factory = new MetadataFactory($this->loader->reveal());
         $factory->setMetadataClass('NonExistentClass');
     }
 
     /**
      * @test
-     * @expectedException \Kcs\Metadata\Exception\InvalidArgumentException
      */
     public function set_metadata_class_should_check_class_implements_class_metadata_interface()
     {
+        $this->expectException(InvalidArgumentException::class);
         $factory = new MetadataFactory($this->loader->reveal());
         $factory->setMetadataClass(FakeClassNoMetadata::class);
     }
@@ -237,7 +240,7 @@ class MetadataFactoryTest extends TestCase
         $factory = new MetadataFactory($this->loader->reveal());
         $factory->setMetadataClass(FakeClassMetadata::class);
 
-        $this->assertInstanceOf(FakeClassMetadata::class, $factory->getMetadataFor($this));
+        self::assertInstanceOf(FakeClassMetadata::class, $factory->getMetadataFor($this));
     }
 
     /**
@@ -255,19 +258,5 @@ class MetadataFactoryTest extends TestCase
         $factory = new MockedClassMetadataFactory($this->loader->reveal());
         $factory->mock = $metadata->reveal();
         $factory->getMetadataFor($this);
-    }
-
-    /**
-     * @test
-     */
-    public function get_metadata_for_should_not_cache_bool_value_from_cache()
-    {
-        $this->cache->fetch(__CLASS__)->willReturn(false);
-        $this->loader->loadClassMetadata(Argument::type(ClassMetadataInterface::class))->willReturn(false);
-
-        $factory = new MetadataFactory($this->loader->reveal(), null, $this->cache->reveal());
-        $factory->getMetadataFor(__CLASS__);
-
-        $this->assertNotSame(false, $factory->getMetadataFor(__CLASS__));
     }
 }

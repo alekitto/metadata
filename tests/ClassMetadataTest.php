@@ -3,6 +3,7 @@
 namespace Kcs\Metadata\Tests;
 
 use Kcs\Metadata\ClassMetadata;
+use Kcs\Metadata\Exception\InvalidArgumentException;
 use Kcs\Metadata\MethodMetadata;
 use Kcs\Metadata\NullMetadata;
 use Kcs\Metadata\PropertyMetadata;
@@ -28,25 +29,25 @@ class ClassMetadataTest extends TestCase
         $metadata = new ClassMetadata(new \ReflectionClass($this));
         $metadata->merge(new NullMetadata(''));
 
-        $this->assertTrue(true);
+        self::assertTrue(true);
     }
 
     /**
      * @test
-     * @expectedException \Kcs\Metadata\Exception\InvalidArgumentException
      */
     public function merge_with_metadata_of_wrong_clas_should_throw()
     {
+        $this->expectException(InvalidArgumentException::class);
         $metadata = new ClassMetadata(new \ReflectionClass($this));
-        $metadata->merge(new PropertyMetadata(get_class($this), 'attr'));
+        $metadata->merge(new PropertyMetadata(\get_class($this), 'attr'));
     }
 
     /**
      * @test
-     * @expectedException \Kcs\Metadata\Exception\InvalidArgumentException
      */
     public function merge_with_metadata_out_of_class_hierarchy_should_throw()
     {
+        $this->expectException(InvalidArgumentException::class);
         $metadata = new ClassMetadata(new \ReflectionClass($this));
         $metadata->merge(new ClassMetadata(new \ReflectionClass('stdClass')));
     }
@@ -62,16 +63,16 @@ class ClassMetadataTest extends TestCase
         $metadata = new ClassMetadata(new \ReflectionClass($class_));
         $submetadata = new ClassMetadata(new \ReflectionClass($subclass_));
 
-        $metadata->addAttributeMetadata(new PropertyMetadata(get_class($class_), 'attributeFirst'));
-        $metadata->addAttributeMetadata(new PropertyMetadata(get_class($class_), 'attributeSecond'));
-        $metadata->addAttributeMetadata(new MethodMetadata(get_class($class_), 'methodOne'));
+        $metadata->addAttributeMetadata(new PropertyMetadata(\get_class($class_), 'attributeFirst'));
+        $metadata->addAttributeMetadata(new PropertyMetadata(\get_class($class_), 'attributeSecond'));
+        $metadata->addAttributeMetadata(new MethodMetadata(\get_class($class_), 'methodOne'));
 
-        $submetadata->addAttributeMetadata(new MethodMetadata(get_class($subclass_), 'methodOne'));
+        $submetadata->addAttributeMetadata(new MethodMetadata(\get_class($subclass_), 'methodOne'));
 
         $submetadata->merge($metadata);
 
         $attributes = $submetadata->getAttributesMetadata();
-        $this->assertCount(3, $attributes);
+        self::assertCount(3, $attributes);
     }
 
     /**
@@ -82,17 +83,17 @@ class ClassMetadataTest extends TestCase
         $class_ = new ClassForMetadata();
 
         $metadata = new MetadataClassWithAttributes(new \ReflectionClass($class_));
-        $metadata->addAttributeMetadata(new PropertyMetadata(get_class($class_), 'attributeFirst'));
+        $metadata->addAttributeMetadata(new PropertyMetadata(\get_class($class_), 'attributeFirst'));
         $metadata->attributeOne = 'ONE';
         $metadata->attributeTwo = 'TEST';
 
-        $des = unserialize(serialize($metadata));
+        $des = \unserialize(\serialize($metadata));
 
-        $this->assertInstanceOf(MetadataClassWithAttributes::class, $des);
-        $this->assertEquals('ONE', $des->attributeOne);
-        $this->assertEquals('TEST', $des->attributeTwo);
-        $this->assertCount(1, $des->getAttributesMetadata());
-        $this->assertInstanceOf(PropertyMetadata::class, $des->getAttributeMetadata('attributeFirst'));
+        self::assertInstanceOf(MetadataClassWithAttributes::class, $des);
+        self::assertEquals('ONE', $des->attributeOne);
+        self::assertEquals('TEST', $des->attributeTwo);
+        self::assertCount(1, $des->getAttributesMetadata());
+        self::assertInstanceOf(PropertyMetadata::class, $des->getAttributeMetadata('attributeFirst'));
     }
 
     /**
@@ -103,7 +104,7 @@ class ClassMetadataTest extends TestCase
         $class_ = new ClassForMetadata();
         $metadata = new ClassMetadata(new \ReflectionClass($class_));
 
-        $this->assertEquals(get_class($class_), $metadata->getName());
+        self::assertEquals(\get_class($class_), $metadata->getName());
     }
 
     /**
@@ -114,9 +115,9 @@ class ClassMetadataTest extends TestCase
         $class_ = new ClassForMetadata();
         $metadata = new ClassMetadata(new \ReflectionClass($class_));
 
-        $serialized = serialize($metadata);
-        $metadata_unser = unserialize($serialized);
+        $serialized = \serialize($metadata);
+        $metadata_unser = \unserialize($serialized);
 
-        $this->assertNotNull($metadata_unser->getReflectionClass());
+        self::assertNotNull($metadata_unser->getReflectionClass());
     }
 }

@@ -16,19 +16,19 @@ class IteratorFileLocator implements FileLocatorInterface
         // Cannot use RecursiveDirectoryIterator::CURRENT_AS_PATHNAME because of this:
         // https://bugs.php.net/bug.php?id=66405
 
-        $regex = '/'.preg_quote($extension, '/').'$/';
+        $regex = '/'.\preg_quote($extension, '/').'$/';
         $iterator = new \CallbackFilterIterator(
             new \RecursiveIteratorIterator(
                 new \RecursiveDirectoryIterator($basePath, \RecursiveDirectoryIterator::SKIP_DOTS),
                 \RecursiveIteratorIterator::LEAVES_ONLY
             ),
-            function (\SplFileInfo $fileInfo) use ($regex) {
-                return preg_match($regex, $fileInfo->getPathname());
+            static function (\SplFileInfo $fileInfo) use ($regex) {
+                return \preg_match($regex, $fileInfo->getPathname());
             }
         );
 
-        return array_map(function (\SplFileInfo $fileInfo) {
+        return \array_map(static function (\SplFileInfo $fileInfo) {
             return $fileInfo->getPathname();
-        }, iterator_to_array($iterator));
+        }, \iterator_to_array($iterator));
     }
 }

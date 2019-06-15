@@ -11,16 +11,19 @@
   "license": "MIT",
   "type": "library",
   "require": {
-    "php": "^7.1"
+    "php": "^7.3"
   },
   "require-dev": {
     "doctrine/annotations": "~1.2",
     "doctrine/cache": "^1.4",
-    "mikey179/vfsStream": "^1.6",
-    "phpunit/phpunit": "^6.0",
-    "symfony/cache": "^2.0|^3.0|^4.0",
-    "symfony/event-dispatcher": "^2.0|^3.0|^4.0",
-    "symfony/finder": "^2.0|^3.0|^4.0"
+    "mikey179/vfsstream": "^1.6",
+    "phpunit/phpunit": "^8.0",
+    "symfony/cache": "^4.3",
+    "symfony/event-dispatcher": "^4.3",
+    "symfony/finder": "^4.3"
+  },
+  "conflict": {
+    "symfony/event-dispatcher": "<4.3"
   },
   "suggest": {
     "symfony/cache": "cache metadata",
@@ -42,7 +45,7 @@
   },
   "extra": {
     "branch-alias": {
-      "dev-master": "2.x-dev"
+      "dev-master": "3.x-dev"
     }
   }
 }

@@ -3,11 +3,11 @@
 namespace Kcs\Metadata\Event;
 
 use Kcs\Metadata\ClassMetadataInterface;
-use Symfony\Component\EventDispatcher\Event;
+use Symfony\Contracts\EventDispatcher\Event;
 
 class ClassMetadataLoadedEvent extends Event
 {
-    const LOADED_EVENT = 'kcs_metadata.metadata_loaded';
+    public const LOADED_EVENT = 'kcs_metadata.metadata_loaded';
 
     /**
      * @var ClassMetadataInterface
