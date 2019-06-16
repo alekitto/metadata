@@ -21,7 +21,7 @@ class FinderFileLocator implements FileLocatorInterface
             ->in($basePath)
             ->name('*'.$extension);
 
-        return \array_map(function (SplFileInfo $info) {
+        return \array_map(static function (SplFileInfo $info) {
             return $info->getPathname();
         }, \iterator_to_array($finder));
     }
