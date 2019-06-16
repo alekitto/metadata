@@ -85,6 +85,7 @@ class ClassMetadata implements ClassMetadataInterface
             $target = $this->getAttributeMetadata($attrName);
             if ($target instanceof NullMetadata) {
                 $this->attributesMetadata[$attrName] = $attrMetadata;
+                $this->attributesNames[\strtolower($attrName)] = $attrName;
                 continue;
             }
 

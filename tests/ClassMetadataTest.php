@@ -73,6 +73,8 @@ class ClassMetadataTest extends TestCase
 
         $attributes = $submetadata->getAttributesMetadata();
         self::assertCount(3, $attributes);
+
+        self::assertInstanceOf(PropertyMetadata::class, $submetadata->getAttributeMetadata('attributefirst'));
     }
 
     /**
