@@ -141,7 +141,7 @@ abstract class AbstractMetadataFactory implements MetadataFactoryInterface
             return;
         }
 
-        $this->eventDispatcher->dispatch(new ClassMetadataLoadedEvent($classMetadata), ClassMetadataLoadedEvent::LOADED_EVENT);
+        $this->eventDispatcher->dispatch(new ClassMetadataLoadedEvent($classMetadata));
     }
 
     /**

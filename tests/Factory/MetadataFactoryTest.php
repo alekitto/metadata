@@ -200,8 +200,7 @@ class MetadataFactoryTest extends TestCase
         $eventDispatcher->dispatch(
             Argument::that(static function ($arg) use ($that) {
                 return $arg instanceof ClassMetadataLoadedEvent && $arg->getMetadata()->getName() === \get_class($that);
-            }),
-            'kcs_metadata.metadata_loaded'
+            })
         )
             ->shouldBeCalled();
         $eventDispatcher->addMethodProphecy($eventDispatcher->dispatch(Argument::cetera()));

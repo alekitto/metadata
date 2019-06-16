@@ -7,8 +7,6 @@ use Symfony\Contracts\EventDispatcher\Event;
 
 class ClassMetadataLoadedEvent extends Event
 {
-    public const LOADED_EVENT = 'kcs_metadata.metadata_loaded';
-
     /**
      * @var ClassMetadataInterface
      */
