@@ -3,10 +3,15 @@
 namespace Kcs\Metadata\Event;
 
 use Kcs\Metadata\ClassMetadataInterface;
-use Symfony\Contracts\EventDispatcher\Event;
+use Psr\EventDispatcher\StoppableEventInterface;
 
-class ClassMetadataLoadedEvent extends Event
+class ClassMetadataLoadedEvent implements StoppableEventInterface
 {
+    /**
+     * @var bool
+     */
+    private $propagationStopped = false;
+
     /**
      * @var ClassMetadataInterface
      */
@@ -23,5 +28,21 @@ class ClassMetadataLoadedEvent extends Event
     public function getMetadata(): ClassMetadataInterface
     {
         return $this->metadata;
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function isPropagationStopped(): bool
+    {
+        return $this->propagationStopped;
+    }
+
+    /**
+     * Stops the propagation of the event to further event listeners.
+     */
+    public function stopPropagation(): void
+    {
+        $this->propagationStopped = true;
     }
 }

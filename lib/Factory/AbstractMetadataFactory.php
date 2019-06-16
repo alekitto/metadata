@@ -8,7 +8,7 @@ use Kcs\Metadata\Exception\InvalidArgumentException;
 use Kcs\Metadata\Exception\InvalidMetadataException;
 use Kcs\Metadata\Loader\LoaderInterface;
 use Psr\Cache\CacheItemPoolInterface;
-use Symfony\Component\EventDispatcher\EventDispatcherInterface;
+use Psr\EventDispatcher\EventDispatcherInterface;
 
 abstract class AbstractMetadataFactory implements MetadataFactoryInterface
 {

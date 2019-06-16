@@ -18,12 +18,9 @@
     "doctrine/cache": "^1.4",
     "mikey179/vfsstream": "^1.6",
     "phpunit/phpunit": "^8.0",
+    "psr/event-dispatcher": "^1.0",
     "symfony/cache": "^4.3",
-    "symfony/event-dispatcher": "^4.3",
     "symfony/finder": "^4.3"
-  },
-  "conflict": {
-    "symfony/event-dispatcher": "<4.3"
   },
   "suggest": {
     "symfony/cache": "cache metadata",
