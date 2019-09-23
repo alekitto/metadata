@@ -2,12 +2,15 @@
 
 namespace Kcs\Metadata\Loader\Processor;
 
+use Doctrine\Common\Annotations\AnnotationReader;
+use Kcs\ClassFinder\Finder\RecursiveFinder;
 use Kcs\Metadata\Exception\InvalidArgumentException;
+use Kcs\Metadata\Loader\Processor\Annotation\Processor;
 
 class ProcessorFactory implements ProcessorFactoryInterface
 {
     /**
-     * @var string[]
+     * @var string[][]
      */
     private $processors = [];
 
@@ -34,6 +37,31 @@ class ProcessorFactory implements ProcessorFactoryInterface
             $this->processors[$class] = [$this->processors[$class], $processorClass];
         } else {
             $this->processors[$class][] = $processorClass;
+        }
+    }
+
+    /**
+     * Finds and register annotation processors recursively.
+     *
+     * @param string $dir
+     */
+    public function registerProcessors(string $dir): void
+    {
+        if (! \class_exists(RecursiveFinder::class)) {
+            throw new \RuntimeException('Cannot find processors as the kcs/class-finder package is not installed.');
+        }
+
+        $reader = new AnnotationReader();
+        $finder = new RecursiveFinder($dir);
+        $finder
+            ->annotatedBy(Processor::class)
+            ->implementationOf(ProcessorInterface::class);
+
+        /** @var \ReflectionClass $reflClass */
+        foreach ($finder as $reflClass) {
+            /** @var Processor $annot */
+            $annot = $reader->getClassAnnotation($reflClass, Processor::class);
+            $this->registerProcessor($annot->annotation, $reflClass->getName());
         }
     }
 

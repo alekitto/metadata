@@ -2,13 +2,18 @@
 
 namespace Kcs\Metadata\Tests\Loader\Processor;
 
+use Doctrine\Common\Annotations\AnnotationRegistry;
 use Kcs\Metadata\Exception\InvalidArgumentException;
 use Kcs\Metadata\Loader\Processor\CompositeProcessor;
 use Kcs\Metadata\Loader\Processor\ProcessorFactory;
 use Kcs\Metadata\Loader\Processor\ProcessorInterface;
 use Kcs\Metadata\MetadataInterface;
 use Kcs\Metadata\Tests\Fixtures\Annotation;
+use Kcs\Metadata\Tests\Fixtures\AnnotationProcessorLoader\Annotation\ClassAnnot;
+use Kcs\Metadata\Tests\Fixtures\AnnotationProcessorLoader\Processor\ClassAnnotProcessor;
 use PHPUnit\Framework\TestCase;
+
+AnnotationRegistry::registerLoader('class_exists');
 
 class FakeProcessor implements ProcessorInterface
 {
@@ -90,5 +95,16 @@ class ProcessorFactoryTest extends TestCase
         $factory->registerProcessor(Annotation::class, FakeProcessor3::class);
 
         self::assertInstanceOf(CompositeProcessor::class, $factory->getProcessor(Annotation::class));
+    }
+
+    /**
+     * @test
+     */
+    public function register_processors_should_find_and_register_annotated_processors()
+    {
+        $factory = new ProcessorFactory();
+        $factory->registerProcessors(__DIR__.'/../../Fixtures/AnnotationProcessorLoader/Processor');
+
+        self::assertInstanceOf(ClassAnnotProcessor::class, $factory->getProcessor(ClassAnnot::class));
     }
 }

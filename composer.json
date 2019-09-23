@@ -16,6 +16,7 @@
   "require-dev": {
     "doctrine/annotations": "~1.2",
     "doctrine/cache": "^1.4",
+    "kcs/class-finder": "^0.1",
     "mikey179/vfsstream": "^1.6",
     "phpunit/phpunit": "^8.0",
     "psr/event-dispatcher": "^1.0",
