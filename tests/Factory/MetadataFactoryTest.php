@@ -41,6 +41,12 @@ class MockedClassMetadataFactory extends MetadataFactory
 
 class FakeClassMetadata extends ClassMetadata
 {
+    public $finalized = false;
+
+    public function finalize(): void
+    {
+        $this->finalized = true;
+    }
 }
 
 class FakeClassNoMetadata
@@ -240,6 +246,20 @@ class MetadataFactoryTest extends TestCase
         $factory->setMetadataClass(FakeClassMetadata::class);
 
         self::assertInstanceOf(FakeClassMetadata::class, $factory->getMetadataFor($this));
+    }
+
+    /**
+     * @test
+     */
+    public function get_metadata_for_should_call_metadata_finalizer_method()
+    {
+        $this->loader->loadClassMetadata(Argument::type(ClassMetadataInterface::class))->willReturn(true);
+
+        $factory = new MetadataFactory($this->loader->reveal());
+        $factory->setMetadataClass(FakeClassMetadata::class);
+        $metadata = $factory->getMetadataFor($this);
+
+        self::assertTrue($metadata->finalized);
     }
 
     /**

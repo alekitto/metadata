@@ -31,4 +31,10 @@ interface ClassMetadataInterface extends MetadataInterface
      * @param MetadataInterface $metadata
      */
     public function addAttributeMetadata(MetadataInterface $metadata): void;
+
+    /**
+     * Called after all attributes metadata has been loaded and this metadata instance
+     * is merged with the parents.
+     */
+    // public function finalize(): void;
 }

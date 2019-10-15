@@ -133,4 +133,11 @@ class ClassMetadata implements ClassMetadataInterface
     {
         return $this->getReflectionClass()->name;
     }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function finalize(): void
+    {
+    }
 }
