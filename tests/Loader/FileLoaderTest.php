@@ -9,6 +9,7 @@ use Kcs\Metadata\Loader\FileLoader;
 use org\bovigo\vfs\vfsStream;
 use org\bovigo\vfs\vfsStreamFile;
 use PHPUnit\Framework\TestCase;
+use Prophecy\PhpUnit\ProphecyTrait;
 
 class TestLoader extends FileLoader
 {
@@ -20,6 +21,8 @@ class TestLoader extends FileLoader
 
 class FileLoaderTest extends TestCase
 {
+    use ProphecyTrait;
+
     /**
      * @test
      */

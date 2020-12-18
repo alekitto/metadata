@@ -10,12 +10,13 @@ use Kcs\Metadata\Loader\FilesLoader;
 use Kcs\Metadata\Loader\LoaderInterface;
 use PHPUnit\Framework\TestCase;
 use Prophecy\Argument;
+use Prophecy\PhpUnit\ProphecyTrait;
 
 class FilesLoaderTestLoader extends FilesLoader
 {
-    private $loader;
+    private LoaderInterface $loader;
 
-    public function __construct(array $paths, $loader)
+    public function __construct(array $paths, LoaderInterface $loader)
     {
         $this->loader = $loader;
         parent::__construct($paths);
@@ -29,7 +30,7 @@ class FilesLoaderTestLoader extends FilesLoader
 
 class FileLoaderTestFileLoader extends FileLoader
 {
-    public static $called = false;
+    public static bool $called = false;
 
     public function loadClassMetadata(ClassMetadataInterface $classMetadata): bool
     {
@@ -46,6 +47,8 @@ class FileLoaderTestFileLoader extends FileLoader
 
 class FilesLoaderTest extends TestCase
 {
+    use ProphecyTrait;
+
     /**
      * @test
      */

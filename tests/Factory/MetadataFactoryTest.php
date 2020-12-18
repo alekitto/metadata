@@ -10,6 +10,7 @@ use Kcs\Metadata\Factory\MetadataFactory;
 use Kcs\Metadata\Loader\LoaderInterface;
 use PHPUnit\Framework\TestCase;
 use Prophecy\Argument;
+use Prophecy\PhpUnit\ProphecyTrait;
 use Prophecy\Prophecy\ObjectProphecy;
 use Psr\Cache\CacheItemPoolInterface;
 use Psr\EventDispatcher\EventDispatcherInterface;
@@ -19,9 +20,9 @@ use Symfony\Contracts\Cache\ItemInterface;
 class MockedClassMetadataFactory extends MetadataFactory
 {
     /**
-     * @var ObjectProphecy|ClassMetadata
+     * @var null|ObjectProphecy|ClassMetadata
      */
-    public $mock;
+    public $mock = null;
 
     /**
      * {@inheritdoc}
@@ -41,7 +42,7 @@ class MockedClassMetadataFactory extends MetadataFactory
 
 class FakeClassMetadata extends ClassMetadata
 {
-    public $finalized = false;
+    public bool $finalized = false;
 
     public function finalize(): void
     {
@@ -55,10 +56,12 @@ class FakeClassNoMetadata
 
 class MetadataFactoryTest extends TestCase
 {
+    use ProphecyTrait;
+
     /**
      * @var ObjectProphecy|LoaderInterface
      */
-    private $loader;
+    private ObjectProphecy $loader;
 
     /**
      * @var ObjectProphecy|CacheItemPoolInterface

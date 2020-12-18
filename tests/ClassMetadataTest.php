@@ -35,7 +35,7 @@ class ClassMetadataTest extends TestCase
     /**
      * @test
      */
-    public function merge_with_metadata_of_wrong_clas_should_throw()
+    public function merge_with_metadata_of_wrong_class_should_throw()
     {
         $this->expectException(InvalidArgumentException::class);
         $metadata = new ClassMetadata(new \ReflectionClass($this));

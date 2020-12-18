@@ -11,17 +11,25 @@
   "license": "MIT",
   "type": "library",
   "require": {
-    "php": "^7.3"
+    "php": "^7.4|^8.0"
+  },
+  "scripts": {
+    "phpstan": "phpstan analyse lib/ -c vendor/solido/php-coding-standards/phpstan.neon --level=8 --no-progress -vvv --memory-limit=2048M",
+    "cscheck": "vendor/bin/phpcs --standard=Solido lib/",
+    "csfix": "vendor/bin/phpcbf --standard=Solido lib/"
   },
   "require-dev": {
     "doctrine/annotations": "~1.2",
     "doctrine/cache": "^1.4",
-    "kcs/class-finder": "^0.1",
+    "kcs/class-finder": "^0.2",
     "mikey179/vfsstream": "^1.6",
-    "phpunit/phpunit": "^8.0",
+    "phpunit/phpunit": "^9.0",
+    "phpspec/prophecy-phpunit": "^2.0",
     "psr/event-dispatcher": "^1.0",
-    "symfony/cache": "^4.3",
-    "symfony/finder": "^4.3"
+    "roave/security-advisories": "dev-master",
+    "solido/php-coding-standards": "dev-master",
+    "symfony/cache": "^4.4|5.0",
+    "symfony/finder": "^4.4|^5.0"
   },
   "suggest": {
     "symfony/cache": "cache metadata",

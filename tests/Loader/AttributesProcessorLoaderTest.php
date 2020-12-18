@@ -2,9 +2,8 @@
 
 namespace Kcs\Metadata\Tests\Loader;
 
-use Doctrine\Common\Annotations\Reader;
 use Kcs\Metadata\ClassMetadata;
-use Kcs\Metadata\Loader\AnnotationProcessorLoader as BaseLoader;
+use Kcs\Metadata\Loader\AttributesProcessorLoader as BaseLoader;
 use Kcs\Metadata\Loader\Processor\ProcessorFactoryInterface;
 use Kcs\Metadata\Loader\Processor\ProcessorInterface;
 use Kcs\Metadata\MetadataInterface;
@@ -14,13 +13,13 @@ use Kcs\Metadata\Tests\Fixtures\AnnotationProcessorLoader\Annotation\ClassAnnot;
 use Kcs\Metadata\Tests\Fixtures\AnnotationProcessorLoader\Annotation\MethodAnnotation1;
 use Kcs\Metadata\Tests\Fixtures\AnnotationProcessorLoader\Annotation\MethodAnnotation2;
 use Kcs\Metadata\Tests\Fixtures\AnnotationProcessorLoader\Annotation\NotHandledAnnotation;
-use Kcs\Metadata\Tests\Fixtures\AnnotationProcessorLoader\SimpleObject;
+use Kcs\Metadata\Tests\Fixtures\AnnotationProcessorLoader\SimpleObjectWithAttributes;
 use PHPUnit\Framework\TestCase;
 use Prophecy\Argument;
 use Prophecy\PhpUnit\ProphecyTrait;
 use Prophecy\Prophecy\ObjectProphecy;
 
-class AnnotationProcessorLoader extends BaseLoader
+class AttributesProcessorLoader extends BaseLoader
 {
     protected function createMethodMetadata(\ReflectionMethod $reflectionMethod): MetadataInterface
     {
@@ -33,32 +32,23 @@ class AnnotationProcessorLoader extends BaseLoader
     }
 }
 
-class AnnotationProcessorLoaderTest extends TestCase
+/**
+ * @requires PHP >= 8.0
+ */
+class AttributesProcessorLoaderTest extends TestCase
 {
     use ProphecyTrait;
-
-    /**
-     * @var Reader|ObjectProphecy
-     */
-    private ObjectProphecy $reader;
 
     /**
      * @var ProcessorFactoryInterface|ObjectProphecy
      */
     private ObjectProphecy $processorFactory;
-
-    /**
-     * @var AnnotationProcessorLoader
-     */
-    private AnnotationProcessorLoader $loader;
+    private AttributesProcessorLoader $loader;
 
     protected function setUp(): void
     {
-        $this->reader = $this->prophesize(Reader::class);
         $this->processorFactory = $this->prophesize(ProcessorFactoryInterface::class);
-
-        $this->loader = new AnnotationProcessorLoader($this->processorFactory->reveal());
-        $this->loader->setReader($this->reader->reveal());
+        $this->loader = new AttributesProcessorLoader($this->processorFactory->reveal());
     }
 
     /**
@@ -66,26 +56,8 @@ class AnnotationProcessorLoaderTest extends TestCase
      */
     public function load_class_loads_metadata_correctly()
     {
-        $reflClass = new \ReflectionClass(SimpleObject::class);
+        $reflClass = new \ReflectionClass(SimpleObjectWithAttributes::class);
         $metadata = new ClassMetadata($reflClass);
-
-        $this->reader->getClassAnnotations($reflClass)
-            ->willReturn([
-                new ClassAnnot(),
-                new NotHandledAnnotation(),
-            ]);
-        $this->reader->getMethodAnnotations($reflClass->getMethod('getAuthor'))
-            ->willReturn([
-                new NotHandledAnnotation(),
-                new MethodAnnotation1(),
-                new MethodAnnotation2(),
-            ]);
-        $this->reader->getPropertyAnnotations($reflClass->getProperty('createdAt'))
-            ->willReturn([
-                new NotHandledAnnotation(),
-            ]);
-        $this->reader->getPropertyAnnotations($reflClass->getProperty('author'))
-            ->willReturn([]);
 
         $this->processorFactory->getProcessor(Argument::type(NotHandledAnnotation::class))
             ->willReturn();

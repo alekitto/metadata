@@ -6,9 +6,12 @@ use Kcs\Metadata\Loader\Processor\CompositeProcessor;
 use Kcs\Metadata\Loader\Processor\ProcessorInterface;
 use Kcs\Metadata\MetadataInterface;
 use PHPUnit\Framework\TestCase;
+use Prophecy\PhpUnit\ProphecyTrait;
 
 class CompositeProcessorTest extends TestCase
 {
+    use ProphecyTrait;
+
     /**
      * @test
      */

@@ -5,6 +5,7 @@ namespace Kcs\Metadata\Tests\Fixtures\AnnotationProcessorLoader\Annotation;
 /**
  * @Annotation
  */
+#[\Attribute]
 class NotHandledAnnotation
 {
 }

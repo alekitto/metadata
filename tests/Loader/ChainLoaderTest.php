@@ -6,9 +6,12 @@ use Kcs\Metadata\ClassMetadata;
 use Kcs\Metadata\Loader\ChainLoader;
 use Kcs\Metadata\Loader\LoaderInterface;
 use PHPUnit\Framework\TestCase;
+use Prophecy\PhpUnit\ProphecyTrait;
 
 class ChainLoaderTest extends TestCase
 {
+    use ProphecyTrait;
+
     /**
      * @test
      */

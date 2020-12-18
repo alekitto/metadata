@@ -1,8 +1,7 @@
 # Metadata management library in PHP
 
-[![Build Status](https://travis-ci.org/alekitto/metadata.svg?branch=master)](https://travis-ci.org/alekitto/metadata)
-[![Code Coverage](https://scrutinizer-ci.com/g/alekitto/metadata/badges/coverage.png?b=master)](https://scrutinizer-ci.com/g/alekitto/metadata/?branch=master)
-[![Scrutinizer Code Quality](https://scrutinizer-ci.com/g/alekitto/metadata/badges/quality-score.png?b=master)](https://scrutinizer-ci.com/g/alekitto/metadata/?branch=master)
+![Tests](https://github.com/alekitto/metadata/workflows/Tests/badge.svg)
+[![codecov](https://codecov.io/gh/alekitto/metadata/branch/master/graph/badge.svg)](https://codecov.io/gh/alekitto/metadata)
 
 ## Overview
 
@@ -23,11 +22,12 @@ To create a metadata factory you can implement `MetadataFactoryInterface`
 on your own class or extend the `AbstractMetadataFactory`.
 
 ```php
+use Kcs\Metadata\ClassMetadataInterface;
 use Kcs\Metadata\Factory\MetadataFactoryInterface;
 
 class Factory implements MetadataFactoryInterface
 {
-    public function getMetadataFor($class)
+    public function getMetadataFor($class): ClassMetadataInterface
     {
         ...
     }
@@ -35,11 +35,12 @@ class Factory implements MetadataFactoryInterface
 ```
 
 ```php
+use Kcs\Metadata\ClassMetadataInterface;
 use Kcs\Metadata\Factory\AbstractMetadataFactory;
 
 class Factory extends AbstractMetadataFactory
 {
-    protected function createMetadata(\ReflectionClass $class)
+    protected function createMetadata(\ReflectionClass $class): ClassMetadataInterface
     {
         return new MyClassMetadata($class);
     }
