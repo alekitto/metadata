@@ -54,7 +54,7 @@ class AttributesProcessorLoaderTest extends TestCase
     /**
      * @test
      */
-    public function load_class_loads_metadata_correctly()
+    public function load_class_loads_metadata_correctly(): void
     {
         $reflClass = new \ReflectionClass(SimpleObjectWithAttributes::class);
         $metadata = new ClassMetadata($reflClass);

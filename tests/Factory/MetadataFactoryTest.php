@@ -77,7 +77,7 @@ class MetadataFactoryTest extends TestCase
     /**
      * @test
      */
-    public function has_metadata_should_return_false_on_non_existent_classes()
+    public function has_metadata_should_return_false_on_non_existent_classes(): void
     {
         $factory = new MetadataFactory($this->loader->reveal());
         self::assertFalse($factory->hasMetadataFor('NonExistentClass'));
@@ -86,13 +86,13 @@ class MetadataFactoryTest extends TestCase
     /**
      * @test
      */
-    public function has_metadata_should_return_false_on_invalid_value()
+    public function has_metadata_should_return_false_on_invalid_value(): void
     {
         $factory = new MetadataFactory($this->loader->reveal());
         self::assertFalse($factory->hasMetadataFor([]));
     }
 
-    public function invalid_value_provider()
+    public function invalid_value_provider(): array
     {
         return [
             [[]],
@@ -104,7 +104,7 @@ class MetadataFactoryTest extends TestCase
      * @test
      * @dataProvider invalid_value_provider
      */
-    public function get_metadata_should_throw_if_invalid_value_has_passed($value)
+    public function get_metadata_should_throw_if_invalid_value_has_passed($value): void
     {
         $this->expectException(InvalidArgumentException::class);
         $factory = new MetadataFactory($this->loader->reveal());
@@ -114,7 +114,7 @@ class MetadataFactoryTest extends TestCase
     /**
      * @test
      */
-    public function get_metadata_for_should_call_the_metadata_loader()
+    public function get_metadata_for_should_call_the_metadata_loader(): void
     {
         $this->loader->loadClassMetadata(Argument::type(ClassMetadataInterface::class))
             ->shouldBeCalled();
@@ -126,7 +126,7 @@ class MetadataFactoryTest extends TestCase
     /**
      * @test
      */
-    public function get_metadata_for_should_not_call_the_metadata_loader_twice()
+    public function get_metadata_for_should_not_call_the_metadata_loader_twice(): void
     {
         $className = \get_class($this);
         $this->loader->loadClassMetadata(Argument::that(function (ClassMetadataInterface $metadata) use ($className) {
@@ -145,7 +145,7 @@ class MetadataFactoryTest extends TestCase
     /**
      * @test
      */
-    public function get_metadata_for_should_load_data_from_cache()
+    public function get_metadata_for_should_load_data_from_cache(): void
     {
         $className = \get_class($this);
         $metadata = new ClassMetadata(new \ReflectionClass($this));
@@ -164,7 +164,7 @@ class MetadataFactoryTest extends TestCase
     /**
      * @test
      */
-    public function get_metadata_for_should_load_data_from_cache_pool()
+    public function get_metadata_for_should_load_data_from_cache_pool(): void
     {
         $className = \str_replace(['_', '\\'], ['__', '_'], \get_class($this));
         $metadata = new ClassMetadata(new \ReflectionClass($this));
@@ -183,7 +183,7 @@ class MetadataFactoryTest extends TestCase
     /**
      * @test
      */
-    public function get_metadata_for_should_store_data_into_cache()
+    public function get_metadata_for_should_store_data_into_cache(): void
     {
         $this->cache->getItem(Argument::type('string'))
             ->willReturn($item = $this->prophesize(ItemInterface::class));
@@ -200,7 +200,7 @@ class MetadataFactoryTest extends TestCase
     /**
      * @test
      */
-    public function get_metadata_for_should_dispatch_loaded_event()
+    public function get_metadata_for_should_dispatch_loaded_event(): void
     {
         $this->loader->loadClassMetadata(Argument::type(ClassMetadataInterface::class))->willReturn(true);
 
@@ -221,7 +221,7 @@ class MetadataFactoryTest extends TestCase
     /**
      * @test
      */
-    public function set_metadata_class_should_check_class_existence()
+    public function set_metadata_class_should_check_class_existence(): void
     {
         $this->expectException(InvalidArgumentException::class);
         $factory = new MetadataFactory($this->loader->reveal());
@@ -231,7 +231,7 @@ class MetadataFactoryTest extends TestCase
     /**
      * @test
      */
-    public function set_metadata_class_should_check_class_implements_class_metadata_interface()
+    public function set_metadata_class_should_check_class_implements_class_metadata_interface(): void
     {
         $this->expectException(InvalidArgumentException::class);
         $factory = new MetadataFactory($this->loader->reveal());
@@ -241,7 +241,7 @@ class MetadataFactoryTest extends TestCase
     /**
      * @test
      */
-    public function set_metadata_class_should_create_specified_object()
+    public function set_metadata_class_should_create_specified_object(): void
     {
         $this->loader->loadClassMetadata(Argument::type(ClassMetadataInterface::class))->willReturn(false);
 
@@ -254,7 +254,7 @@ class MetadataFactoryTest extends TestCase
     /**
      * @test
      */
-    public function get_metadata_for_should_call_metadata_finalizer_method()
+    public function get_metadata_for_should_call_metadata_finalizer_method(): void
     {
         $this->loader->loadClassMetadata(Argument::type(ClassMetadataInterface::class))->willReturn(true);
 
@@ -268,7 +268,7 @@ class MetadataFactoryTest extends TestCase
     /**
      * @test
      */
-    public function get_metadata_for_should_not_merge_with_superclasses_if_fails()
+    public function get_metadata_for_should_not_merge_with_superclasses_if_fails(): void
     {
         $this->loader->loadClassMetadata(Argument::type(ClassMetadataInterface::class))->willReturn(false);
 

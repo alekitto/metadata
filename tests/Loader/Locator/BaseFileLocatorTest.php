@@ -11,7 +11,7 @@ abstract class BaseFileLocatorTest extends TestCase
     /**
      * @test
      */
-    public function locate_should_return_correct_results()
+    public function locate_should_return_correct_results(): void
     {
         vfsStream::setup();
         $root = vfsStream::create([
@@ -44,7 +44,7 @@ abstract class BaseFileLocatorTest extends TestCase
     /**
      * @test
      */
-    public function locate_must_throw_if_extension_parameter_is_invalid()
+    public function locate_must_throw_if_extension_parameter_is_invalid(): void
     {
         $this->expectException(\InvalidArgumentException::class);
         $this->getLocator()->locate(__DIR__, 'base.yml');

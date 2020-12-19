@@ -24,7 +24,7 @@ class ClassMetadataTest extends TestCase
     /**
      * @test
      */
-    public function null_metadata_should_be_mergeable()
+    public function null_metadata_should_be_mergeable(): void
     {
         $metadata = new ClassMetadata(new \ReflectionClass($this));
         $metadata->merge(new NullMetadata(''));
@@ -35,7 +35,7 @@ class ClassMetadataTest extends TestCase
     /**
      * @test
      */
-    public function merge_with_metadata_of_wrong_class_should_throw()
+    public function merge_with_metadata_of_wrong_class_should_throw(): void
     {
         $this->expectException(InvalidArgumentException::class);
         $metadata = new ClassMetadata(new \ReflectionClass($this));
@@ -45,7 +45,7 @@ class ClassMetadataTest extends TestCase
     /**
      * @test
      */
-    public function merge_with_metadata_out_of_class_hierarchy_should_throw()
+    public function merge_with_metadata_out_of_class_hierarchy_should_throw(): void
     {
         $this->expectException(InvalidArgumentException::class);
         $metadata = new ClassMetadata(new \ReflectionClass($this));
@@ -55,7 +55,7 @@ class ClassMetadataTest extends TestCase
     /**
      * @test
      */
-    public function merge_should_merge_all_attributes()
+    public function merge_should_merge_all_attributes(): void
     {
         $class_ = new ClassForMetadata();
         $subclass_ = new SubClassForMetadata();
@@ -80,7 +80,7 @@ class ClassMetadataTest extends TestCase
     /**
      * @test
      */
-    public function serialize_of_metadata_class_should_keep_public_properties_and_attributes()
+    public function serialize_of_metadata_class_should_keep_public_properties_and_attributes(): void
     {
         $class_ = new ClassForMetadata();
 
@@ -101,7 +101,7 @@ class ClassMetadataTest extends TestCase
     /**
      * @test
      */
-    public function get_name_should_return_class_name()
+    public function get_name_should_return_class_name(): void
     {
         $class_ = new ClassForMetadata();
         $metadata = new ClassMetadata(new \ReflectionClass($class_));
@@ -112,7 +112,7 @@ class ClassMetadataTest extends TestCase
     /**
      * @test
      */
-    public function get_name_should_reinit_reflection_upon_unserialization()
+    public function get_name_should_reinit_reflection_upon_unserialization(): void
     {
         $class_ = new ClassForMetadata();
         $metadata = new ClassMetadata(new \ReflectionClass($class_));
@@ -126,7 +126,7 @@ class ClassMetadataTest extends TestCase
     /**
      * @test
      */
-    public function class_metadata_should_ignore_case()
+    public function class_metadata_should_ignore_case(): void
     {
         $class_ = new ClassForMetadata();
 

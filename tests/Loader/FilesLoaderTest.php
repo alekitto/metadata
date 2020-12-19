@@ -52,7 +52,7 @@ class FilesLoaderTest extends TestCase
     /**
      * @test
      */
-    public function loader_should_be_called_exact_times()
+    public function loader_should_be_called_exact_times(): void
     {
         $fileLoader = $this->prophesize(LoaderInterface::class);
         $fileLoader->loadClassMetadata(Argument::cetera())->shouldBeCalledTimes(3);
@@ -69,7 +69,7 @@ class FilesLoaderTest extends TestCase
     /**
      * @test
      */
-    public function loader_should_throw_if_no_loader_class_has_passed()
+    public function loader_should_throw_if_no_loader_class_has_passed(): void
     {
         $this->expectException(RuntimeException::class);
         $loader = new FilesLoader([
@@ -84,7 +84,7 @@ class FilesLoaderTest extends TestCase
     /**
      * @test
      */
-    public function loader_should_call_correct_loader_class()
+    public function loader_should_call_correct_loader_class(): void
     {
         FileLoaderTestFileLoader::$called = false;
         $loader = new FilesLoader(['test1.yml'], FileLoaderTestFileLoader::class);

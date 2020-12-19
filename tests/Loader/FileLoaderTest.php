@@ -26,7 +26,7 @@ class FileLoaderTest extends TestCase
     /**
      * @test
      */
-    public function load_class_metadata_should_throw_if_file_cannot_be_read()
+    public function load_class_metadata_should_throw_if_file_cannot_be_read(): void
     {
         $this->expectException(IOException::class);
         $root = vfsStream::setup();
@@ -37,7 +37,7 @@ class FileLoaderTest extends TestCase
     /**
      * @test
      */
-    public function load_class_metadata_loads()
+    public function load_class_metadata_loads(): void
     {
         $root = vfsStream::setup();
         $root->addChild($file = new vfsStreamFile('mapping.xml'));

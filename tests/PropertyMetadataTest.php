@@ -16,7 +16,7 @@ class VirtualPropertyMetadata extends PropertyMetadata
 
 class PropertyMetadataTest extends TestCase
 {
-    public function testShouldUnserializeVirtualProperties()
+    public function testShouldUnserializeVirtualProperties(): void
     {
         $property = new VirtualPropertyMetadata(ClassForMetadata::class, 'nonExistentAttribute');
 

@@ -15,7 +15,7 @@ class ChainLoaderTest extends TestCase
     /**
      * @test
      */
-    public function constructor_should_throw_on_non_loader_instance()
+    public function constructor_should_throw_on_non_loader_instance(): void
     {
         $this->expectException(\InvalidArgumentException::class);
         $loaders = [
@@ -28,7 +28,7 @@ class ChainLoaderTest extends TestCase
     /**
      * @test
      */
-    public function load_metadata_should_call_all_loaders()
+    public function load_metadata_should_call_all_loaders(): void
     {
         $loader1 = $this->prophesize(LoaderInterface::class);
         $loader2 = $this->prophesize(LoaderInterface::class);

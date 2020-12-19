@@ -15,7 +15,7 @@ class CompositeProcessorTest extends TestCase
     /**
      * @test
      */
-    public function process_should_call_all_inner_processors()
+    public function process_should_call_all_inner_processors(): void
     {
         $metadata = $this->prophesize(MetadataInterface::class)->reveal();
         $subject = new \stdClass();

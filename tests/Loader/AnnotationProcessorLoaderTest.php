@@ -47,9 +47,6 @@ class AnnotationProcessorLoaderTest extends TestCase
      */
     private ObjectProphecy $processorFactory;
 
-    /**
-     * @var AnnotationProcessorLoader
-     */
     private AnnotationProcessorLoader $loader;
 
     protected function setUp(): void
@@ -64,7 +61,7 @@ class AnnotationProcessorLoaderTest extends TestCase
     /**
      * @test
      */
-    public function load_class_loads_metadata_correctly()
+    public function load_class_loads_metadata_correctly(): void
     {
         $reflClass = new \ReflectionClass(SimpleObject::class);
         $metadata = new ClassMetadata($reflClass);

@@ -7,7 +7,7 @@ use PHPUnit\Framework\TestCase;
 
 class InvalidArgumentExceptionTest extends TestCase
 {
-    public function messages_data_provider()
+    public function messages_data_provider(): array
     {
         return [
             ['Class NonExistentTestClass does not exist. Cannot retrieve its metadata', InvalidArgumentException::CLASS_DOES_NOT_EXIST, 'NonExistentTestClass'],
@@ -21,7 +21,7 @@ class InvalidArgumentExceptionTest extends TestCase
      * @dataProvider messages_data_provider
      * @test
      */
-    public function create_should_return_exception_with_valid_message()
+    public function create_should_return_exception_with_valid_message(): void
     {
         $arguments = \func_get_args();
         $expected = \array_shift($arguments);
