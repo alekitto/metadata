@@ -12,11 +12,15 @@ use ReflectionClass;
 use RuntimeException;
 
 use function array_map;
+use function array_shift;
 use function assert;
 use function class_exists;
+use function count;
 use function get_class;
 use function is_array;
 use function is_object;
+
+use const PHP_VERSION_ID;
 
 class ProcessorFactory implements ProcessorFactoryInterface
 {
@@ -59,19 +63,8 @@ class ProcessorFactory implements ProcessorFactoryInterface
             throw new RuntimeException('Cannot find processors as the kcs/class-finder package is not installed.');
         }
 
-        $reader = new AnnotationReader();
-        $finder = new RecursiveFinder($dir);
-        $finder
-            ->annotatedBy(Processor::class)
-            ->implementationOf(ProcessorInterface::class);
-
-        foreach ($finder as $reflClass) {
-            assert($reflClass instanceof ReflectionClass);
-            $annot = $reader->getClassAnnotation($reflClass, Processor::class);
-
-            assert($annot instanceof Processor);
-            $this->registerProcessor($annot->annotation, $reflClass->getName());
-        }
+        $this->registerProcessorsByAnnotations($dir);
+        $this->registerProcessorsByAttributes($dir);
     }
 
     /**
@@ -117,5 +110,48 @@ class ProcessorFactory implements ProcessorFactoryInterface
     private static function instantiateProcessor(string $processorClass): ProcessorInterface // phpcs:ignore SlevomatCodingStandard.Classes.UnusedPrivateElements.UnusedMethod
     {
         return new $processorClass();
+    }
+
+    public function registerProcessorsByAnnotations(string $dir): void
+    {
+        $reader = new AnnotationReader();
+        $finder = new RecursiveFinder($dir);
+        $finder
+            ->annotatedBy(Processor::class)
+            ->implementationOf(ProcessorInterface::class);
+
+        foreach ($finder as $reflClass) {
+            assert($reflClass instanceof ReflectionClass);
+            $annot = $reader->getClassAnnotation($reflClass, Processor::class);
+
+            assert($annot instanceof Processor);
+            $this->registerProcessor($annot->annotation, $reflClass->getName());
+        }
+    }
+
+    public function registerProcessorsByAttributes(string $dir): void
+    {
+        if (PHP_VERSION_ID < 80000) {
+            return;
+        }
+
+        $finder = new RecursiveFinder($dir);
+        $finder
+            ->withAttribute(Processor::class)
+            ->implementationOf(ProcessorInterface::class);
+
+        foreach ($finder as $reflClass) {
+            assert($reflClass instanceof ReflectionClass);
+            $attributes = $reflClass->getAttributes(Processor::class);
+
+            if (count($attributes) === 0) {
+                continue;
+            }
+
+            $annot = array_shift($attributes)->newInstance();
+            assert($annot instanceof Processor);
+
+            $this->registerProcessor($annot->annotation, $reflClass->getName());
+        }
     }
 }
