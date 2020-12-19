@@ -25,5 +25,5 @@ interface MetadataInterface
      *
      * @return string[]
      */
-    public function __sleep();
+    public function __sleep(): array;
 }

@@ -28,12 +28,12 @@ final class NullMetadata implements MetadataInterface
     /**
      * {@inheritdoc}
      */
-    public function __sleep()
+    public function __sleep(): array
     {
         return [];
     }
 
-    public function __wakeup()
+    public function __wakeup(): void
     {
     }
 }

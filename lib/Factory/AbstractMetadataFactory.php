@@ -78,9 +78,7 @@ abstract class AbstractMetadataFactory implements MetadataFactoryInterface
         }
 
         $this->mergeSuperclasses($classMetadata);
-        if (method_exists($classMetadata, 'finalize')) {
-            $classMetadata->finalize();
-        }
+        $classMetadata->finalize();
 
         $this->validate($classMetadata);
         $this->dispatchClassMetadataLoadedEvent($classMetadata);

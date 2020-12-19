@@ -31,5 +31,5 @@ interface ClassMetadataInterface extends MetadataInterface
      * Called after all attributes metadata has been loaded and this metadata instance
      * is merged with the parents.
      */
-    // public function finalize(): void;
+     public function finalize(): void;
 }

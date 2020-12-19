@@ -11,12 +11,8 @@ class MethodMetadata implements MetadataInterface
     use AttributeMetadataTrait;
     use MetadataPropertiesTrait;
 
-    /** @var ReflectionMethod */
-    private $reflectionMethod;
+    private ReflectionMethod $reflectionMethod;
 
-    /**
-     * {@inheritdoc}
-     */
     public function __construct(string $class, string $name)
     {
         $this->class = $class;

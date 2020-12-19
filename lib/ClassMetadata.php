@@ -34,7 +34,7 @@ class ClassMetadata implements ClassMetadataInterface
         $this->attributesNames = [];
     }
 
-    public function __wakeup()
+    public function __wakeup(): void
     {
         $this->traitWakeup();
 
