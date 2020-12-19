@@ -1,38 +1,33 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 namespace Kcs\Metadata;
+
+use ReflectionProperty;
 
 class PropertyMetadata implements MetadataInterface
 {
     use AttributeMetadataTrait;
     use MetadataPropertiesTrait;
 
-    /**
-     * @var \ReflectionProperty
-     */
-    private $reflectionProperty;
+    private ReflectionProperty $reflectionProperty;
 
-    /**
-     * {@inheritdoc}
-     */
     public function __construct(string $class, string $name)
     {
         $this->class = $class;
         $this->name = $name;
     }
 
-    public function getReflection(): \ReflectionProperty
+    public function getReflection(): ReflectionProperty
     {
-        if (null === $this->reflectionProperty) {
-            $this->reflectionProperty = new \ReflectionProperty($this->class, $this->name);
+        if (! isset($this->reflectionProperty)) {
+            $this->reflectionProperty = new ReflectionProperty($this->class, $this->name);
         }
 
         return $this->reflectionProperty;
     }
 
-    /**
-     * {@inheritdoc}
-     */
     public function merge(MetadataInterface $metadata): void
     {
     }

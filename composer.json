@@ -11,7 +11,8 @@
   "license": "MIT",
   "type": "library",
   "require": {
-    "php": "^7.4|^8.0"
+    "php": "^7.4|^8.0",
+    "thecodingmachine/safe": "^1.0"
   },
   "scripts": {
     "phpstan": "phpstan analyse lib/ -c vendor/solido/php-coding-standards/phpstan.neon --level=8 --no-progress -vvv --memory-limit=2048M",
@@ -23,8 +24,8 @@
     "doctrine/cache": "^1.4",
     "kcs/class-finder": "^0.2",
     "mikey179/vfsstream": "^1.6",
-    "phpunit/phpunit": "^9.0",
     "phpspec/prophecy-phpunit": "^2.0",
+    "phpunit/phpunit": "^9.0",
     "psr/event-dispatcher": "^1.0",
     "roave/security-advisories": "dev-master",
     "solido/php-coding-standards": "dev-master",

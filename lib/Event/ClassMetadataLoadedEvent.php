@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 namespace Kcs\Metadata\Event;
 
@@ -7,32 +9,19 @@ use Psr\EventDispatcher\StoppableEventInterface;
 
 class ClassMetadataLoadedEvent implements StoppableEventInterface
 {
-    /**
-     * @var bool
-     */
-    private $propagationStopped = false;
-
-    /**
-     * @var ClassMetadataInterface
-     */
-    private $metadata;
+    private ClassMetadataInterface $metadata;
+    private bool $propagationStopped = false;
 
     public function __construct(ClassMetadataInterface $metadata)
     {
         $this->metadata = $metadata;
     }
 
-    /**
-     * @return ClassMetadataInterface
-     */
     public function getMetadata(): ClassMetadataInterface
     {
         return $this->metadata;
     }
 
-    /**
-     * {@inheritdoc}
-     */
     public function isPropagationStopped(): bool
     {
         return $this->propagationStopped;

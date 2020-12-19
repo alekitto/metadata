@@ -1,8 +1,13 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 namespace Kcs\Metadata;
 
 use Kcs\Metadata\Exception\InvalidArgumentException;
+use ReflectionClass;
+
+use function strtolower;
 
 class ClassMetadata implements ClassMetadataInterface
 {
@@ -10,27 +15,18 @@ class ClassMetadata implements ClassMetadataInterface
         __wakeup as public traitWakeup;
     }
 
-    /**
-     * @var \ReflectionClass
-     */
-    private $reflectionClass;
+    private ReflectionClass $reflectionClass;
 
-    /**
-     * @var string
-     */
-    public $name;
+    /** @phpstan-var class-string */
+    public string $name;
 
-    /**
-     * @var MetadataInterface[]
-     */
-    public $attributesMetadata;
+    /** @var MetadataInterface[] */
+    public array $attributesMetadata;
 
-    /**
-     * @var string[]
-     */
-    private $attributesNames;
+    /** @var string[] */
+    private array $attributesNames;
 
-    public function __construct(\ReflectionClass $class)
+    public function __construct(ReflectionClass $class)
     {
         $this->reflectionClass = $class;
         $this->name = $class->name;
@@ -43,25 +39,19 @@ class ClassMetadata implements ClassMetadataInterface
         $this->traitWakeup();
 
         foreach ($this->attributesMetadata as $key => $metadata) {
-            $this->attributesNames[\strtolower($key)] = $key;
+            $this->attributesNames[strtolower($key)] = $key;
         }
     }
 
-    /**
-     * {@inheritdoc}
-     */
-    public function getReflectionClass(): \ReflectionClass
+    public function getReflectionClass(): ReflectionClass
     {
-        if (null === $this->reflectionClass) {
-            $this->reflectionClass = new \ReflectionClass($this->name);
+        if (! isset($this->reflectionClass)) {
+            $this->reflectionClass = new ReflectionClass($this->name);
         }
 
         return $this->reflectionClass;
     }
 
-    /**
-     * {@inheritdoc}
-     */
     public function merge(MetadataInterface $metadata): void
     {
         if ($metadata instanceof NullMetadata) {
@@ -85,7 +75,7 @@ class ClassMetadata implements ClassMetadataInterface
             $target = $this->getAttributeMetadata($attrName);
             if ($target instanceof NullMetadata) {
                 $this->attributesMetadata[$attrName] = $attrMetadata;
-                $this->attributesNames[\strtolower($attrName)] = $attrName;
+                $this->attributesNames[strtolower($attrName)] = $attrName;
                 continue;
             }
 
@@ -93,12 +83,9 @@ class ClassMetadata implements ClassMetadataInterface
         }
     }
 
-    /**
-     * {@inheritdoc}
-     */
     public function getAttributeMetadata(string $name): MetadataInterface
     {
-        $name = \strtolower($name);
+        $name = strtolower($name);
         if (! isset($this->attributesNames[$name])) {
             return new NullMetadata($name);
         }
@@ -116,27 +103,18 @@ class ClassMetadata implements ClassMetadataInterface
         return $this->attributesMetadata;
     }
 
-    /**
-     * {@inheritdoc}
-     */
     public function addAttributeMetadata(MetadataInterface $metadata): void
     {
         $name = $metadata->getName();
         $this->attributesMetadata[$name] = $metadata;
-        $this->attributesNames[\strtolower($name)] = $name;
+        $this->attributesNames[strtolower($name)] = $name;
     }
 
-    /**
-     * {@inheritdoc}
-     */
     public function getName(): string
     {
         return $this->getReflectionClass()->name;
     }
 
-    /**
-     * {@inheritdoc}
-     */
     public function finalize(): void
     {
     }

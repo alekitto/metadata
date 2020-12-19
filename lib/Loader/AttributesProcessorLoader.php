@@ -1,8 +1,19 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 namespace Kcs\Metadata\Loader;
 
 use Kcs\Metadata\Loader\Processor\ProcessorFactoryInterface;
+use ReflectionAttribute;
+use ReflectionClass;
+use ReflectionMethod;
+use ReflectionProperty;
+use RuntimeException;
+
+use function array_map;
+
+use const PHP_VERSION_ID;
 
 class AttributesProcessorLoader extends AbstractProcessorLoader
 {
@@ -11,31 +22,31 @@ class AttributesProcessorLoader extends AbstractProcessorLoader
         parent::__construct($processorFactory);
 
         if (PHP_VERSION_ID < 80000) {
-            throw new \RuntimeException(__CLASS__ . ' can be used only on PHP >= 8.0');
+            throw new RuntimeException(self::class . ' can be used only on PHP >= 8.0');
         }
     }
 
     /**
      * {@inheritdoc}
      */
-    protected function getClassDescriptors(\ReflectionClass $reflectionClass): array
+    protected function getClassDescriptors(ReflectionClass $reflectionClass): array
     {
-        return array_map(static fn (\ReflectionAttribute $attribute) => $attribute->newInstance(), $reflectionClass->getAttributes());
+        return array_map(static fn (ReflectionAttribute $attribute) => $attribute->newInstance(), $reflectionClass->getAttributes());
     }
 
     /**
      * {@inheritdoc}
      */
-    protected function getMethodDescriptors(\ReflectionMethod $reflectionMethod): array
+    protected function getMethodDescriptors(ReflectionMethod $reflectionMethod): array
     {
-        return array_map(static fn (\ReflectionAttribute $attribute) => $attribute->newInstance(), $reflectionMethod->getAttributes());
+        return array_map(static fn (ReflectionAttribute $attribute) => $attribute->newInstance(), $reflectionMethod->getAttributes());
     }
 
     /**
      * {@inheritdoc}
      */
-    protected function getPropertyDescriptors(\ReflectionProperty $reflectionProperty): array
+    protected function getPropertyDescriptors(ReflectionProperty $reflectionProperty): array
     {
-        return array_map(static fn (\ReflectionAttribute $attribute) => $attribute->newInstance(), $reflectionProperty->getAttributes());
+        return array_map(static fn (ReflectionAttribute $attribute) => $attribute->newInstance(), $reflectionProperty->getAttributes());
     }
 }

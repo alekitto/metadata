@@ -13,7 +13,7 @@ use Prophecy\PhpUnit\ProphecyTrait;
 
 class TestLoader extends FileLoader
 {
-    protected function loadClassMetadataFromFile(string $file_content, ClassMetadataInterface $classMetadata): bool
+    protected function loadClassMetadataFromFile(string $fileContent, ClassMetadataInterface $classMetadata): bool
     {
         return true;
     }

@@ -1,22 +1,14 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 namespace Kcs\Metadata;
 
 trait AttributeMetadataTrait
 {
-    /**
-     * @var string
-     */
-    public $class;
+    public string $class;
+    public string $name;
 
-    /**
-     * @var string
-     */
-    public $name;
-
-    /**
-     * {@inheritdoc}
-     */
     public function getName(): string
     {
         return $this->name;

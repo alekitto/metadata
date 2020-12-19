@@ -1,35 +1,34 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 namespace Kcs\Metadata\Loader;
 
+use InvalidArgumentException;
 use Kcs\Metadata\ClassMetadataInterface;
+
+use function get_class;
+use function Safe\sprintf;
 
 class ChainLoader implements LoaderInterface
 {
-    /**
-     * @var LoaderInterface[]
-     */
-    private $loaders;
+    /** @var LoaderInterface[] */
+    private array $loaders;
 
     /**
-     * ChainLoader constructor.
-     *
      * @param LoaderInterface[] $loaders
      */
     public function __construct(array $loaders)
     {
         foreach ($loaders as $loader) {
             if (! $loader instanceof LoaderInterface) {
-                throw new \InvalidArgumentException(\sprintf('Class %s is expected to implement LoaderInterface', \get_class($loader)));
+                throw new InvalidArgumentException(sprintf('Class %s is expected to implement LoaderInterface', get_class($loader)));
             }
         }
 
         $this->loaders = $loaders;
     }
 
-    /**
-     * {@inheritdoc}
-     */
     public function loadClassMetadata(ClassMetadataInterface $classMetadata): bool
     {
         $success = false;

@@ -39,7 +39,7 @@ class FileLoaderTestFileLoader extends FileLoader
         return true;
     }
 
-    protected function loadClassMetadataFromFile(string $file_content, ClassMetadataInterface $classMetadata): bool
+    protected function loadClassMetadataFromFile(string $fileContent, ClassMetadataInterface $classMetadata): bool
     {
         return true;
     }

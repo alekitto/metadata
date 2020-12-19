@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 namespace Kcs\Metadata\Loader\Processor;
 
@@ -11,10 +13,8 @@ use Kcs\Metadata\MetadataInterface;
  */
 class CompositeProcessor implements ProcessorInterface
 {
-    /**
-     * @var array
-     */
-    private $processors;
+    /** @var ProcessorInterface[] */
+    private array $processors;
 
     /**
      * Create a new instance containing specified processors.

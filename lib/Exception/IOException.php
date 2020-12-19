@@ -1,7 +1,11 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 namespace Kcs\Metadata\Exception;
 
-class IOException extends \RuntimeException
+use RuntimeException;
+
+class IOException extends RuntimeException
 {
 }

@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 namespace Kcs\Metadata;
 
@@ -9,16 +11,12 @@ interface MetadataInterface
      * An {@see Exception\InvalidArgumentException} MUST be thrown if the
      * $metadata parameter is not mergeable.
      *
-     * @param self $metadata
-     *
      * @throws Exception\InvalidArgumentException
      */
     public function merge(self $metadata): void;
 
     /**
      * Get the name of the target class or attribute.
-     *
-     * @return string
      */
     public function getName(): string;
 

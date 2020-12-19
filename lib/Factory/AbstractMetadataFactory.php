@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 namespace Kcs\Metadata\Factory;
 
@@ -9,28 +11,28 @@ use Kcs\Metadata\Exception\InvalidMetadataException;
 use Kcs\Metadata\Loader\LoaderInterface;
 use Psr\Cache\CacheItemPoolInterface;
 use Psr\EventDispatcher\EventDispatcherInterface;
+use ReflectionClass;
+
+use function assert;
+use function class_exists;
+use function get_class;
+use function interface_exists;
+use function is_bool;
+use function is_object;
+use function is_string;
+use function ltrim;
+use function method_exists;
+use function Safe\preg_replace;
+use function str_replace;
 
 abstract class AbstractMetadataFactory implements MetadataFactoryInterface
 {
-    /**
-     * @var LoaderInterface
-     */
-    private $loader;
+    private LoaderInterface $loader;
+    private ?EventDispatcherInterface $eventDispatcher;
+    private ?CacheItemPoolInterface $cache;
 
-    /**
-     * @var EventDispatcherInterface
-     */
-    private $eventDispatcher;
-
-    /**
-     * @var CacheItemPoolInterface
-     */
-    private $cache;
-
-    /**
-     * @var array
-     */
-    private $loadedClasses;
+    /** @var array<string, ClassMetadataInterface> */
+    private array $loadedClasses;
 
     public function __construct(LoaderInterface $loader, ?EventDispatcherInterface $eventDispatcher = null, ?CacheItemPoolInterface $cache = null)
     {
@@ -51,38 +53,41 @@ abstract class AbstractMetadataFactory implements MetadataFactoryInterface
             throw InvalidArgumentException::create(InvalidArgumentException::VALUE_IS_NOT_AN_OBJECT, $value);
         }
 
+        assert(! is_bool($class));
+
         if (isset($this->loadedClasses[$class])) {
             return $this->loadedClasses[$class];
         }
 
-        if (null !== $this->cache) {
-            $cacheKey = \preg_replace('#[\{\}\(\)/\\\\@:]#', '_', \str_replace('_', '__', $class));
+        if ($this->cache !== null) {
+            $cacheKey = preg_replace('#[\{\}\(\)/\\\\@:]#', '_', str_replace('_', '__', $class));
             $item = $this->cache->getItem($cacheKey);
             if ($item->isHit()) {
                 return $this->loadedClasses[$class] = $item->get();
             }
         }
 
-        if (! \class_exists($class) && ! \interface_exists($class)) {
+        if (! class_exists($class) && ! interface_exists($class)) {
             throw InvalidArgumentException::create(InvalidArgumentException::CLASS_DOES_NOT_EXIST, $class);
         }
 
-        $reflectionClass = new \ReflectionClass($class);
+        $reflectionClass = new ReflectionClass($class);
         $classMetadata = $this->createMetadata($reflectionClass);
         if (! $this->loader->loadClassMetadata($classMetadata)) {
             return $classMetadata;
         }
 
         $this->mergeSuperclasses($classMetadata);
-        if (\method_exists($classMetadata, 'finalize')) {
+        if (method_exists($classMetadata, 'finalize')) {
             $classMetadata->finalize();
         }
 
         $this->validate($classMetadata);
-
         $this->dispatchClassMetadataLoadedEvent($classMetadata);
 
         if (isset($item)) {
+            assert($this->cache !== null);
+
             $item->set($classMetadata);
             $this->cache->save($item);
         }
@@ -96,15 +101,19 @@ abstract class AbstractMetadataFactory implements MetadataFactoryInterface
     public function hasMetadataFor($value): bool
     {
         $class = $this->getClass($value);
+        if (is_bool($class)) {
+            return false;
+        }
 
-        return ! empty($class) && (\class_exists($class) || \interface_exists($class));
+        return class_exists($class) || interface_exists($class);
     }
 
     protected function mergeSuperclasses(ClassMetadataInterface $classMetadata): void
     {
         $reflectionClass = $classMetadata->getReflectionClass();
 
-        if ($parent = $reflectionClass->getParentClass()) {
+        $parent = $reflectionClass->getParentClass();
+        if ($parent) {
             $classMetadata->merge($this->getMetadataFor($parent->name));
         }
 
@@ -115,18 +124,12 @@ abstract class AbstractMetadataFactory implements MetadataFactoryInterface
 
     /**
      * Create a new instance of metadata object for this factory.
-     *
-     * @param \ReflectionClass $class
-     *
-     * @return ClassMetadataInterface
      */
-    abstract protected function createMetadata(\ReflectionClass $class): ClassMetadataInterface;
+    abstract protected function createMetadata(ReflectionClass $class): ClassMetadataInterface;
 
     /**
      * Validate loaded metadata
      * MUST throw {@see InvalidMetadataException} if validation error occurs.
-     *
-     * @param ClassMetadataInterface $classMetadata
      *
      * @throws InvalidMetadataException
      */
@@ -136,12 +139,10 @@ abstract class AbstractMetadataFactory implements MetadataFactoryInterface
 
     /**
      * Dispatches a class metadata loaded event for the given class.
-     *
-     * @param ClassMetadataInterface $classMetadata
      */
     protected function dispatchClassMetadataLoadedEvent(ClassMetadataInterface $classMetadata): void
     {
-        if (null === $this->eventDispatcher) {
+        if ($this->eventDispatcher === null) {
             return;
         }
 
@@ -154,17 +155,21 @@ abstract class AbstractMetadataFactory implements MetadataFactoryInterface
      * @param string|object $value
      *
      * @return string|bool
+     *
+     * @phpstan-return class-string|bool
      */
     private function getClass($value)
     {
-        if (! \is_object($value) && ! \is_string($value)) {
+        /* @phpstan-ignore-next-line */
+        if (! is_object($value) && ! is_string($value)) {
             return false;
         }
 
-        if (\is_object($value)) {
-            $value = \get_class($value);
+        if (is_object($value)) {
+            $value = get_class($value);
         }
 
-        return \ltrim($value, '\\');
+        /* @phpstan-ignore-next-line */
+        return ltrim($value, '\\');
     }
 }

@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 namespace Kcs\Metadata;
 
@@ -7,26 +9,17 @@ namespace Kcs\Metadata;
  */
 final class NullMetadata implements MetadataInterface
 {
-    public $name;
+    public string $name;
 
-    /**
-     * {@inheritdoc}
-     */
     public function __construct(string $name)
     {
         $this->name = $name;
     }
 
-    /**
-     * {@inheritdoc}
-     */
     public function merge(MetadataInterface $metadata): void
     {
     }
 
-    /**
-     * {@inheritdoc}
-     */
     public function getName(): string
     {
         return $this->name;
@@ -40,9 +33,6 @@ final class NullMetadata implements MetadataInterface
         return [];
     }
 
-    /**
-     * {@inheritdoc}
-     */
     public function __wakeup()
     {
     }

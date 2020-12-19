@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 namespace Kcs\Metadata\Loader;
 
@@ -6,15 +8,15 @@ use Kcs\Metadata\Exception\RuntimeException;
 
 class FilesLoader extends ChainLoader
 {
-    /**
-     * @var string
-     */
-    private $loaderClass;
+    /** @phpstan-var class-string|null */
+    private ?string $loaderClass;
 
     /**
      * {@inheritdoc}
+     *
+     * @phpstan-param class-string|null $loaderClass
      */
-    public function __construct(array $paths, string $loaderClass = null)
+    public function __construct(array $paths, ?string $loaderClass = null)
     {
         $this->loaderClass = $loaderClass;
 
@@ -28,15 +30,11 @@ class FilesLoader extends ChainLoader
 
     /**
      * Create an instance of LoaderInterface for the path.
-     *
-     * @param string $path
-     *
-     * @return LoaderInterface
      */
     protected function getLoader(string $path): LoaderInterface
     {
-        if (null === $this->loaderClass) {
-            throw new RuntimeException('You must implement '.__METHOD__.' or pass the loader class to the constructor');
+        if ($this->loaderClass === null) {
+            throw new RuntimeException('You must implement ' . __METHOD__ . ' or pass the loader class to the constructor');
         }
 
         return new $this->loaderClass($path);

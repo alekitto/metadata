@@ -1,20 +1,20 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 namespace Kcs\Metadata\Loader;
 
 use Doctrine\Common\Annotations\Reader;
+use ReflectionClass;
+use ReflectionMethod;
+use ReflectionProperty;
 
 class AnnotationProcessorLoader extends AbstractProcessorLoader
 {
-    /**
-     * @var Reader
-     */
-    private $reader;
+    private Reader $reader;
 
     /**
      * Set annotation reader.
-     *
-     * @param Reader $reader
      */
     public function setReader(Reader $reader): void
     {
@@ -24,7 +24,7 @@ class AnnotationProcessorLoader extends AbstractProcessorLoader
     /**
      * {@inheritdoc}
      */
-    protected function getClassDescriptors(\ReflectionClass $reflectionClass): array
+    protected function getClassDescriptors(ReflectionClass $reflectionClass): array
     {
         return $this->reader->getClassAnnotations($reflectionClass);
     }
@@ -32,7 +32,7 @@ class AnnotationProcessorLoader extends AbstractProcessorLoader
     /**
      * {@inheritdoc}
      */
-    protected function getMethodDescriptors(\ReflectionMethod $reflectionMethod): array
+    protected function getMethodDescriptors(ReflectionMethod $reflectionMethod): array
     {
         return $this->reader->getMethodAnnotations($reflectionMethod);
     }
@@ -40,7 +40,7 @@ class AnnotationProcessorLoader extends AbstractProcessorLoader
     /**
      * {@inheritdoc}
      */
-    protected function getPropertyDescriptors(\ReflectionProperty $reflectionProperty): array
+    protected function getPropertyDescriptors(ReflectionProperty $reflectionProperty): array
     {
         return $this->reader->getPropertyAnnotations($reflectionProperty);
     }

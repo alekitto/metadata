@@ -1,15 +1,17 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 namespace Kcs\Metadata;
+
+use ReflectionMethod;
 
 class MethodMetadata implements MetadataInterface
 {
     use AttributeMetadataTrait;
     use MetadataPropertiesTrait;
 
-    /**
-     * @var \ReflectionMethod
-     */
+    /** @var ReflectionMethod */
     private $reflectionMethod;
 
     /**
@@ -21,18 +23,15 @@ class MethodMetadata implements MetadataInterface
         $this->name = $name;
     }
 
-    public function getReflection(): \ReflectionMethod
+    public function getReflection(): ReflectionMethod
     {
-        if (null === $this->reflectionMethod) {
-            $this->reflectionMethod = new \ReflectionMethod($this->class, $this->name);
+        if (! isset($this->reflectionMethod)) {
+            $this->reflectionMethod = new ReflectionMethod($this->class, $this->name);
         }
 
         return $this->reflectionMethod;
     }
 
-    /**
-     * {@inheritdoc}
-     */
     public function merge(MetadataInterface $metadata): void
     {
     }
