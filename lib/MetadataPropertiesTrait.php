@@ -19,9 +19,6 @@ trait MetadataPropertiesTrait
         return $this->getPublicPropertiesName();
     }
 
-    /**
-     * {@inheritdoc}
-     */
     public function __wakeup(): void
     {
     }

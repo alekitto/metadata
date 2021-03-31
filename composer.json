@@ -22,7 +22,7 @@
   "require-dev": {
     "doctrine/annotations": "~1.2",
     "doctrine/cache": "^1.4",
-    "kcs/class-finder": "^0.2",
+    "kcs/class-finder": "^0.2|^0.3",
     "mikey179/vfsstream": "^1.6",
     "phpspec/prophecy-phpunit": "^2.0",
     "phpunit/phpunit": "^9.0",

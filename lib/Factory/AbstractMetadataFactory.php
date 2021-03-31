@@ -21,7 +21,6 @@ use function is_bool;
 use function is_object;
 use function is_string;
 use function ltrim;
-use function method_exists;
 use function Safe\preg_replace;
 use function str_replace;
 
