@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Kcs\Metadata\Loader\Processor\Annotation;
 
+use Attribute;
 use Doctrine\Common\Annotations\Annotation\Required;
 use TypeError;
 
@@ -16,7 +17,7 @@ use function Safe\sprintf;
  * @Annotation()
  * @Target({"CLASS"})
  */
-// [\Attribute] // phpcs:ignore SlevomatCodingStandard.Namespaces.ReferenceUsedNamesOnly.ReferenceViaFullyQualifiedName
+#[Attribute]
 class Processor
 {
     /**
@@ -27,7 +28,6 @@ class Processor
 
     /**
      * @param string|array $annotation Doctrine annotations would pass an array with all data.
-     *
      * @phpstan-param class-string|array $annotation
      */
     public function __construct($annotation = [])

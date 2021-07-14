@@ -152,7 +152,6 @@ abstract class AbstractMetadataFactory implements MetadataFactoryInterface
      * @param string|object $value
      *
      * @return string|bool
-     *
      * @phpstan-return class-string|bool
      */
     private function getClass($value)

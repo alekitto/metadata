@@ -96,7 +96,6 @@ class ProcessorFactory implements ProcessorFactoryInterface
      * Create a CompositeProcessor instance.
      *
      * @param string[] $processors
-     *
      * @phpstan-param class-string[] $processors
      */
     private function createComposite(array $processors): CompositeProcessor
