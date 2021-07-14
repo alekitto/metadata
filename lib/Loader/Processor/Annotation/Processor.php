@@ -16,7 +16,7 @@ use function Safe\sprintf;
  * @Annotation()
  * @Target({"CLASS"})
  */
-#[\Attribute] // phpcs:ignore SlevomatCodingStandard.Namespaces.ReferenceUsedNamesOnly.ReferenceViaFullyQualifiedName
+// [\Attribute] // phpcs:ignore SlevomatCodingStandard.Namespaces.ReferenceUsedNamesOnly.ReferenceViaFullyQualifiedName
 class Processor
 {
     /**

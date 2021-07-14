@@ -20,6 +20,8 @@ interface MetadataFactoryInterface
      * @param object|string $value
      *
      * @throws InvalidArgumentException
+     *
+     * @phpstan-param object|class-string $value
      */
     public function getMetadataFor($value): ClassMetadataInterface;
 
@@ -27,6 +29,8 @@ interface MetadataFactoryInterface
      * Checks if class has metadata.
      *
      * @param object|string $value
+     *
+     * @phpstan-param object|class-string $value
      */
     public function hasMetadataFor($value): bool;
 }

@@ -70,6 +70,7 @@ abstract class AbstractProcessorLoader implements LoaderInterface
      */
     protected function createMethodMetadata(ReflectionMethod $reflectionMethod): MetadataInterface
     {
+        // @phpstan-ignore-next-line
         return new MethodMetadata($reflectionMethod->class, $reflectionMethod->name);
     }
 
@@ -78,6 +79,7 @@ abstract class AbstractProcessorLoader implements LoaderInterface
      */
     protected function createPropertyMetadata(ReflectionProperty $reflectionProperty): MetadataInterface
     {
+        // @phpstan-ignore-next-line
         return new PropertyMetadata($reflectionProperty->class, $reflectionProperty->name);
     }
 

@@ -6,6 +6,7 @@ namespace Kcs\Metadata;
 
 trait AttributeMetadataTrait
 {
+    /** @phpstan-var class-string */
     public string $class;
     public string $name;
 

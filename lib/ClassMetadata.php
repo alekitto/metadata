@@ -110,6 +110,9 @@ class ClassMetadata implements ClassMetadataInterface
         $this->attributesNames[strtolower($name)] = $name;
     }
 
+    /**
+     * @phpstan-return class-string
+     */
     public function getName(): string
     {
         return $this->getReflectionClass()->name;

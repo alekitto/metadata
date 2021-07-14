@@ -16,6 +16,13 @@ interface ClassMetadataInterface extends MetadataInterface
     public function getAttributeMetadata(string $name): MetadataInterface;
 
     /**
+     * Get the name of the target class or attribute.
+     *
+     * @phpstan-return class-string
+     */
+    public function getName(): string;
+
+    /**
      * Returns all attributes' metadata.
      *
      * @return MetadataInterface[]

@@ -13,6 +13,9 @@ class PropertyMetadata implements MetadataInterface
 
     private ReflectionProperty $reflectionProperty;
 
+    /**
+     * @phpstan-param class-string $class
+     */
     public function __construct(string $class, string $name)
     {
         $this->class = $class;
