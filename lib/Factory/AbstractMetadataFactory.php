@@ -15,7 +15,6 @@ use ReflectionClass;
 
 use function assert;
 use function class_exists;
-use function get_class;
 use function interface_exists;
 use function is_bool;
 use function is_object;
@@ -149,20 +148,16 @@ abstract class AbstractMetadataFactory implements MetadataFactoryInterface
     /**
      * Get the class name from a string or an object.
      *
-     * @param string|object $value
-     *
-     * @return string|bool
      * @phpstan-return class-string|bool
      */
-    private function getClass($value)
+    private function getClass(mixed $value): string | bool
     {
-        /* @phpstan-ignore-next-line */
         if (! is_object($value) && ! is_string($value)) {
             return false;
         }
 
         if (is_object($value)) {
-            $value = get_class($value);
+            $value = $value::class;
         }
 
         /* @phpstan-ignore-next-line */

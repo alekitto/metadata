@@ -13,8 +13,6 @@ interface ProcessorInterface
 {
     /**
      * Load metadata from subject.
-     *
-     * @param mixed $subject
      */
-    public function process(MetadataInterface $metadata, $subject): void;
+    public function process(MetadataInterface $metadata, mixed $subject): void;
 }

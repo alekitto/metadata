@@ -7,7 +7,6 @@ namespace Kcs\Metadata\Loader;
 use InvalidArgumentException;
 use Kcs\Metadata\ClassMetadataInterface;
 
-use function get_class;
 use function Safe\sprintf;
 
 class ChainLoader implements LoaderInterface
@@ -22,7 +21,7 @@ class ChainLoader implements LoaderInterface
     {
         foreach ($loaders as $loader) {
             if (! $loader instanceof LoaderInterface) {
-                throw new InvalidArgumentException(sprintf('Class %s is expected to implement LoaderInterface', get_class($loader)));
+                throw new InvalidArgumentException(sprintf('Class %s is expected to implement LoaderInterface', $loader::class));
             }
         }
 

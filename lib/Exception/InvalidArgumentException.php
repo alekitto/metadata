@@ -30,10 +30,8 @@ class InvalidArgumentException extends \InvalidArgumentException
 
     /**
      * Create a new instance of InvalidArgumentException with meaningful message.
-     *
-     * @param mixed $reason
      */
-    public static function create($reason): self
+    public static function create(mixed $reason): self
     {
         $arguments = func_get_args();
 

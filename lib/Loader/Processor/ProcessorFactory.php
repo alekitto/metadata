@@ -16,7 +16,6 @@ use function array_shift;
 use function assert;
 use function class_exists;
 use function count;
-use function get_class;
 use function is_array;
 use function is_object;
 
@@ -67,13 +66,10 @@ class ProcessorFactory implements ProcessorFactoryInterface
         $this->registerProcessorsByAttributes($dir);
     }
 
-    /**
-     * {@inheritdoc}
-     */
-    public function getProcessor($class): ?ProcessorInterface
+    public function getProcessor(object | string $class): ?ProcessorInterface
     {
         if (is_object($class)) {
-            $class = get_class($class);
+            $class = $class::class;
         }
 
         if (! isset($this->processors[$class])) {

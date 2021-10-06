@@ -26,10 +26,7 @@ class CompositeProcessor implements ProcessorInterface
         $this->processors = $processors;
     }
 
-    /**
-     * {@inheritdoc}
-     */
-    public function process(MetadataInterface $metadata, $subject): void
+    public function process(MetadataInterface $metadata, mixed $subject): void
     {
         foreach ($this->processors as $processor) {
             $processor->process($metadata, $subject);

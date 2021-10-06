@@ -11,8 +11,6 @@ interface ProcessorFactoryInterface
 {
     /**
      * Get a processor able to handle $subject.
-     *
-     * @param mixed $subject
      */
-    public function getProcessor($subject): ?ProcessorInterface;
+    public function getProcessor(object | string $subject): ?ProcessorInterface;
 }

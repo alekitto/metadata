@@ -13,31 +13,13 @@ abstract class BaseFileLocatorTest extends TestCase
      */
     public function locate_should_return_correct_results(): void
     {
-        vfsStream::setup();
-        $root = vfsStream::create([
-            'config' => [
-                'config_file.yml' => 'CONTENT',
-                'config_file.php' => 'CONTENT',
-                'foo.txt' => 'CONTENT',
-            ],
-            'src' => [
-                'AppBundle' => [
-                    'config' => [
-                        'configuration.yml' => 'CONTENT',
-                    ],
-                ],
-            ],
-            'web' => [
-                'app.php' => 'CONTENT',
-            ],
-        ]);
-
-        $result = $this->getLocator()->locate($root->url(), '.yml');
+        $baseDir = realpath(__DIR__ . '/../../Fixtures/Locator');
+        $result = $this->getLocator()->locate($baseDir, '.yml');
         \sort($result);
 
         self::assertEquals([
-            $root->url().'/config/config_file.yml',
-            $root->url().'/src/AppBundle/config/configuration.yml',
+            $baseDir.'/config/config_file.yml',
+            $baseDir.'/src/AppBundle/config/configuration.yml',
         ], $result);
     }
 

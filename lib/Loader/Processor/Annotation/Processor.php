@@ -30,7 +30,7 @@ class Processor
      * @param string|array $annotation Doctrine annotations would pass an array with all data.
      * @phpstan-param class-string|array $annotation
      */
-    public function __construct($annotation = [])
+    public function __construct(string|array $annotation = [])
     {
         if (is_string($annotation)) {
             $annotation = ['annotation' => $annotation];

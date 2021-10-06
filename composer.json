@@ -11,7 +11,7 @@
   "license": "MIT",
   "type": "library",
   "require": {
-    "php": "^7.4|^8.0",
+    "php": "^8.0",
     "thecodingmachine/safe": "^1.0"
   },
   "scripts": {
@@ -22,8 +22,7 @@
   "require-dev": {
     "doctrine/annotations": "~1.2",
     "doctrine/cache": "^1.4",
-    "kcs/class-finder": "^0.2|^0.3",
-    "mikey179/vfsstream": "^1.6",
+    "kcs/class-finder": "^0.2 | ^0.3 | ^1.0@dev",
     "phpspec/prophecy-phpunit": "^2.0",
     "phpunit/phpunit": "^9.0",
     "psr/event-dispatcher": "^1.0",

@@ -17,18 +17,16 @@ interface MetadataFactoryInterface
      * Note that if the method is called multiple times with the same class
      * name, the same metadata instance is returned.
      *
-     * @param object|string $value
      * @phpstan-param object|class-string $value
      *
      * @throws InvalidArgumentException
      */
-    public function getMetadataFor($value): ClassMetadataInterface;
+    public function getMetadataFor(object|string $value): ClassMetadataInterface;
 
     /**
      * Checks if class has metadata.
      *
-     * @param object|string $value
      * @phpstan-param object|class-string $value
      */
-    public function hasMetadataFor($value): bool;
+    public function hasMetadataFor(object|string $value): bool;
 }

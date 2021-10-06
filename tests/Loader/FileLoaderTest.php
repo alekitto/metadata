@@ -28,9 +28,10 @@ class FileLoaderTest extends TestCase
      */
     public function load_class_metadata_should_throw_if_file_cannot_be_read(): void
     {
+        $baseDir = realpath(__DIR__ . '/../Fixtures/FileLoader');
+        $loader = new TestLoader($baseDir.'/does_not_exists.yml');
+
         $this->expectException(IOException::class);
-        $root = vfsStream::setup();
-        $loader = new TestLoader($root->url().'/does_not_exists.yml');
         $loader->loadClassMetadata($this->prophesize(ClassMetadata::class)->reveal());
     }
 
@@ -39,12 +40,8 @@ class FileLoaderTest extends TestCase
      */
     public function load_class_metadata_loads(): void
     {
-        $root = vfsStream::setup();
-        $root->addChild($file = new vfsStreamFile('mapping.xml'));
-
-        $loader = new TestLoader($file->url());
-        self::assertTrue(
-            $loader->loadClassMetadata($this->prophesize(ClassMetadata::class)->reveal())
-        );
+        $baseDir = realpath(__DIR__ . '/../Fixtures/FileLoader');
+        $loader = new TestLoader($baseDir);
+        self::assertTrue($loader->loadClassMetadata($this->prophesize(ClassMetadata::class)->reveal()));
     }
 }
