@@ -25,7 +25,7 @@ class ProcessorFactory implements ProcessorFactoryInterface
 {
     /**
      * @var array<string, string|string[]>
-     * @phpstan-var array<class-string, class-string|class-string[]>
+     * @phpstan-var array<class-string, class-string<ProcessorInterface>|class-string<ProcessorInterface>[]>
      */
     private array $processors = [];
 
@@ -36,7 +36,7 @@ class ProcessorFactory implements ProcessorFactoryInterface
      * Register a processor class for $class.
      *
      * @phpstan-param class-string $class
-     * @phpstan-param class-string $processorClass
+     * @phpstan-param class-string<ProcessorInterface> $processorClass
      */
     public function registerProcessor(string $class, string $processorClass): void
     {
@@ -100,7 +100,7 @@ class ProcessorFactory implements ProcessorFactoryInterface
     }
 
     /**
-     * @phpstan-param class-string $processorClass
+     * @phpstan-param class-string<ProcessorInterface> $processorClass
      */
     private static function instantiateProcessor(string $processorClass): ProcessorInterface // phpcs:ignore SlevomatCodingStandard.Classes.UnusedPrivateElements.UnusedMethod
     {
@@ -115,6 +115,7 @@ class ProcessorFactory implements ProcessorFactoryInterface
             ->annotatedBy(Processor::class)
             ->implementationOf(ProcessorInterface::class);
 
+        /** @phpstan-var ReflectionClass<ProcessorInterface> $reflClass */
         foreach ($finder as $reflClass) {
             assert($reflClass instanceof ReflectionClass);
             $annot = $reader->getClassAnnotation($reflClass, Processor::class);
@@ -135,6 +136,7 @@ class ProcessorFactory implements ProcessorFactoryInterface
             ->withAttribute(Processor::class)
             ->implementationOf(ProcessorInterface::class);
 
+        /** @phpstan-var ReflectionClass<ProcessorInterface> $reflClass */
         foreach ($finder as $reflClass) {
             assert($reflClass instanceof ReflectionClass);
             $attributes = $reflClass->getAttributes(Processor::class);

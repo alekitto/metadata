@@ -15,11 +15,15 @@ class MetadataFactory extends AbstractMetadataFactory
 {
     /**
      * Metadata object to be created.
+     *
+     * @var class-string<ClassMetadataInterface>
      */
     private string $metadataClass = ClassMetadata::class;
 
     /**
      * Set the metadata class to be created by this factory.
+     *
+     * @param class-string<ClassMetadataInterface> $metadataClass
      */
     public function setMetadataClass(string $metadataClass): void
     {
