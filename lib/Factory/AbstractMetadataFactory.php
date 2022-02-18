@@ -41,6 +41,18 @@ abstract class AbstractMetadataFactory implements MetadataFactoryInterface
         $this->loadedClasses = [];
     }
 
+    public function setMetadataFor(string $className, ClassMetadataInterface $class): void
+    {
+        if ($this->cache !== null) {
+            $cacheKey = self::getCacheKey($className);
+            $item = $this->cache->getItem($cacheKey);
+            $item->set($class);
+            $this->cache->save($item);
+        }
+
+        $this->loadedClasses[$className] = $class;
+    }
+
     /**
      * {@inheritdoc}
      */
@@ -58,7 +70,7 @@ abstract class AbstractMetadataFactory implements MetadataFactoryInterface
         }
 
         if ($this->cache !== null) {
-            $cacheKey = preg_replace('#[\{\}\(\)/\\\\@:]#', '_', str_replace('_', '__', $class));
+            $cacheKey = self::getCacheKey($class);
             $item = $this->cache->getItem($cacheKey);
             if ($item->isHit()) {
                 return $this->loadedClasses[$class] = $item->get();
@@ -162,5 +174,10 @@ abstract class AbstractMetadataFactory implements MetadataFactoryInterface
 
         /* @phpstan-ignore-next-line */
         return ltrim($value, '\\');
+    }
+
+    private static function getCacheKey(string $className): string
+    {
+        return preg_replace('#[\{\}\(\)/\\\\@:]#', '_', str_replace('_', '__', $className));
     }
 }

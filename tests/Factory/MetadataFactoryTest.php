@@ -58,15 +58,8 @@ class MetadataFactoryTest extends TestCase
 {
     use ProphecyTrait;
 
-    /**
-     * @var ObjectProphecy|LoaderInterface
-     */
-    private ObjectProphecy $loader;
-
-    /**
-     * @var ObjectProphecy|CacheItemPoolInterface
-     */
-    private $cache;
+    private ObjectProphecy|LoaderInterface $loader;
+    private ObjectProphecy|CacheItemPoolInterface $cache;
 
     protected function setUp(): void
     {
@@ -159,6 +152,23 @@ class MetadataFactoryTest extends TestCase
 
         $factory = new MetadataFactory($this->loader->reveal(), null, $this->cache->reveal());
         $factory->getMetadataFor($this);
+    }
+
+    /**
+     * @test
+     */
+    public function set_metadata_for_should_store_data_to_cache(): void
+    {
+        $className = \get_class($this);
+        $metadata = new ClassMetadata(new \ReflectionClass($this));
+
+        $this->cache->getItem(\str_replace('\\', '_', $className))
+            ->willReturn($item = $this->prophesize(ItemInterface::class));
+        $item->set($metadata)->shouldBeCalled();
+        $this->cache->save($item)->shouldBeCalled();
+
+        $factory = new MetadataFactory($this->loader->reveal(), null, $this->cache->reveal());
+        $factory->setMetadataFor($className, $metadata);
     }
 
     /**
