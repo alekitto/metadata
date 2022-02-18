@@ -67,14 +67,14 @@ class Loader implements LoaderInterface
 }
 ```
 
-If more than one source is available for your metadatas (Annotations, YAMLs, XMLs,
+If more than one source is available for your metadata (Annotations, YAMLs, XMLs,
 etc.) you can use the `ChainLoader` class, adding your loaders to it.
 
 ## Validation
 
 When a metadata is loaded the factory `validate` method is called with the newly loaded
-metadata as argument and the `kcs_metadata.metadata_loaded` event is dispatched
-(if the event dispatcher is present).  
+metadata as argument and the `Kcs\Metadata\Event\ClassMetadataLoadedEvent` event is dispatched
+(if an event dispatcher is present).  
 You can extend `validate` or listen for the metadata loaded event and check 
 for metadata validity. If a validation error occurs you have to throw an
 `InvalidMetadataException`.
@@ -82,9 +82,9 @@ for metadata validity. If a validation error occurs you have to throw an
 ## Metadata classes
 
 You can extend the provided classes `ClassMetadata`, `MethodMetadata` and `PropertyMetadata`
-to build your metadata informations.  
-By default all the public properties are serialized in cache (if cache is
-present). You can customize this behaviour by exteding the `__sleep` method
+to build your metadata information.  
+By default, all the public properties are serialized in cache (if cache is
+present). You can customize this behaviour by extending the `__sleep` method
 of the metadata classes, returning an array of serialized properties.
 
 ## License
