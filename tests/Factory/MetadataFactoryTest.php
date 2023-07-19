@@ -164,7 +164,9 @@ class MetadataFactoryTest extends TestCase
 
         $this->cache->getItem(\str_replace('\\', '_', $className))
             ->willReturn($item = $this->prophesize(ItemInterface::class));
-        $item->set($metadata)->shouldBeCalled();
+        $item->set($metadata)
+            ->willReturn($item)
+            ->shouldBeCalled();
         $this->cache->save($item)->shouldBeCalled();
 
         $factory = new MetadataFactory($this->loader->reveal(), null, $this->cache->reveal());
@@ -198,7 +200,9 @@ class MetadataFactoryTest extends TestCase
         $this->cache->getItem(Argument::type('string'))
             ->willReturn($item = $this->prophesize(ItemInterface::class));
         $item->isHit()->willReturn(false);
-        $item->set(Argument::type(ClassMetadataInterface::class))->shouldBeCalled();
+        $item->set(Argument::type(ClassMetadataInterface::class))
+            ->willReturn($item)
+            ->shouldBeCalled();
         $this->cache->save($item)->shouldBeCalled();
 
         $this->loader->loadClassMetadata(Argument::type(ClassMetadataInterface::class))->willReturn(true);

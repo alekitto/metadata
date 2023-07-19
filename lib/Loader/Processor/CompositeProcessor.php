@@ -13,17 +13,13 @@ use Kcs\Metadata\MetadataInterface;
  */
 class CompositeProcessor implements ProcessorInterface
 {
-    /** @var ProcessorInterface[] */
-    private array $processors;
-
     /**
      * Create a new instance containing specified processors.
      *
      * @param ProcessorInterface[] $processors
      */
-    public function __construct(array $processors)
+    public function __construct(private array $processors)
     {
-        $this->processors = $processors;
     }
 
     public function process(MetadataInterface $metadata, mixed $subject): void

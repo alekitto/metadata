@@ -25,19 +25,11 @@ use function str_replace;
 
 abstract class AbstractMetadataFactory implements MetadataFactoryInterface
 {
-    private LoaderInterface $loader;
-    private ?EventDispatcherInterface $eventDispatcher;
-    private ?CacheItemPoolInterface $cache;
-
     /** @var array<string, ClassMetadataInterface> */
     private array $loadedClasses;
 
-    public function __construct(LoaderInterface $loader, ?EventDispatcherInterface $eventDispatcher = null, ?CacheItemPoolInterface $cache = null)
+    public function __construct(private LoaderInterface $loader, private EventDispatcherInterface|null $eventDispatcher = null, private CacheItemPoolInterface|null $cache = null)
     {
-        $this->loader = $loader;
-        $this->eventDispatcher = $eventDispatcher;
-        $this->cache = $cache;
-
         $this->loadedClasses = [];
     }
 
@@ -162,7 +154,7 @@ abstract class AbstractMetadataFactory implements MetadataFactoryInterface
      *
      * @phpstan-return class-string|bool
      */
-    private function getClass(mixed $value): string | bool
+    private function getClass(mixed $value): string|bool
     {
         if (! is_object($value) && ! is_string($value)) {
             return false;

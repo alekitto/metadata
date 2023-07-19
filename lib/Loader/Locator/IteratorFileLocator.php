@@ -33,11 +33,11 @@ class IteratorFileLocator implements FileLocatorInterface
         $iterator = new CallbackFilterIterator(
             new RecursiveIteratorIterator(
                 new RecursiveDirectoryIterator($basePath, RecursiveDirectoryIterator::SKIP_DOTS),
-                RecursiveIteratorIterator::LEAVES_ONLY
+                RecursiveIteratorIterator::LEAVES_ONLY,
             ),
             static function (SplFileInfo $fileInfo) use ($regex) {
                 return preg_match($regex, $fileInfo->getPathname());
-            }
+            },
         );
 
         return array_map(static function (SplFileInfo $fileInfo) {

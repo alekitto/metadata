@@ -9,12 +9,10 @@ use Psr\EventDispatcher\StoppableEventInterface;
 
 class ClassMetadataLoadedEvent implements StoppableEventInterface
 {
-    private ClassMetadataInterface $metadata;
     private bool $propagationStopped = false;
 
-    public function __construct(ClassMetadataInterface $metadata)
+    public function __construct(private ClassMetadataInterface $metadata)
     {
-        $this->metadata = $metadata;
     }
 
     public function getMetadata(): ClassMetadataInterface

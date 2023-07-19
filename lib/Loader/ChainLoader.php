@@ -11,21 +11,14 @@ use function Safe\sprintf;
 
 class ChainLoader implements LoaderInterface
 {
-    /** @var LoaderInterface[] */
-    private array $loaders;
-
-    /**
-     * @param LoaderInterface[] $loaders
-     */
-    public function __construct(array $loaders)
+    /** @param LoaderInterface[] $loaders */
+    public function __construct(private array $loaders)
     {
         foreach ($loaders as $loader) {
             if (! $loader instanceof LoaderInterface) {
                 throw new InvalidArgumentException(sprintf('Class %s is expected to implement LoaderInterface', $loader::class));
             }
         }
-
-        $this->loaders = $loaders;
     }
 
     public function loadClassMetadata(ClassMetadataInterface $classMetadata): bool

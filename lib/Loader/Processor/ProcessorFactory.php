@@ -66,7 +66,7 @@ class ProcessorFactory implements ProcessorFactoryInterface
         $this->registerProcessorsByAttributes($dir);
     }
 
-    public function getProcessor(object | string $class): ?ProcessorInterface
+    public function getProcessor(object|string $class): ProcessorInterface|null
     {
         if (is_object($class)) {
             $class = $class::class;
@@ -99,9 +99,7 @@ class ProcessorFactory implements ProcessorFactoryInterface
         return new CompositeProcessor(array_map([self::class, 'instantiateProcessor'], $processors));
     }
 
-    /**
-     * @phpstan-param class-string<ProcessorInterface> $processorClass
-     */
+    /** @phpstan-param class-string<ProcessorInterface> $processorClass */
     private static function instantiateProcessor(string $processorClass): ProcessorInterface // phpcs:ignore SlevomatCodingStandard.Classes.UnusedPrivateElements.UnusedMethod
     {
         return new $processorClass();

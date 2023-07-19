@@ -15,11 +15,8 @@ use ReflectionProperty;
 
 abstract class AbstractProcessorLoader implements LoaderInterface
 {
-    protected ProcessorFactoryInterface $processorFactory;
-
-    public function __construct(ProcessorFactoryInterface $processorFactory)
+    public function __construct(protected ProcessorFactoryInterface $processorFactory)
     {
-        $this->processorFactory = $processorFactory;
     }
 
     public function loadClassMetadata(ClassMetadataInterface $classMetadata): bool

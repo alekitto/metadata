@@ -10,11 +10,8 @@ abstract class FileLoader implements LoaderInterface
 {
     use FileLoaderTrait;
 
-    private string $filePath;
-
-    public function __construct(string $filePath)
+    public function __construct(private string $filePath)
     {
-        $this->filePath = $filePath;
     }
 
     public function loadClassMetadata(ClassMetadataInterface $classMetadata): bool

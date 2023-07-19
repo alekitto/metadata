@@ -66,7 +66,7 @@ class ClassMetadata implements ClassMetadataInterface
             throw InvalidArgumentException::create(
                 InvalidArgumentException::NOT_MERGEABLE_METADATA,
                 $this->getReflectionClass()->name,
-                $metadata->getReflectionClass()->name
+                $metadata->getReflectionClass()->name,
             );
         }
 
@@ -110,9 +110,7 @@ class ClassMetadata implements ClassMetadataInterface
         $this->attributesNames[strtolower($name)] = $name;
     }
 
-    /**
-     * @phpstan-return class-string
-     */
+    /** @phpstan-return class-string */
     public function getName(): string
     {
         return $this->getReflectionClass()->name;

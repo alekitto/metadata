@@ -9,11 +9,8 @@ namespace Kcs\Metadata;
  */
 final class NullMetadata implements MetadataInterface
 {
-    public string $name;
-
-    public function __construct(string $name)
+    public function __construct(public string $name)
     {
-        $this->name = $name;
     }
 
     public function merge(MetadataInterface $metadata): void

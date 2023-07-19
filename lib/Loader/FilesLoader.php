@@ -8,18 +8,13 @@ use Kcs\Metadata\Exception\RuntimeException;
 
 class FilesLoader extends ChainLoader
 {
-    /** @phpstan-var class-string<LoaderInterface>|null */
-    private ?string $loaderClass;
-
     /**
      * {@inheritdoc}
      *
      * @phpstan-param class-string<LoaderInterface>|null $loaderClass
      */
-    public function __construct(array $paths, ?string $loaderClass = null)
+    public function __construct(array $paths, private string|null $loaderClass = null)
     {
-        $this->loaderClass = $loaderClass;
-
         $loaders = [];
         foreach ($paths as $path) {
             $loaders[] = $this->getLoader($path);

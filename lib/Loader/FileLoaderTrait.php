@@ -22,7 +22,7 @@ trait FileLoaderTrait
             throw new IOException(sprintf(
                 "Cannot load file '%s': %s",
                 $filePath,
-                $error['message'] ?? 'Unknown error'
+                $error['message'] ?? 'Unknown error',
             ));
         }
 

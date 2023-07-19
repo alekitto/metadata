@@ -13,9 +13,7 @@ class MethodMetadata implements MetadataInterface
 
     private ReflectionMethod $reflectionMethod;
 
-    /**
-     * @phpstan-param class-string $class
-     */
+    /** @phpstan-param class-string $class */
     public function __construct(string $class, string $name)
     {
         $this->class = $class;

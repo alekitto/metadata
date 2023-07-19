@@ -23,7 +23,7 @@ class InvalidArgumentException extends \InvalidArgumentException
     /**
      * {@inheritdoc}
      */
-    final public function __construct(string $message = '', int $code = 0, ?Throwable $previous = null)
+    final public function __construct(string $message = '', int $code = 0, Throwable|null $previous = null)
     {
         parent::__construct($message, $code, $previous);
     }
@@ -50,7 +50,7 @@ class InvalidArgumentException extends \InvalidArgumentException
                 $message = sprintf(
                     'Cannot merge metadata of class "%s" with "%s"',
                     is_object($arguments[2]) ? get_class($arguments[2]) : $arguments[2],
-                    is_object($arguments[1]) ? get_class($arguments[1]) : $arguments[1]
+                    is_object($arguments[1]) ? get_class($arguments[1]) : $arguments[1],
                 );
 
                 return new static($message);
@@ -58,7 +58,7 @@ class InvalidArgumentException extends \InvalidArgumentException
             case self::INVALID_METADATA_CLASS:
                 $message = sprintf(
                     '"%s" is not a valid metadata object class',
-                    is_object($arguments[1]) ? get_class($arguments[1]) : $arguments[1]
+                    is_object($arguments[1]) ? get_class($arguments[1]) : $arguments[1],
                 );
 
                 return new static($message);
@@ -66,7 +66,7 @@ class InvalidArgumentException extends \InvalidArgumentException
             case self::INVALID_PROCESSOR_INTERFACE_CLASS:
                 $message = sprintf(
                     '"%s" is not a valid ProcessorInterface class',
-                    $arguments[1]
+                    $arguments[1],
                 );
 
                 return new static($message);
