@@ -12,7 +12,7 @@
   "type": "library",
   "require": {
     "php": "^8.0",
-    "thecodingmachine/safe": "^1.0"
+    "thecodingmachine/safe": "^1.0 | ^2.0"
   },
   "scripts": {
     "phpstan": "phpstan analyse lib/ -c vendor/solido/php-coding-standards/phpstan.neon --level=8 --no-progress -vvv --memory-limit=2048M",
@@ -28,8 +28,8 @@
     "psr/event-dispatcher": "^1.0",
     "roave/security-advisories": "dev-master",
     "solido/php-coding-standards": "dev-master",
-    "symfony/cache": "^4.4|5.0",
-    "symfony/finder": "^4.4|^5.0"
+    "symfony/cache": "^4.4|^5.0|^6.0",
+    "symfony/finder": "^4.4|^5.0|^6.0"
   },
   "suggest": {
     "symfony/cache": "cache metadata",
