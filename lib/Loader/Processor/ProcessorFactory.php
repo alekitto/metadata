@@ -107,6 +107,10 @@ class ProcessorFactory implements ProcessorFactoryInterface
 
     public function registerProcessorsByAnnotations(string $dir): void
     {
+        if (! class_exists(AnnotationReader::class)) {
+            return;
+        }
+
         $reader = new AnnotationReader();
         $finder = new RecursiveFinder($dir);
         $finder
