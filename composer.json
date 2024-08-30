@@ -20,7 +20,7 @@
     "csfix": "vendor/bin/phpcbf --standard=Solido lib/"
   },
   "require-dev": {
-    "doctrine/annotations": "~1.2",
+    "doctrine/annotations": "^1.2 | ^2.0",
     "doctrine/cache": "^1.4",
     "kcs/class-finder": "^0.2 | ^0.3 | ^1.0@dev",
     "phpspec/prophecy-phpunit": "^2.0",

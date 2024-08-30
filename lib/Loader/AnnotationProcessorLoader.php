@@ -22,7 +22,7 @@ class AnnotationProcessorLoader extends AbstractProcessorLoader
     }
 
     /**
-     * {@inheritdoc}
+     * {@inheritDoc}
      */
     protected function getClassDescriptors(ReflectionClass $reflectionClass): array
     {
@@ -30,7 +30,7 @@ class AnnotationProcessorLoader extends AbstractProcessorLoader
     }
 
     /**
-     * {@inheritdoc}
+     * {@inheritDoc}
      */
     protected function getMethodDescriptors(ReflectionMethod $reflectionMethod): array
     {
@@ -38,7 +38,7 @@ class AnnotationProcessorLoader extends AbstractProcessorLoader
     }
 
     /**
-     * {@inheritdoc}
+     * {@inheritDoc}
      */
     protected function getPropertyDescriptors(ReflectionProperty $reflectionProperty): array
     {

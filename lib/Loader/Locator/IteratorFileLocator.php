@@ -18,7 +18,7 @@ use function Safe\preg_match;
 class IteratorFileLocator implements FileLocatorInterface
 {
     /**
-     * {@inheritdoc}
+     * {@inheritDoc}
      */
     public function locate(string $basePath, string $extension): array
     {

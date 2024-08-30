@@ -15,7 +15,11 @@ use Kcs\Metadata\Tests\Fixtures\AnnotationProcessorLoader\Processor\ClassAnnotPr
 use Kcs\Metadata\Tests\Fixtures\AnnotationProcessorLoader\Processor\ClassAttribProcessor;
 use PHPUnit\Framework\TestCase;
 
-AnnotationRegistry::registerLoader('class_exists');
+use function method_exists;
+
+if (method_exists(AnnotationRegistry::class, 'registerLoader')) {
+    AnnotationRegistry::registerLoader('class_exists');
+}
 
 class FakeProcessor implements ProcessorInterface
 {

@@ -46,7 +46,7 @@ abstract class AbstractMetadataFactory implements MetadataFactoryInterface
     }
 
     /**
-     * {@inheritdoc}
+     * {@inheritDoc}
      */
     public function getMetadataFor($value): ClassMetadataInterface
     {
@@ -96,7 +96,7 @@ abstract class AbstractMetadataFactory implements MetadataFactoryInterface
     }
 
     /**
-     * {@inheritdoc}
+     * {@inheritDoc}
      */
     public function hasMetadataFor($value): bool
     {

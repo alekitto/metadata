@@ -14,7 +14,7 @@ use function iterator_to_array;
 class FinderFileLocator implements FileLocatorInterface
 {
     /**
-     * {@inheritdoc}
+     * {@inheritDoc}
      */
     public function locate(string $basePath, string $extension): array
     {

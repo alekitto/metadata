@@ -21,7 +21,7 @@ class InvalidArgumentException extends \InvalidArgumentException
     public const INVALID_PROCESSOR_INTERFACE_CLASS = 5;
 
     /**
-     * {@inheritdoc}
+     * {@inheritDoc}
      */
     final public function __construct(string $message = '', int $code = 0, Throwable|null $previous = null)
     {

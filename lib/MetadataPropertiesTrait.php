@@ -12,7 +12,7 @@ use function array_map;
 trait MetadataPropertiesTrait
 {
     /**
-     * {@inheritdoc}
+     * {@inheritDoc}
      */
     public function __sleep(): array
     {

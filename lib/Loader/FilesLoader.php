@@ -9,7 +9,7 @@ use Kcs\Metadata\Exception\RuntimeException;
 class FilesLoader extends ChainLoader
 {
     /**
-     * {@inheritdoc}
+     * {@inheritDoc}
      *
      * @phpstan-param class-string<LoaderInterface>|null $loaderClass
      */

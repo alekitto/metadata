@@ -96,7 +96,7 @@ class ClassMetadata implements ClassMetadataInterface
     }
 
     /**
-     * {@inheritdoc}
+     * {@inheritDoc}
      */
     public function getAttributesMetadata(): array
     {

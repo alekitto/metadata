@@ -23,7 +23,7 @@ final class NullMetadata implements MetadataInterface
     }
 
     /**
-     * {@inheritdoc}
+     * {@inheritDoc}
      */
     public function __sleep(): array
     {
