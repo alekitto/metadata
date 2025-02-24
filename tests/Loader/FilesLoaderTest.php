@@ -8,6 +8,7 @@ use Kcs\Metadata\Exception\RuntimeException;
 use Kcs\Metadata\Loader\FileLoader;
 use Kcs\Metadata\Loader\FilesLoader;
 use Kcs\Metadata\Loader\LoaderInterface;
+use PHPUnit\Framework\Attributes\Test;
 use PHPUnit\Framework\TestCase;
 use Prophecy\Argument;
 use Prophecy\PhpUnit\ProphecyTrait;
@@ -52,6 +53,7 @@ class FilesLoaderTest extends TestCase
     /**
      * @test
      */
+    #[Test]
     public function loader_should_be_called_exact_times(): void
     {
         $fileLoader = $this->prophesize(LoaderInterface::class);
@@ -69,6 +71,7 @@ class FilesLoaderTest extends TestCase
     /**
      * @test
      */
+    #[Test]
     public function loader_should_throw_if_no_loader_class_has_passed(): void
     {
         $this->expectException(RuntimeException::class);
@@ -84,6 +87,7 @@ class FilesLoaderTest extends TestCase
     /**
      * @test
      */
+    #[Test]
     public function loader_should_call_correct_loader_class(): void
     {
         FileLoaderTestFileLoader::$called = false;

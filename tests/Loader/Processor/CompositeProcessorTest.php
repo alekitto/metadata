@@ -5,6 +5,7 @@ namespace Kcs\Metadata\Tests\Loader\Processor;
 use Kcs\Metadata\Loader\Processor\CompositeProcessor;
 use Kcs\Metadata\Loader\Processor\ProcessorInterface;
 use Kcs\Metadata\MetadataInterface;
+use PHPUnit\Framework\Attributes\Test;
 use PHPUnit\Framework\TestCase;
 use Prophecy\PhpUnit\ProphecyTrait;
 
@@ -15,6 +16,7 @@ class CompositeProcessorTest extends TestCase
     /**
      * @test
      */
+    #[Test]
     public function process_should_call_all_inner_processors(): void
     {
         $metadata = $this->prophesize(MetadataInterface::class)->reveal();

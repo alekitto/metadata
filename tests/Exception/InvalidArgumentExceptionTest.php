@@ -3,11 +3,13 @@
 namespace Kcs\Metadata\Tests\Exception;
 
 use Kcs\Metadata\Exception\InvalidArgumentException;
+use PHPUnit\Framework\Attributes\DataProvider;
+use PHPUnit\Framework\Attributes\Test;
 use PHPUnit\Framework\TestCase;
 
 class InvalidArgumentExceptionTest extends TestCase
 {
-    public function messages_data_provider(): array
+    public static function messages_data_provider(): array
     {
         return [
             ['Class NonExistentTestClass does not exist. Cannot retrieve its metadata', InvalidArgumentException::CLASS_DOES_NOT_EXIST, 'NonExistentTestClass'],
@@ -21,6 +23,8 @@ class InvalidArgumentExceptionTest extends TestCase
      * @dataProvider messages_data_provider
      * @test
      */
+    #[DataProvider('messages_data_provider')]
+    #[Test]
     public function create_should_return_exception_with_valid_message(): void
     {
         $arguments = \func_get_args();

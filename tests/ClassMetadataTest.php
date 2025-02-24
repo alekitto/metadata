@@ -10,6 +10,7 @@ use Kcs\Metadata\PropertyMetadata;
 use Kcs\Metadata\Tests\Fixtures\ClassForMetadata;
 use Kcs\Metadata\Tests\Fixtures\MetadataClassWithAttributes;
 use Kcs\Metadata\Tests\Fixtures\SubClassForMetadata;
+use PHPUnit\Framework\Attributes\Test;
 use PHPUnit\Framework\TestCase;
 
 class ClassMetadataTest extends TestCase
@@ -24,6 +25,7 @@ class ClassMetadataTest extends TestCase
     /**
      * @test
      */
+    #[Test]
     public function null_metadata_should_be_mergeable(): void
     {
         $metadata = new ClassMetadata(new \ReflectionClass($this));
@@ -35,6 +37,7 @@ class ClassMetadataTest extends TestCase
     /**
      * @test
      */
+    #[Test]
     public function merge_with_metadata_of_wrong_class_should_throw(): void
     {
         $this->expectException(InvalidArgumentException::class);
@@ -45,6 +48,7 @@ class ClassMetadataTest extends TestCase
     /**
      * @test
      */
+    #[Test]
     public function merge_with_metadata_out_of_class_hierarchy_should_throw(): void
     {
         $this->expectException(InvalidArgumentException::class);
@@ -55,6 +59,7 @@ class ClassMetadataTest extends TestCase
     /**
      * @test
      */
+    #[Test]
     public function merge_should_merge_all_attributes(): void
     {
         $class_ = new ClassForMetadata();
@@ -80,6 +85,7 @@ class ClassMetadataTest extends TestCase
     /**
      * @test
      */
+    #[Test]
     public function serialize_of_metadata_class_should_keep_public_properties_and_attributes(): void
     {
         $class_ = new ClassForMetadata();
@@ -101,6 +107,7 @@ class ClassMetadataTest extends TestCase
     /**
      * @test
      */
+    #[Test]
     public function get_name_should_return_class_name(): void
     {
         $class_ = new ClassForMetadata();
@@ -112,6 +119,7 @@ class ClassMetadataTest extends TestCase
     /**
      * @test
      */
+    #[Test]
     public function get_name_should_reinit_reflection_upon_unserialization(): void
     {
         $class_ = new ClassForMetadata();
@@ -126,6 +134,7 @@ class ClassMetadataTest extends TestCase
     /**
      * @test
      */
+    #[Test]
     public function class_metadata_should_ignore_case(): void
     {
         $class_ = new ClassForMetadata();

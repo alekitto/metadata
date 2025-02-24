@@ -8,7 +8,7 @@ use Kcs\Metadata\Exception\IOException;
 
 use function error_get_last;
 use function file_get_contents;
-use function Safe\sprintf;
+use function sprintf;
 
 trait FileLoaderTrait
 {

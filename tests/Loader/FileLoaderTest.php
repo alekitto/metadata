@@ -8,6 +8,7 @@ use Kcs\Metadata\Exception\IOException;
 use Kcs\Metadata\Loader\FileLoader;
 use org\bovigo\vfs\vfsStream;
 use org\bovigo\vfs\vfsStreamFile;
+use PHPUnit\Framework\Attributes\Test;
 use PHPUnit\Framework\TestCase;
 use Prophecy\PhpUnit\ProphecyTrait;
 
@@ -26,6 +27,7 @@ class FileLoaderTest extends TestCase
     /**
      * @test
      */
+    #[Test]
     public function load_class_metadata_should_throw_if_file_cannot_be_read(): void
     {
         $baseDir = realpath(__DIR__ . '/../Fixtures/FileLoader');
@@ -38,6 +40,7 @@ class FileLoaderTest extends TestCase
     /**
      * @test
      */
+    #[Test]
     public function load_class_metadata_loads(): void
     {
         $baseDir = realpath(__DIR__ . '/../Fixtures/FileLoader');

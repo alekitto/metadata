@@ -3,14 +3,15 @@
 namespace Kcs\Metadata\Tests\Loader\Locator;
 
 use Kcs\Metadata\Loader\Locator\FileLocatorInterface;
-use org\bovigo\vfs\vfsStream;
+use PHPUnit\Framework\Attributes\Test;
 use PHPUnit\Framework\TestCase;
 
-abstract class BaseFileLocatorTest extends TestCase
+abstract class BaseFileLocatorTests extends TestCase
 {
     /**
      * @test
      */
+    #[Test]
     public function locate_should_return_correct_results(): void
     {
         $baseDir = realpath(__DIR__ . '/../../Fixtures/Locator');
@@ -26,6 +27,7 @@ abstract class BaseFileLocatorTest extends TestCase
     /**
      * @test
      */
+    #[Test]
     public function locate_must_throw_if_extension_parameter_is_invalid(): void
     {
         $this->expectException(\InvalidArgumentException::class);

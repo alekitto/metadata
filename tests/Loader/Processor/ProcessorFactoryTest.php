@@ -13,6 +13,7 @@ use Kcs\Metadata\Tests\Fixtures\AnnotationProcessorLoader\Annotation\ClassAnnot;
 use Kcs\Metadata\Tests\Fixtures\AnnotationProcessorLoader\Annotation\ClassAttrib;
 use Kcs\Metadata\Tests\Fixtures\AnnotationProcessorLoader\Processor\ClassAnnotProcessor;
 use Kcs\Metadata\Tests\Fixtures\AnnotationProcessorLoader\Processor\ClassAttribProcessor;
+use PHPUnit\Framework\Attributes\Test;
 use PHPUnit\Framework\TestCase;
 
 use function method_exists;
@@ -47,6 +48,7 @@ class ProcessorFactoryTest extends TestCase
     /**
      * @test
      */
+    #[Test]
     public function register_processor_should_throw_if_invalid_class_is_passed(): void
     {
         $this->expectException(InvalidArgumentException::class);
@@ -57,6 +59,7 @@ class ProcessorFactoryTest extends TestCase
     /**
      * @test
      */
+    #[Test]
     public function get_processor_returns_the_same_instance_if_called_multiple_times(): void
     {
         $factory = new ProcessorFactory();
@@ -70,6 +73,7 @@ class ProcessorFactoryTest extends TestCase
     /**
      * @test
      */
+    #[Test]
     public function get_processor_returns_correct_processor_if_object_is_passed(): void
     {
         $factory = new ProcessorFactory();
@@ -82,6 +86,7 @@ class ProcessorFactoryTest extends TestCase
     /**
      * @test
      */
+    #[Test]
     public function get_processor_returns_null_if_subject_is_unknown(): void
     {
         $factory = new ProcessorFactory();
@@ -93,6 +98,7 @@ class ProcessorFactoryTest extends TestCase
     /**
      * @test
      */
+    #[Test]
     public function get_processor_returns_composite_processor_if_more_than_one_processor_have_been_registered(): void
     {
         $factory = new ProcessorFactory();
@@ -106,6 +112,7 @@ class ProcessorFactoryTest extends TestCase
     /**
      * @test
      */
+    #[Test]
     public function register_processors_should_find_and_register_annotated_processors(): void
     {
         $factory = new ProcessorFactory();

@@ -7,7 +7,7 @@ namespace Kcs\Metadata\Loader;
 use InvalidArgumentException;
 use Kcs\Metadata\ClassMetadataInterface;
 
-use function Safe\sprintf;
+use function sprintf;
 
 class ChainLoader implements LoaderInterface
 {

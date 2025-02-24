@@ -10,7 +10,7 @@ use function func_get_args;
 use function get_class;
 use function gettype;
 use function is_object;
-use function Safe\sprintf;
+use function sprintf;
 
 class InvalidArgumentException extends \InvalidArgumentException
 {

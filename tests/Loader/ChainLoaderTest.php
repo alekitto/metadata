@@ -5,6 +5,7 @@ namespace Kcs\Metadata\Tests\Loader;
 use Kcs\Metadata\ClassMetadata;
 use Kcs\Metadata\Loader\ChainLoader;
 use Kcs\Metadata\Loader\LoaderInterface;
+use PHPUnit\Framework\Attributes\Test;
 use PHPUnit\Framework\TestCase;
 use Prophecy\PhpUnit\ProphecyTrait;
 
@@ -15,6 +16,7 @@ class ChainLoaderTest extends TestCase
     /**
      * @test
      */
+    #[Test]
     public function constructor_should_throw_on_non_loader_instance(): void
     {
         $this->expectException(\InvalidArgumentException::class);
@@ -28,6 +30,7 @@ class ChainLoaderTest extends TestCase
     /**
      * @test
      */
+    #[Test]
     public function load_metadata_should_call_all_loaders(): void
     {
         $loader1 = $this->prophesize(LoaderInterface::class);

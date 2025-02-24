@@ -15,6 +15,7 @@ use Kcs\Metadata\Tests\Fixtures\AnnotationProcessorLoader\Annotation\MethodAnnot
 use Kcs\Metadata\Tests\Fixtures\AnnotationProcessorLoader\Annotation\MethodAnnotation2;
 use Kcs\Metadata\Tests\Fixtures\AnnotationProcessorLoader\Annotation\NotHandledAnnotation;
 use Kcs\Metadata\Tests\Fixtures\AnnotationProcessorLoader\SimpleObject;
+use PHPUnit\Framework\Attributes\Test;
 use PHPUnit\Framework\TestCase;
 use Prophecy\Argument;
 use Prophecy\PhpUnit\ProphecyTrait;
@@ -61,6 +62,7 @@ class AnnotationProcessorLoaderTest extends TestCase
     /**
      * @test
      */
+    #[Test]
     public function load_class_loads_metadata_correctly(): void
     {
         $reflClass = new \ReflectionClass(SimpleObject::class);
